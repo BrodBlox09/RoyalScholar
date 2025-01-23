@@ -48,8 +48,6 @@
         #hero>div {
             background-color: #FFFFFF;
             padding: 25px;
-            container-name: hero-textbox;
-            container-type: inline-size;
             width: 100%;
             max-width: 1000px;
         }
@@ -76,7 +74,7 @@
             font-weight: 600;
         }
 
-        @media (max-width: 550px) {
+        @media (max-width: 650px) {
             #hero {
                 padding-inline: 0;
             }
@@ -95,7 +93,7 @@
         #subject-card-list a {
             border-radius: 5px;
             padding: 10px;
-            border: 2px solid var(--red);
+            border: 2px solid var(--primary);
             background-color: #ffffff;
             transition: 0.2s background-color;
             margin: 0;
@@ -110,12 +108,13 @@
             justify-content: center;
             text-align: center;
             gap: 5px;
-            fill: var(--red);
+            fill: var(--primary);
         }
 
         #subject-card-list a:hover {
             background-color: #eef0f5;
-            fill: var(--red-dark);
+            border-color: var(--primary-dark);
+            fill: var(--primary-dark);
         }
         /* #endregion */
         

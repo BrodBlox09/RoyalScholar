@@ -1,19 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap'); */
 
 :root {
-    --red-bright: #FF1E27;
-    --red: #BF1922;
-    --red-dark: #7D141D;
-    --blue: #00468B;
-    --blue-dark: #002b57;
+    --accent-bright: #FF1E27;
+    --accent: #BF1922;
+    --accent-dark: #7D141D;
+    --primary: #004AAC;
+    --primary-dark: #002b57;
     --offwhite: #f5f5f5;
+    --offwhite-primary: #f3fcff;
     --offwhite-dark: #e0e0e0;
     
-    --blue-soft: #ddeaf7;
-    --blue-soft-dark: #caddf0;
-    --red-soft: #f8e4e4;
+    --primary-soft: #ddeaf7;
+    --primary-soft-dark: #caddf0;
+    --accent-soft: #f8e4e4;
 
-    --background-color: var(--blue-soft);
+    --background-color: var(--offwhite-primary);
     --top-down-blue-soft-background-gradient: linear-gradient(0deg, rgb(86.667% 91.765% 96.863%) 0%, rgb(85.834% 90.883% 95.932% / 0.9903926402016152) 6.25%, rgb(83.368% 88.272% 93.176% / 0.9619397662556434) 12.5%, rgb(79.364% 84.032% 88.701% / 0.9157348061512727) 18.75%, rgb(73.975% 78.326% 82.678% / 0.8535533905932737) 25%, rgb(67.408% 71.373% 75.338% / 0.7777851165098011) 31.25%, rgb(59.916% 63.441% 66.965% / 0.6913417161825449) 37.5%, rgb(51.787% 54.834% 57.88% / 0.5975451610080642) 43.75%, rgb(43.333% 45.882% 48.431% / 0.5) 50%, rgb(34.879% 36.931% 38.983% / 0.4024548389919359) 56.25%, rgb(26.75% 28.324% 29.897% / 0.3086582838174552) 62.5%, rgb(19.259% 20.391% 21.524% / 0.22221488349019902) 68.75%, rgb(12.692% 13.439% 14.185% / 0.14644660940672627) 75%, rgb(7.303% 7.733% 8.162% / 0.08426519384872733) 81.25%, rgb(3.299% 3.493% 3.687% / 0.03806023374435663) 87.5%, rgb(0.833% 0.882% 0.931% / 0.009607359798384785) 93.75%, rgb(0% 0% 0% / 0) 100% );
 
     --body-font: Merriweather, 'Times New Roman', Times, serif;
@@ -46,7 +47,7 @@ p, a {
 }
 
 a {
-    color: var(--red);
+    color: var(--primary);
     text-decoration: none;
     position: relative;
     transition: color 0.5s;
@@ -60,20 +61,20 @@ a:not(.button).text-link::after {
     height: 2px;
     width: 0%;
     transition: width 0.5s, background-color 0.5s;
-    background-color: var(--red);
+    background-color: var(--primary);
 }
 
 a:hover {
-    color: var(--red-dark);
+    color: var(--primary-dark);
 }
 
 a:not(.button).text-link:hover::after {
     width: 100%;
-    background-color: var(--red-dark);
+    background-color: var(--primary-dark);
 }
 
 a.button {
-    background: var(--red);
+    background: var(--accent);
     border-radius: 10px;
     color: #ffffff;
     padding: 10px;
@@ -82,7 +83,7 @@ a.button {
 }
 
 a.button:hover {
-    background: var(--red-dark);
+    background: var(--accent-dark);
     color: #dddddd;
 }
 
@@ -116,12 +117,12 @@ a.button:hover {
     justify-content: center;
     text-decoration: none;
     padding: 10px 20px;
-    color: var(--red);
+    color: var(--primary);
     transition: 0.2s all;
 }
 
 #topnav a:hover {
-    color: var(--red-dark);
+    color: var(--primary-dark);
     background: #FAFAFA;
 }
 
@@ -161,11 +162,11 @@ a.button:hover {
         padding: 10px;
         padding-left: 15px;
         padding-right: 15px;
-        --fill-color: var(--red);
+        --fill-color: var(--primary);
     }
     #topnav>div>#topnav-hamburger:hover {
         background-color: var(--offwhite);
-        --fill-color: var(--red-dark);
+        --fill-color: var(--primary-dark);
     }
 
     #topnav-dropdown {
@@ -175,7 +176,7 @@ a.button:hover {
         top: 55px;
         right: 10px;
         padding: 10px;
-        border: 2px solid var(--red);
+        border: 2px solid var(--primary);
         border-radius: 10px;
         background-color: #ffffff;
         transition: 2s opacity;
@@ -187,7 +188,7 @@ a.button:hover {
     }
 
     #topnav-dropdown>:not(:last-child) {
-        border-bottom: 2px solid var(--blue-soft-dark);
+        border-bottom: 2px solid var(--accent-soft-dark);
     }
 }
 
@@ -217,7 +218,7 @@ a.button:hover {
 }
 
 .secondary {
-    --background-color: var(--red-soft);
+    --background-color: var(--primary-soft);
     padding: 2rem;
 }
 

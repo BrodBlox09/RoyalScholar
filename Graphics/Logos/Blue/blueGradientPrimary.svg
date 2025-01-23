@@ -1,12 +1,12 @@
 <svg viewBox="0 0 350.00000000000006 164.67985036295545"  xmlns:xlink="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg">
     <defs>
         <linearGradient id="svgRedGradient">
-            <stop stop-color="rgb(29,20,125)" offset="0"></stop>
-            <stop stop-color="rgb(39,30,255)" offset="1"></stop>
+            <stop stop-color="#003C8A" offset="0"></stop>
+            <stop stop-color="#0064E6" offset="1"></stop>
         </linearGradient>
     </defs>
     <g transform="matrix(1.5555555820465088,0,0,1.5555555820465088,97.22222222222223,-27.22353956434462)"
-        fill="rgb(34,25,191)">
+        fill="#0050B8">
         <g xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M32.333,65.361c8.958,1.709,15.884,6.871,15.884,6.871V24.876c0,0-6.965-5.167-15.939-6.884   c-9.089-1.738-20.957,1.695-20.957,1.695v47.36C11.32,67.047,23.226,63.617,32.333,65.361z">
