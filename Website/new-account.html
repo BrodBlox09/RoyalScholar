@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Account</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #content {
+            background-color: var(--background-color);
+            flex-grow: 1;
+            display: grid;
+            place-items: center;
+        }
+
+        #box {
+            width: 75%;
+            min-width: 600px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        #box > div {
+            padding: 32px;
+        }
+
+        @media screen and (max-width: 600px) {
+            #box {
+                width: 100%;
+                min-width: 0;
+                min-height: 75%;
+            }
+        }
+
+        #already-has-account {
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        #already-has-account.active {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        .subheading {
+            margin-top: 0;
+            font-weight: 400;
+        }
+
+        /* #region Account Info Input */
+        #account-info-input {
+            background-color: #ffffff;
+        }
+
+        #input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 550px) {
+            #input-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        #input-grid input {
+            width: 100%;
+            display: block;
+            line-height: 20px;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #aaaaaa;
+        }
+
+        #input-grid input:focus {
+            outline: none;
+            border-color: var(--red);
+        }
+
+        .input-label {
+            font-size: 1.5rem;
+            margin: 0;
+            margin-bottom: 15px;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--red);
+        }
+
+        #tos-agreement {
+            width: 20px;
+            height: 20px;
+        }
+
+        button {
+            border: none;
+            border-radius: 5px;
+            background-color: var(--red);
+            color: var(--offwhite);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            transition: 0.2s background-color, 0.2s color;
+        }
+
+        button:disabled {
+            background-color: var(--offwhite-dark);
+            color: #ffffff;
+        }
+
+        button:not(:disabled):hover {
+            background-color: var(--red-dark);
+            color: var(--offwhite-dark);
+        }
+
+        #newAccountButton {
+            margin-top: 10px;
+            font-size: 2rem;
+            font-weight: 600;
+            font-family: var(--body-font);
+        }
+        /* #endregion */
+        
+        #loading-page {
+            display: none;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        #loading-page.active {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .spin {
+            animation: rotate linear 1s infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="topnav"></div>
+    <div id="content">
+        <div id="box">
+            <div id="account-info-input">
+                <h1 style="margin: 0;">Create Your RoyalScholar Account</h1>
+                <h2 class="subheading">Start your journey with personalized tutoring and learning opportunities.</h2>
+                <div id="input-grid">
+                    <div title="The email you are registering your account under.">
+                        <p class="input-label"><b>Email</b></p>
+                        <p id="user-email">Loading...</p>
+                    </div>
+                    <div>
+                        <p class="input-label required"><b>Full Name</b></p>
+                        <input id="full-name">
+                    </div>
+                    <div>
+                        <p class="input-label required"><b>Seminar Teacher</b></p>
+                        <input id="seminar-teacher">
+                    </div>
+                    <div>
+                        <p class="input-label"><b>Seminar Room</b></p>
+                        <input id="seminar-room">
+                    </div>
+                </div>
+                <div>
+                    <input type="checkbox" id="tos-agreement">
+                    <label for="tos-agreement" id="tos-agreement-label" class="required">I have read and agree to the <a
+                            href="terms-of-service.html" class="text-link">RoyalScholar&nbsp;Terms&nbsp;of&nbsp;Service</a>.</label>
+                </div>
+                <button disabled onclick="createNewAccount()" id="newAccountButton">
+                    Create&nbsp;my&nbsp;Account!
+                </button>
+            </div>
+            <div id="loading-page">
+                <svg style="width: 30px;" class="spin" fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330" xml:space="preserve">
+                    <g id="XMLID_2_">
+                        <path id="XMLID_4_" d="M97.5,165c0-8.284-6.716-15-15-15h-60c-8.284,0-15,6.716-15,15s6.716,15,15,15h60   C90.784,180,97.5,173.284,97.5,165z"/>
+                        <path id="XMLID_5_" d="M307.5,150h-30c-8.284,0-15,6.716-15,15s6.716,15,15,15h30c8.284,0,15-6.716,15-15S315.784,150,307.5,150z"/>
+                        <path id="XMLID_6_" d="M172.5,90c8.284,0,15-6.716,15-15V15c0-8.284-6.716-15-15-15s-15,6.716-15,15v60   C157.5,83.284,164.216,90,172.5,90z"/>
+                        <path id="XMLID_7_" d="M172.501,240c-8.284,0-15,6.716-15,15v60c0,8.284,6.716,15,15,15c8.284,0,15-6.716,15-15v-60   C187.501,246.716,180.785,240,172.501,240z"/>
+                        <path id="XMLID_8_" d="M77.04,48.327c-5.856-5.858-15.354-5.857-21.213,0c-5.858,5.858-5.858,15.355,0,21.213l42.427,42.428   c2.929,2.929,6.768,4.394,10.606,4.394c3.838,0,7.678-1.465,10.606-4.393c5.858-5.858,5.858-15.355,0-21.213L77.04,48.327z"/>
+                        <path id="XMLID_9_" d="M246.746,218.034c-5.857-5.857-15.355-5.857-21.213,0c-5.858,5.858-5.857,15.355,0,21.213l42.428,42.426   c2.929,2.929,6.768,4.393,10.607,4.393c3.839,0,7.678-1.465,10.606-4.393c5.858-5.858,5.858-15.355,0-21.213L246.746,218.034z"/>
+                        <path id="XMLID_10_" d="M98.254,218.034L55.828,260.46c-5.858,5.858-5.858,15.355,0,21.213c2.929,2.929,6.768,4.393,10.607,4.393   c3.839,0,7.678-1.464,10.606-4.393l42.426-42.426c5.858-5.858,5.858-15.355,0-21.213   C113.609,212.176,104.111,212.176,98.254,218.034z"/>
+                    </g>
+                </svg>
+                <h1>Creating Your Account...</h1>
+            </div>
+        </div>
+    </div>
+    <div class="modal-bg" id="already-has-account">
+        <div class="modal">
+            <h2 style="margin-bottom: 5px; margin-top: -10px;">You already have an account!</h2>
+            <p>It looks like you've already created a RoyalScholar account. Please go back to the home page.</p>
+            <a href="index.html" title="Click here to go to the home page" class="button"
+                style="font-size: 1.5rem; font-weight: 600; text-align: center;">Home</a>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+    <script>
+        let fullNameInput = document.getElementById("full-name");
+        let seminarTeacherInput = document.getElementById("seminar-teacher");
+        let seminarRoomInput = document.getElementById("seminar-room");
+        let tosAgreement = document.getElementById("tos-agreement");
+        let createNewAccountButton = document.getElementById("newAccountButton");
+
+        fullNameInput.addEventListener("input", updateNewAccountButton);
+        seminarTeacherInput.addEventListener("input", updateNewAccountButton);
+        seminarRoomInput.addEventListener("input", updateNewAccountButton);
+        tosAgreement.addEventListener("input", updateNewAccountButton);
+        fullNameInput.value = "";
+        seminarTeacherInput.value = "";
+        seminarRoomInput.value = "";
+        tosAgreement.checked = false;
+        updateNewAccountButton();
+
+        function updateNewAccountButton() {
+            if (checkInputsValid()) createNewAccountButton.disabled = false;
+            else createNewAccountButton.disabled = true;
+        }
+
+        function checkInputsValid() {
+            if (!tosAgreement.checked) return false;
+            if (fullNameInput.value == "") return false;
+            if (seminarTeacherInput.value == "") return false;
+            return true;
+        }
+
+        function createNewAccount() {
+            sendAPIReq({
+                reqType: "createNewAccount",
+                accountData: {
+                    name: fullNameInput.value,
+                    seminarTeacher: seminarTeacherInput.value,
+                    seminarRoom: seminarRoomInput.value
+                }
+            }, (res) => {
+                let a = document.createElement("a");
+                a.href = "https://sites.google.com/student.dodea.edu/royalscholar/dashboard";
+                a.click();
+                window.close();
+            });
+            document.getElementById("loading-page").classList.add("active");
+        }
+
+        if (!testing) sendAPIReq({ reqType: "doesUserHaveAnAccount" }, (res) => {
+            if (res.userHasAccount) {
+                document.getElementById("already-has-account").classList.add("active");
+                document.body.style.setProperty("overflow", "hidden");
+                return;
+            }
+            document.getElementById("user-email").textContent = res.userEmail;
+        });
+    </script>
+</body>
+
+</html>

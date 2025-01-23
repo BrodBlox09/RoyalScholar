@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* #region Hero */
+        #hero {
+            height: 100vh;
+            min-height: 600px;
+            background: linear-gradient(120deg, #FF1E27, #00468B, #7D141D);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 70px;
+            padding-inline: 100px;
+            box-sizing: border-box;
+        }
+
+        #hero>div {
+            background-color: #FFFFFF;
+            padding: 25px;
+            container-name: hero-textbox;
+            container-type: inline-size;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        #hero>div>h1 {
+            font-size: 3rem;
+            margin-top: 0;
+        }
+
+        #hero>div>div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        #cta {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        @container hero-textbox (width < 523px) {
+            #hero>div>div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+        }
+
+        @media (width < 520px) {
+            #hero {
+                padding: 0;
+            }
+        }
+        /* #endregion */
+
+        .star {
+            width: 2rem;
+            height: 2rem;
+            background-color: green;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .star::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            clip-path: polygon(50% 13.819660112504%, 40.83055006424% 41.198995000240004%, 11.957739348192% 41.45898033752%, 35.16351834576% 58.64032522472%, 26.48858990832% 86.18033988751999%, 50% 69.41966011248002%, 73.51141009168% 86.18033988751999%, 64.83648165424% 58.64032522472%, 88.04226065184001% 41.45898033752%, 59.16944993576001% 41.198995000240004%);
+            background-color: white;
+        }
+
+        #subject-card-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-inline: 20px;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        #subject-card-list a {
+            border-radius: 5px;
+            padding: 10px;
+            border: 2px solid var(--blue);
+            background-color: #ffffff;
+            transition: 0.2s background-color;
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        #subject-card-list a:hover {
+            background-color: #eef0f5;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="topnav"></div>
+    <h2>Loading data...</h2>
+    <script src="scripts.js"></script>
+    <script>
+        
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+:root {
+    --red-bright: #FF1E27;
+    --red: #BF1922;
+    --red-dark: #7D141D;
+    --blue: #00468B;
+    --blue-dark: #002b57;
+    --offwhite: #f5f5f5;
+    --offwhite-dark: #e0e0e0;
+    
+    --blue-soft: #ddeaf7;
+    --blue-soft-dark: #caddf0;
+    --red-soft: #f8e4e4;
+
+    --background-color: var(--blue-soft);
+    --top-down-blue-soft-background-gradient: linear-gradient(0deg, rgb(86.667% 91.765% 96.863%) 0%, rgb(85.834% 90.883% 95.932% / 0.9903926402016152) 6.25%, rgb(83.368% 88.272% 93.176% / 0.9619397662556434) 12.5%, rgb(79.364% 84.032% 88.701% / 0.9157348061512727) 18.75%, rgb(73.975% 78.326% 82.678% / 0.8535533905932737) 25%, rgb(67.408% 71.373% 75.338% / 0.7777851165098011) 31.25%, rgb(59.916% 63.441% 66.965% / 0.6913417161825449) 37.5%, rgb(51.787% 54.834% 57.88% / 0.5975451610080642) 43.75%, rgb(43.333% 45.882% 48.431% / 0.5) 50%, rgb(34.879% 36.931% 38.983% / 0.4024548389919359) 56.25%, rgb(26.75% 28.324% 29.897% / 0.3086582838174552) 62.5%, rgb(19.259% 20.391% 21.524% / 0.22221488349019902) 68.75%, rgb(12.692% 13.439% 14.185% / 0.14644660940672627) 75%, rgb(7.303% 7.733% 8.162% / 0.08426519384872733) 81.25%, rgb(3.299% 3.493% 3.687% / 0.03806023374435663) 87.5%, rgb(0.833% 0.882% 0.931% / 0.009607359798384785) 93.75%, rgb(0% 0% 0% / 0) 100% );
+
+    --body-font: Merriweather, 'Times New Roman', Times, serif;
+}
+
+head,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    min-height: 100vh;
+    background: #FFFFFF;
+    font-family: Merriweather, 'Times New Roman', Times, serif;
+    line-height: 1.6;
+    /* Improves readability */
+    color: #333333;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Playfair Display";
+}
+
+p, a {
+    font-size: 1rem;
+}
+
+a {
+    color: var(--red);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.5s;
+}
+
+a:not(.button).text-link::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    transition: width 0.5s, background-color 0.5s;
+    background-color: var(--red);
+}
+
+a:hover {
+    color: var(--red-dark);
+}
+
+a:not(.button).text-link:hover::after {
+    width: 100%;
+    background-color: var(--red-dark);
+}
+
+a.button {
+    background: var(--red);
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 10px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+a.button:hover {
+    background: var(--red-dark);
+    color: #dddddd;
+}
+
+/* #region topnav */
+#topnav-wrapper {
+    z-index: 999; /* Ensure stacking context is ALWAYS above all other things on the page */
+}
+
+#topnav {
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    top: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    width: 100%;
+    box-shadow: 0 0 40px 1px #000000;
+    z-index: 999;
+}
+
+#topnav>div {
+    display: flex;
+    height: 100%;
+}
+
+#topnav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    color: var(--red);
+    transition: 0.2s all;
+}
+
+#topnav a:hover {
+    color: var(--red-dark);
+    background: #FAFAFA;
+}
+
+#topnav a p {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+#topnav>div>#topnav-hamburger {
+    display: none;
+}
+
+#topnav-dropdown {
+    display: none;
+}
+#topnav>.mobile-only {
+    display: none;
+}
+
+@media screen and (max-width: 800px) {
+    #topnav {
+        padding-right: 10px;
+    }
+    #topnav>div {
+        display: none;
+    }
+    #topnav>.mobile-only {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #topnav>div>#topnav-hamburger {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
+        --fill-color: var(--red);
+    }
+    #topnav>div>#topnav-hamburger:hover {
+        background-color: var(--offwhite);
+        --fill-color: var(--red-dark);
+    }
+
+    #topnav-dropdown {
+        display: none;
+        position: absolute;
+        opacity: 0;
+        top: 55px;
+        right: 10px;
+        padding: 10px;
+        border: 2px solid var(--red);
+        border-radius: 10px;
+        background-color: #ffffff;
+        transition: 2s opacity;
+    }
+
+    #topnav-dropdown.visible {
+        display: block;
+        opacity: 1;
+    }
+
+    #topnav-dropdown>:not(:last-child) {
+        border-bottom: 2px solid var(--blue-soft-dark);
+    }
+}
+
+#topnav .tutor-vis-only {
+    display: none;
+}
+/* #endregion */
+
+.tutor-vis-only {
+    display: none;
+}
+
+.horiz-spaced {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.vert-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section {
+    background: var(--background-color);
+    padding: 2rem;
+}
+
+.secondary {
+    --background-color: var(--red-soft);
+    padding: 2rem;
+}
+
+.section-title {
+    margin-top: 0;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.section-transition-gradient {
+    position: absolute;
+    width: 100%;
+}
+
+.section-transition-gradient::after {
+    content: "";
+    display: block;
+    height: 150px;
+    width: 100%;
+    position: relative;
+    top: -150px;
+    background: var(--top-down-blue-soft-background-gradient);
+    z-index: 100;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 900;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 60%;
+}
