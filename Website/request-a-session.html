@@ -5,6 +5,7 @@
     <base target="_blank">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request A Session</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
@@ -191,6 +192,7 @@
             outline: none;
             font-family: var(--body-font);
             margin-bottom: 50px;
+            font-size: 1.1em;
         }
 
         .dropdown-field {
@@ -555,7 +557,7 @@
         }
         function selectClass(classObject) {
             selectedClass = classObject;
-            if (ptd.cs.some(c => c.name == selectedClass.name))
+            if (ptd && ptd.cs.some(c => c.name == selectedClass.name))
                 document.getElementById("ptoc").classList.add("visible");
             else {
                 document.getElementById("ptoci").checked = false;
@@ -677,22 +679,11 @@
         const requestSessionTitle = document.getElementById("sessionRequestSendTitle");
         const requestSessionText = document.getElementById("sessionRequestSendText");
         function sendSessionRequest() {
-            console.log({
-                    subject: selectedSubject == "Other (Not Listed)" ? "Other" : selectedSubject,
-                    className: selectedSubject == "Other (Not Listed)" ? "Other" : selectedClass.name,
-                    details: detailsInput.value,
-                    sessionName: selectedTime.name,
-                    timeStart: selectedTime.timeStart,
-                    timeEnd: selectedTime.timeEnd,
-                    location: selectedLocation,
-                    preferredTutor: document.getElementById("ptoci").checked ? ptd.e : undefined
-                });
-            return;
             sendAPIReq({
                 reqType: "requestSession",
                 sessionData: {
-                    subject: selectedSubject,
-                    className: selectedClass.name,
+                    subject: selectedSubject == "Other (Not Listed)" ? "Other" : selectedSubject,
+                    className: selectedSubject == "Other (Not Listed)" ? "Other" : selectedClass.name,
                     details: detailsInput.value,
                     sessionName: selectedTime.name,
                     timeStart: selectedTime.timeStart,
