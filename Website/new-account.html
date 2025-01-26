@@ -44,6 +44,17 @@
             opacity: 1;
         }
 
+        #bad-email {
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        #bad-email.active {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
         .subheading {
             margin-top: 0;
             font-weight: 400;
@@ -240,6 +251,12 @@
                 style="font-size: 1.5rem; font-weight: 600; text-align: center;">Home</a>
         </div>
     </div>
+    <div class="modal-bg" id="bad-email">
+        <div class="modal">
+            <h2 style="margin-bottom: 5px; margin-top: -10px;">School account not detected!</h2>
+            <p style="margin-bottom: 0;">It looks like you aren't logged in to your school-provided Gmail account. Please log in to it and try again later.</p>
+        </div>
+    </div>
     <script src="scripts.js"></script>
     <script>
         let fullNameInput = document.getElementById("full-name");
@@ -283,6 +300,12 @@
                 a.href = "https://sites.google.com/student.dodea.edu/royalscholar/<?= redirectLocation ?>";
                 a.click();
                 window.close();
+            }, (err) => {
+                if (err.errorCode == 403) {
+                    document.getElementById("bad-email").classList.add("active");
+                    return true;
+                }
+                return false;
             });
             document.getElementById("loading-page").classList.add("active");
         }
@@ -294,6 +317,7 @@
                 return;
             }
             document.getElementById("user-email").textContent = res.userEmail;
+            if (!res.userEmail.endsWith("@student.dodea.edu")) document.getElementById("bad-email").classList.add("active");
         });
     </script>
 </body>
