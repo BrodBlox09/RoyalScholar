@@ -58,6 +58,8 @@
         /* #region Account Info Input */
         #account-info-input {
             background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0px 0px 40px -10px #000000;
         }
 
         #input-grid {
@@ -98,10 +100,9 @@
             content: " *";
             color: var(--primary);
         }
-
-        #tos-agreement {
-            width: 20px;
-            height: 20px;
+        
+        #tos-agreement-label {
+            margin-block: 2rem;
         }
 
         button {
@@ -133,6 +134,7 @@
             margin-top: 10px;
             font-size: 2rem;
             font-weight: 600;
+            border-radius: 10px;
             font-family: var(--body-font);
         }
         /* #endregion */
@@ -145,6 +147,7 @@
             height: 100%;
             box-sizing: border-box;
             background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
         }
 
         #loading-page.active {
@@ -197,9 +200,11 @@
                     </div>
                 </div>
                 <div>
-                    <input type="checkbox" id="tos-agreement">
-                    <label for="tos-agreement" id="tos-agreement-label" class="required">I have read and agree to the <a
-                            href="terms-of-service.html" class="text-link">RoyalScholar&nbsp;Terms&nbsp;of&nbsp;Service</a>.</label>
+                    <label id="tos-agreement-label" class="required checkbox-label">I have read and agree to the <a
+                            href="terms-of-service.html" class="text-link" style="margin-left: 4px;">RoyalScholar&nbsp;Terms&nbsp;of&nbsp;Service</a>.
+                            <input type="checkbox" id="tos-agreement">
+                            <span class="checkmark"></span>
+                        </label>
                 </div>
                 <button disabled onclick="createNewAccount()" id="newAccountButton">
                     Create&nbsp;my&nbsp;Account!

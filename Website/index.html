@@ -72,6 +72,11 @@
         #cta {
             font-size: 1.5rem;
             font-weight: 600;
+            background-color: var(--primary);
+        }
+
+        #cta:hover {
+            background-color: var(--primary-dark);
         }
 
         @media (max-width: 650px) {
@@ -95,7 +100,8 @@
             padding: 10px;
             border: 2px solid var(--primary);
             background-color: #ffffff;
-            transition: 0.2s background-color;
+            color: var(--primary);
+            transition: 0.2s background-color, 0.2s color;
             margin: 0;
             width: 150px;
             aspect-ratio: 1 / 1;
@@ -114,6 +120,7 @@
         #subject-card-list a:hover {
             background-color: #eef0f5;
             border-color: var(--primary-dark);
+            color: var(--primary-dark);
             fill: var(--primary-dark);
         }
         /* #endregion */
