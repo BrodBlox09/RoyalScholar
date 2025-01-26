@@ -28,7 +28,7 @@
                 </a>
             </div>
             <div id="topnav-right">
-                <a href="dashboard.html">
+                <a href="account-dashboard.html">
                     <p>Dashboard</p>
                 </a>
             </div>
@@ -60,7 +60,7 @@
                 <div id="topnav-dropdown">
                     <a href="request-a-session.html">Request a Session</a>
                     <a class="tutor-vis-only" href="tutor-a-session.html">Tutor a Session</a>
-                    <a href="dashboard.html">Dashboard</a>
+                    <a href="account-dashboard.html">Dashboard</a>
                 </div>
             </div>
     </div>
