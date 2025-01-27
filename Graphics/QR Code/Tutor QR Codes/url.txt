@@ -1,1 +1,1 @@
-https://brodysmalley.codehs.me/rhs-rs?te=${tutorEmailGoesHere}
+https://brodysmalley.codehs.me/u/rrstcs?e=${tutorEmailGoesHere}
