@@ -8,9 +8,7 @@ let userIsTutor = <?!= userIsTutor ?>;
 */
 // #enddebug
 
-let style = document.createElement("style");
-style.innerHTML = `.tutor-vis-only {display: ${userIsTutor ? 'block' : 'none'};}`;
-document.head.appendChild(style);
+if (userIsTutor) Array.from(document.getElementsByClassName("tutor-vis-only")).forEach(x => x.classList.add("show-tutor-vis"));
 
 let dropdownHamburger = document.getElementById("topnav-hamburger");
 let dropdown = document.getElementById("topnav-dropdown");

@@ -23,7 +23,7 @@
                 <a href="request-a-session.html">
                     <p>Request a Session</p>
                 </a>
-                <a class="tutor-vis-only" href="tutor-a-session.html">
+                <a class="tutor-vis-only flex-element" href="tutor-a-session.html">
                     <p>Tutor a Session</p>
                 </a>
             </div>
