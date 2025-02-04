@@ -7,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <style>
-        #session-list {
+        #session-card-list {
             padding: 1rem;
         }
 
+        /* #region Session Card */
         .session-card {
             border-radius: 20px;
             box-shadow: 0 0 10px #000000;
@@ -22,7 +23,7 @@
             justify-content: space-between;
         }
 
-        .session-card>div.session-card-top>.session-card-title {
+        .session-card>div.session-card-top>.session-card-subject {
             margin: 0;
         }
 
@@ -56,15 +57,19 @@
             font-size: 1rem;
             margin: 0;
         }
+        /* #endregion */
     </style>
 </head>
 
 <body>
     <div id="topnav"></div>
-    <div id="session-list">
+    <div id="session-card-list">
+        
+    </div>
+    <template id="session-card-template">
         <div class="session-card">
             <div class="session-card-top">
-                <h2 class="session-card-title">AP Calculus AB+</h2>
+                <h2 class="session-card-subject">Session Subject</h2>
                 <a href="link-to-full-screen-details-page.html" class="button session-card-details-button">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><path d="M83.333,50v33.333H16.667V16.667H50V10H16.667C13.001,10,10,13,10,16.667v66.667C10,86.999,13.001,90,16.667,90h66.666  C86.999,90,90,86.999,90,83.333V50H83.333z"/><path d="M90,36.667l-0.003-23.335C90,11.493,88.506,10,86.667,10H63.333v6.665h15.283L50,45.285L54.714,50l28.619-28.615v15.281H90z  "/></svg>
                     Details
@@ -72,21 +77,38 @@
             </div>
             <div class="icon-bullet">
                 <svg viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M924.903226 1024H100.097752A100.097752 100.097752 0 0 1 0 923.902248V222.217009a100.097752 100.097752 0 0 1 100.097752-100.097752h824.805474a100.097752 100.097752 0 0 1 100.097752 100.097752v701.685239a100.097752 100.097752 0 0 1-100.097752 100.097752zM100.097752 202.197458a20.01955 20.01955 0 0 0-20.019551 20.019551v701.685239a20.01955 20.01955 0 0 0 20.019551 20.019551h824.805474a20.01955 20.01955 0 0 0 20.01955-20.019551V222.217009a20.01955 20.01955 0 0 0-20.01955-20.019551z" fill="" /><path d="M237.231672 282.27566a97.094819 97.094819 0 0 1-97.09482-97.094819V97.094819a97.094819 97.094819 0 0 1 194.189639 0 40.039101 40.039101 0 0 1-80.078202 0 17.016618 17.016618 0 0 0-34.033235 0v88.086022a17.016618 17.016618 0 0 0 17.016618 17.016617 40.039101 40.039101 0 0 1 0 80.078202zM787.769306 282.27566a97.094819 97.094819 0 0 1-97.094819-97.094819V97.094819a97.094819 97.094819 0 0 1 194.189638 0 40.039101 40.039101 0 0 1-80.078201 0 17.016618 17.016618 0 0 0-34.033236 0v88.086022a17.016618 17.016618 0 0 0 17.016618 17.016617 40.039101 40.039101 0 0 1 0 80.078202zM512.500489 282.27566a97.094819 97.094819 0 0 1-97.094819-97.094819V97.094819a97.094819 97.094819 0 0 1 194.189638 0 40.039101 40.039101 0 0 1-80.078201 0 17.016618 17.016618 0 0 0-34.033236 0v88.086022a17.016618 17.016618 0 0 0 17.016618 17.016617 40.039101 40.039101 0 0 1 0 80.078202zM950.928641 428.418377H65.063539a40.039101 40.039101 0 0 1 0-80.078201h885.865102a40.039101 40.039101 0 0 1 0 80.078201zM213.208211 653.638319a73.071359 73.071359 0 1 1 73.071359-72.070382 73.071359 73.071359 0 0 1-73.071359 72.070382zM412.402737 653.638319a73.071359 73.071359 0 1 1 73.071359-72.070382 73.071359 73.071359 0 0 1-73.071359 72.070382zM612.59824 653.638319a73.071359 73.071359 0 1 1 73.071359-72.070382 73.071359 73.071359 0 0 1-73.071359 72.070382zM812.793744 653.638319a73.071359 73.071359 0 1 1 73.071359-72.070382 73.071359 73.071359 0 0 1-73.071359 72.070382zM213.208211 860.840665a73.071359 73.071359 0 1 1 73.071359-72.070382 73.071359 73.071359 0 0 1-73.071359 72.070382zM412.402737 860.840665a73.071359 73.071359 0 1 1 73.071359-72.070382 73.071359 73.071359 0 0 1-73.071359 72.070382zM612.59824 860.840665a73.071359 73.071359 0 1 1 73.071359-72.070382 73.071359 73.071359 0 0 1-73.071359 72.070382z" fill="" /></svg>
-                <p class="session-card-time">Jan. 28 13:15 - 14:30</p>
+                <p class="session-card-time">Session Time</p>
             </div>
             <div class="icon-bullet">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256" xml:space="preserve"><defs></defs><g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >	<path d="M 45 0 C 27.395 0 13.123 14.272 13.123 31.877 c 0 7.86 2.858 15.043 7.573 20.6 L 45 81.101 l 24.304 -28.624 c 4.716 -5.558 7.573 -12.741 7.573 -20.6 C 76.877 14.272 62.605 0 45 0 z M 45 43.889 c -7.24 0 -13.11 -5.869 -13.11 -13.11 c 0 -7.24 5.869 -13.11 13.11 -13.11 s 13.11 5.869 13.11 13.11 C 58.11 38.02 52.24 43.889 45 43.889 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: currentColor; fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />	<path d="M 58.958 71.559 L 45 82.839 L 31.057 71.556 c -9.329 1.65 -15.682 4.901 -15.682 8.645 c 0 5.412 13.263 9.8 29.625 9.8 c 16.361 0 29.625 -4.388 29.625 -9.8 C 74.625 76.458 68.278 73.209 58.958 71.559 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: currentColor; fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" /></g></svg>
-                <p class="session-card-location">Mr. Correa (A2.11)</p>
+                <p class="session-card-location">Location</p>
             </div>
             <div class="icon-bullet">
                 <svg viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g fill="currentColor" fill-rule="nonzero"><path d="M35.7502,28 C38.0276853,28 39.8876578,29.7909151 39.9950978,32.0427546 L40,32.2487 L40,33 C40,36.7555 38.0583,39.5669 35.0798,41.3802 C32.1509,43.1633 28.2139,44 24,44 C19.7861,44 15.8491,43.1633 12.9202,41.3802 C10.0319285,39.6218485 8.11862909,36.9249713 8.00532378,33.3388068 L8,33 L8,32.2489 C8,29.9703471 9.79294995,28.1122272 12.0440313,28.0048972 L12.2499,28 L35.7502,28 Z M24,4 C29.5228,4 34,8.47715 34,14 C34,19.5228 29.5228,24 24,24 C18.4772,24 14,19.5228 14,14 C14,8.47715 18.4772,4 24,4 Z" id="🎨-Color"></path></g></g></svg>
-                <p class="student-name">Brody Smalley</p>
+                <p class="session-card-student-name">Student Name</p>
             </div>
         </div>
-    </div>
+    </template>
     <script src="scripts.js"></script>
     <script>
-        
+        let sessionCardTemplate = document.getElementById("session-card-template");
+        let sessionCardList = document.getElementById("session-card-list");
+
+        function addSessionCards(sessions) {
+            sessions.forEach(session => {
+                /** @type {HTMLElement} */
+                let card = sessionCardTemplate.content.cloneNode(true);
+                card.querySelectorAll(".session-card-subject")[0].textContent = session.subject;
+                card.querySelectorAll(".session-card-details-button")[0].href = session.href;
+                card.querySelectorAll(".session-card-time")[0].textContent = session.time;
+                card.querySelectorAll(".session-card-location")[0].textContent = session.location;
+                card.querySelectorAll(".session-card-student-name")[0].textContent = session.name;
+
+                sessionCardList.appendChild(card);
+            });
+        }
+
+        addSessionCards(<?!= sessionInfo ?>);
     </script>
 </body>
 

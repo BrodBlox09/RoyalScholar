@@ -4,11 +4,11 @@ const testing = false;
 /*
 // #enddebug
 let userIsTutor = <?!= userIsTutor ?>;
+if (userIsTutor) Array.from(document.getElementsByClassName("tutor-vis-only")).forEach(x => x.classList.add("show-tutor-vis"));
 // #debug
 */
 // #enddebug
 
-if (userIsTutor) Array.from(document.getElementsByClassName("tutor-vis-only")).forEach(x => x.classList.add("show-tutor-vis"));
 
 let dropdownHamburger = document.getElementById("topnav-hamburger");
 let dropdown = document.getElementById("topnav-dropdown");
