@@ -42,8 +42,8 @@ h6 {
     font-family: "Playfair Display";
 }
 
-p, a {
-    font-size: 1rem;
+p, li, a {
+    font-size: 1.1rem;
 }
 
 a {
@@ -212,8 +212,17 @@ a.button:hover {
     justify-content: center;
 }
 
-.section {
+.flex-dir-vert {
+    display: flex;
+    flex-direction: column;
+}
+
+.section-primary-bg {
     background: var(--background-color);
+    padding: 2rem;
+}
+
+.section-neutral-bg {
     padding: 2rem;
 }
 
@@ -226,6 +235,11 @@ a.button:hover {
     margin-top: 0;
     font-size: 3rem;
     text-align: center;
+}
+
+.section-title-left {
+    margin-top: 0;
+    font-size: 3rem;
 }
 
 .section-transition-gradient {
@@ -284,6 +298,11 @@ a.button:hover {
     width: fit-content;
     display: flex;
     align-items: center;
+}
+
+.checkbox-label p {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .checkbox-label input {

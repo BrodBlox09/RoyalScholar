@@ -1,12 +1,16 @@
 const testing = false;
 
-let userIsTutor = false;
+// #debug
+/*
+// #enddebug
+let userIsTutor = <?!= userIsTutor ?>;
+// #debug
+*/
+// #enddebug
 
-function updateTutorVisOnlyVisibility() {
-    let style = document.createElement("style");
-    style.innerHTML = `.tutor-vis-only {display: ${userIsTutor ? 'block' : 'none'};}`;
-    document.head.appendChild(style);
-}
+let style = document.createElement("style");
+style.innerHTML = `.tutor-vis-only {display: ${userIsTutor ? 'block' : 'none'};}`;
+document.head.appendChild(style);
 
 let dropdownHamburger = document.getElementById("topnav-hamburger");
 let dropdown = document.getElementById("topnav-dropdown");

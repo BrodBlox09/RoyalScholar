@@ -106,8 +106,9 @@
             color: var(--primary);
         }
         
-        #tos-agreement-label {
-            margin-block: 2rem;
+        #checkboxes {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
         }
 
         button {
@@ -216,12 +217,17 @@
                         <input id="seminar-room">
                     </div>
                 </div>
-                <div>
-                    <label id="tos-agreement-label" class="required checkbox-label">I have read and agree to the <a
-                            href="terms-of-service.html" class="text-link" style="margin-left: 4px;">RoyalScholar&nbsp;Terms&nbsp;of&nbsp;Service</a>.
-                            <input type="checkbox" id="tos-agreement">
-                            <span class="checkmark"></span>
-                        </label>
+                <div id="checkboxes">
+                    <label id="tos-agreement-label" class="required checkbox-label">
+                        <p>I have read and agree to the <a href="terms-of-service.html" class="text-link">RoyalScholar&nbsp;Terms&nbsp;of&nbsp;Service</a>.</p>
+                        <input type="checkbox" id="tos-agreement">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label id="email-newsletter-agreement-label" class="checkbox-label">
+                        <p>I agree to have <a href="marketing-activities.html" class="text-link">Marketing&nbsp;Activities</a> directed to me by and receive marketing and promotional information from RoyalScholar via email.</p>
+                        <input type="checkbox" id="tos-agreement">
+                        <span class="checkmark"></span>
+                    </label>
                 </div>
                 <button disabled onclick="createNewAccount()" id="newAccountButton">
                     Create&nbsp;my&nbsp;Account!
