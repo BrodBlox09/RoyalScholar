@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #chat-message-list {
+            padding: 1rem;
+        }
+
+        #content {
+            display: grid;
+            grid-template-areas: "a c c" "b c c" "b c c";
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .content-card {
+            border-radius: 20px;
+            box-shadow: 0 0 10px #000000;
+            padding: 20px;
+        }
+
+        #request-details {
+            grid-area: a;
+        }
+
+        #student-notes {
+            grid-area: b;
+        }
+
+        #chat {
+            grid-area: c;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="topnav"></div>
+    <div id="content">
+        <div id="request-details" class="content-card">
+            <p class="no-margin">Subject: <span id="request-subject"></span></p>
+            <p>Time: <span id="request-time"></span></p>
+            <p>Location: <span id="request-location"></span></p>
+            <p class="no-margin">Student Name: <span id="request-student-name"></span></p>
+        </div>
+        <div id="student-notes" class="content-card">
+            <p class="no-margin">Notes:</p>
+        </div>
+        <div id="chat" class="content-card"></div>
+    </div>
+    <template id="message-template">
+        <div class="message">
+            
+        </div>
+    </template>
+    <script src="scripts.js"></script>
+    <script>
+        let messageTemplate = document.getElementById("message-template");
+        let chatMessageList = document.getElementById("chat-message-list");
+
+        function fillInRequestInfo(requestInfo) {
+            let dateFormatter = Intl.DateTimeFormat({region:"en-us"},{dateStyle:"full"});
+            let timeFormatter = Intl.DateTimeFormat({region:"en-us"},{timeStyle:"short",hour12:false});
+
+            document.getElementById("request-subject").textContent = requestInfo.subject;
+            document.getElementById("request-time").textContent = `${dateFormatter.format(new Date(requestInfo.time.start))} from ${timeFormatter.format(new Date(requestInfo.time.start))} - ${timeFormatter.format(new Date(requestInfo.time.end))}`;
+            document.getElementById("request-location").textContent = requestInfo.location;
+            document.getElementById("request-student-name").textContent = requestInfo.studentName;
+            // sessions.forEach(session => {
+            //     /** @type {HTMLElement} */
+            //     let card = sessionCardTemplate.content.cloneNode(true);
+            //     card.querySelectorAll(".session-card-subject")[0].textContent = session.subject;
+            //     card.querySelectorAll(".session-card-details-button")[0].href = session.href;
+            //     card.querySelectorAll(".session-card-time")[0].textContent = session.time;
+            //     card.querySelectorAll(".session-card-location")[0].textContent = session.location;
+            //     card.querySelectorAll(".session-card-student-name")[0].textContent = session.name;
+
+            //     sessionCardList.appendChild(card);
+            // });
+        }
+
+        // #debug
+        fillInRequestInfo({
+            studentName: "Brody Smalley",
+            time: {
+                text: "Feb. 28 13:15 - 14:30",
+                start: 1740744900000,
+                end: 1740749400000
+            },
+            location: "Mr. Correa (A2.11)",
+            subject: "AP Seminar+"
+        });
+        // #enddebug
+
+        // #debug
+        /*
+        // #enddebug
+        fillInRequestInfo(<?!= sessionInfo ?>);
+        // #debug
+        */
+        // #enddebug
+    </script>
+</body>
+
+</html>

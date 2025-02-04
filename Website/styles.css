@@ -46,6 +46,10 @@ p, li, a {
     font-size: 1.1rem;
 }
 
+.no-margin {
+    margin: 0;
+}
+
 a {
     color: var(--accent);
     text-decoration: none;
