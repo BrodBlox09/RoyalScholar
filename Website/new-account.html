@@ -225,7 +225,7 @@
                     </label>
                     <label id="email-newsletter-agreement-label" class="checkbox-label">
                         <p>I agree to have <a href="marketing-activities.html" class="text-link">Marketing&nbsp;Activities</a> directed to me by and receive marketing and promotional information from RoyalScholar via email.</p>
-                        <input type="checkbox" id="tos-agreement">
+                        <input type="checkbox" id="email-newsletter-agreement">
                         <span class="checkmark"></span>
                     </label>
                 </div>
@@ -269,6 +269,7 @@
         let seminarTeacherInput = document.getElementById("seminar-teacher");
         let seminarRoomInput = document.getElementById("seminar-room");
         let tosAgreement = document.getElementById("tos-agreement");
+        let newsletterAgreement = document.getElementById("email-newsletter-agreement");
         let createNewAccountButton = document.getElementById("newAccountButton");
 
         fullNameInput.addEventListener("input", updateNewAccountButton);
@@ -279,6 +280,7 @@
         seminarTeacherInput.value = "";
         seminarRoomInput.value = "";
         tosAgreement.checked = false;
+        newsletterAgreement.checked = true;
         updateNewAccountButton();
 
         function updateNewAccountButton() {
@@ -299,7 +301,8 @@
                 accountData: {
                     name: fullNameInput.value,
                     seminarTeacher: seminarTeacherInput.value,
-                    seminarRoom: seminarRoomInput.value
+                    seminarRoom: seminarRoomInput.value,
+                    marketingAllowed: newsletterAgreement.checked
                 }
             }, (res) => {
                 let a = document.createElement("a");
