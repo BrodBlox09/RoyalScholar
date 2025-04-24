@@ -196,8 +196,17 @@ a.button:hover {
     }
 }
 
+/* To fix specificity issues, maybe there is a better way here? */
 #topnav .tutor-vis-only {
     display: none;
+}
+
+#topnav .tutor-vis-only.show-tutor-vis {
+    display: block;
+}
+
+#topnav .tutor-vis-only.show-tutor-vis.flex-element {
+    display: flex;
 }
 /* #endregion */
 
