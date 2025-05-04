@@ -7,21 +7,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
         #chat-message-list {
             padding: 1rem;
         }
 
         #content {
             display: grid;
-            grid-template-areas: "a c c" "b c c" "b c c";
+            grid-template-areas: "a c" "b c" "b c";
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
             padding: 10px;
+            flex-grow: 1;
+        }
+
+        @media (max-width: 650px) {
+            #content {
+                grid-template-areas: "a" "b" "c";
+                grid-template-columns: 1fr;
+            }
         }
 
         .content-card {
             border-radius: 20px;
             box-shadow: 0 0 10px #000000;
             padding: 20px;
+            background: #FFFFFF;
         }
 
         #request-details {
@@ -34,6 +49,79 @@
 
         #chat {
             grid-area: c;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #chat-message-list {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            flex-grow: 1;
+            gap: 10px;
+        }
+
+        .message {
+            display: flex;
+        }
+
+        .message-user-sent {
+            justify-content: end;
+        }
+
+        .message p {
+            margin: 0;
+        }
+
+        .message-bubble {
+            background-color: var(--light-gray-background);
+            border-radius: 20px;
+            border-bottom-left-radius: 0px;
+            padding: 10px;
+            padding-inline: 15px;
+            width: fit-content;
+        }
+
+        .message-user-sent .message-bubble {
+            border-radius: 20px;
+            border-bottom-right-radius: 0px;
+            background-color: var(--primary-soft);
+        }
+
+        .message-header {
+            display: flex;
+            gap: 7px;
+            user-select: none;
+            padding-left: 20px;
+        }
+        
+        .message-user-sent .message-header {
+            padding-left: 0;
+            padding-right: 20px;
+            justify-content: end;
+        }
+
+        .message-header :where(p) {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .message-time {
+            font-weight: 300;
+            color: var(--dark-gray-text);
+        }
+
+        .system-message {
+            display: flex;
+            justify-content: center;
+        }
+
+        .system-message-body {
+            color: var(--dark-gray-text);
+            font-size: 1rem;
+            margin: 0;
         }
     </style>
 </head>
@@ -50,37 +138,90 @@
         <div id="student-notes" class="content-card">
             <p class="no-margin">Notes:</p>
         </div>
-        <div id="chat" class="content-card"></div>
+        <div id="chat" class="content-card">
+            <div id="chat-message-list">
+
+            </div>
+            <div>
+                <!-- Send message -->
+            </div>
+        </div>
     </div>
     <template id="message-template">
         <div class="message">
-            
+            <div>
+                <div class="message-header">
+                    <p class="message-sender">SENDER</p>
+                    <p class="message-time">TIME</p>
+                </div>
+                <div>
+                    <div class="message-bubble">
+                        <p class="message-body">BODY</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="user-sent-message-template">
+        <div class="message message-user-sent">
+            <div>
+                <div class="message-header">
+                    <p class="message-time">TIME</p>
+                </div>
+                <div>
+                    <div class="message-bubble">
+                        <p class="message-body">BODY</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="system-message-template">
+        <div class="system-message">
+            <p class="system-message-body">BODY</p>
         </div>
     </template>
     <script src="scripts.js"></script>
     <script>
+        let systemMessageTemplate = document.getElementById("system-message-template");
+        let userSentMessageTemplate = document.getElementById("user-sent-message-template");
         let messageTemplate = document.getElementById("message-template");
         let chatMessageList = document.getElementById("chat-message-list");
 
         function fillInRequestInfo(requestInfo) {
-            let dateFormatter = Intl.DateTimeFormat({region:"en-us"},{dateStyle:"full"});
-            let timeFormatter = Intl.DateTimeFormat({region:"en-us"},{timeStyle:"short",hour12:false});
+            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, { dateStyle: "full" });
+            let timeFormatter = Intl.DateTimeFormat({ region: "en-us" }, { timeStyle: "short", hour12: false });
 
             document.getElementById("request-subject").textContent = requestInfo.subject;
             document.getElementById("request-time").textContent = `${dateFormatter.format(new Date(requestInfo.time.start))} from ${timeFormatter.format(new Date(requestInfo.time.start))} - ${timeFormatter.format(new Date(requestInfo.time.end))}`;
             document.getElementById("request-location").textContent = requestInfo.location;
             document.getElementById("request-student-name").textContent = requestInfo.studentName;
-            // sessions.forEach(session => {
-            //     /** @type {HTMLElement} */
-            //     let card = sessionCardTemplate.content.cloneNode(true);
-            //     card.querySelectorAll(".session-card-subject")[0].textContent = session.subject;
-            //     card.querySelectorAll(".session-card-details-button")[0].href = session.href;
-            //     card.querySelectorAll(".session-card-time")[0].textContent = session.time;
-            //     card.querySelectorAll(".session-card-location")[0].textContent = session.location;
-            //     card.querySelectorAll(".session-card-student-name")[0].textContent = session.name;
 
-            //     sessionCardList.appendChild(card);
-            // });
+            updateChatDisplay(requestInfo.chat);
+        }
+
+        function updateChatDisplay(chat) {
+            chat.forEach(messageData => {
+                if (messageData.sender == "SYSTEM") {
+                    /** @type {HTMLElement} */
+                    let message = systemMessageTemplate.content.cloneNode(true);
+                    message.querySelectorAll(".system-message-body")[0].textContent = messageData.body;
+                    chatMessageList.appendChild(message);
+                } else if (messageData.sender == "SELF") {
+                    /** @type {HTMLElement} */
+                    let message = userSentMessageTemplate.content.cloneNode(true);
+                    message.querySelectorAll(".message-body")[0].textContent = messageData.body;
+                    message.querySelectorAll(".message-time")[0].textContent = messageData.time;
+                    chatMessageList.appendChild(message);
+                } else {
+                    /** @type {HTMLElement} */
+                    let message = messageTemplate.content.cloneNode(true);
+                    message.querySelectorAll(".message-sender")[0].textContent = messageData.sender;
+                    message.querySelectorAll(".message-body")[0].textContent = messageData.body;
+                    message.querySelectorAll(".message-time")[0].textContent = messageData.time;
+                    chatMessageList.appendChild(message);
+                }
+            });
         }
 
         // #debug
@@ -92,7 +233,23 @@
                 end: 1740749400000
             },
             location: "Mr. Correa (A2.11)",
-            subject: "AP Seminar+"
+            subject: "AP Seminar+",
+            chat: [
+                {
+                    "sender": "SYSTEM",
+                    "body": "Hello! Message 1!"
+                },
+                {
+                    "sender": "Brody Smalley",
+                    "body": "Hello! Message 22!",
+                    "time": "Feb 28, 19:01"
+                },
+                {
+                    "sender": "SELF",
+                    "body": "Hello! Message 333!",
+                    "time": "Feb 28, 19:23"
+                }
+            ]
         });
         // #enddebug
 

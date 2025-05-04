@@ -314,6 +314,11 @@
                     document.getElementById("bad-email").classList.add("active");
                     return true;
                 }
+                if (err.errorCode == 409) {
+                    document.getElementById("already-has-account").classList.add("active");
+                    document.body.style.setProperty("overflow", "hidden");
+                    return true;
+                }
                 return false;
             });
             document.getElementById("loading-page").classList.add("active");
