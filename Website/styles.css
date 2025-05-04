@@ -27,7 +27,7 @@ body {
     padding: 0;
     height: 100%;
     min-height: 100vh;
-    background: #FFFFFF;
+    background: var(--background-color);
     font-family: Merriweather, 'Times New Roman', Times, serif;
     line-height: 1.6;
     color: #333333;
