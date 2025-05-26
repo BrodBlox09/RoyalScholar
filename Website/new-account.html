@@ -206,7 +206,7 @@
                     </div>
                     <div>
                         <p class="input-label required"><b>Full Name</b></p>
-                        <input id="full-name">
+                        <input id="full-name" maxlength="30">
                     </div>
                     <div>
                         <p class="input-label required"><b>Seminar Teacher</b></p>
@@ -308,6 +308,8 @@
                 let a = document.createElement("a");
                 a.href = "https://sites.google.com/student.dodea.edu/royalscholar/<?= redirectLocation ?>";
                 a.click();
+                // Let the user know this tab is good to close and the account has been created
+                document.getElementById("loading-page").innerHTML = "<h1>Your account has been created. You may close this tab.</h1>";
                 window.close();
             }, (err) => {
                 if (err.errorCode == 403) {

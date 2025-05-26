@@ -9,6 +9,9 @@
     <style>
         #session-card-list {
             padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         /* #region Session Card */
@@ -109,7 +112,15 @@
             });
         }
 
+        // #debug
         addSessionCards([
+            {
+                "subject": "Math",
+                "href": "http:www.youtube.com/watch?v=iadofnvo4",
+                "time": "Thursday, February 13, 2025 from 22:31 - 22:34",
+                "location": "B3",
+                "studentName": "Bto"
+            },
             {
                 "subject": "Math",
                 "href": "http:www.youtube.com/watch?v=iadofnvo4",
@@ -118,6 +129,7 @@
                 "studentName": "Bto"
             }
         ]);
+        // #enddebug
 
         // #debug
         /*
