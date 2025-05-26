@@ -1,4 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 :root {
     --accent-bright: #FF1E27;
@@ -44,8 +44,9 @@ h6 {
     font-family: "Playfair Display";
 }
 
-p, li, a {
-    font-size: 1.1rem;
+p, li, a, input, textarea {
+    font-size: 1rem;
+    font-family: Merriweather, 'Times New Roman', Times, serif;
 }
 
 .no-margin {
@@ -233,6 +234,10 @@ a.button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.center-text {
+    text-align: center;
 }
 
 .flex-dir-vert {

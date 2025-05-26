@@ -12,13 +12,10 @@
             flex-direction: column;
         }
 
-        #chat-message-list {
-            padding: 1rem;
-        }
-
         #content {
             display: grid;
-            grid-template-areas: "a c" "b c" "b c";
+            /* grid-template-areas: "a c" "b c" "b c"; */
+            grid-template-areas: "a c";
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             padding: 10px;
@@ -27,7 +24,8 @@
 
         @media (max-width: 650px) {
             #content {
-                grid-template-areas: "a" "b" "c";
+                /* grid-template-areas: "a" "b" "c"; */
+                grid-template-areas: "a" "c";
                 grid-template-columns: 1fr;
             }
         }
@@ -43,9 +41,9 @@
             grid-area: a;
         }
 
-        #student-notes {
+        /* #student-notes {
             grid-area: b;
-        }
+        } */
 
         #chat {
             grid-area: c;
@@ -60,11 +58,12 @@
             flex-direction: column;
             justify-content: end;
             flex-grow: 1;
-            gap: 10px;
+            /* gap: 10px; */
         }
 
         .message {
             display: flex;
+            margin-top: 10px;
         }
 
         .message-user-sent {
@@ -96,6 +95,10 @@
             user-select: none;
             padding-left: 20px;
         }
+
+        .message-bubble p {
+            overflow-wrap: anywhere;
+        }
         
         .message-user-sent .message-header {
             padding-left: 0;
@@ -103,8 +106,12 @@
             justify-content: end;
         }
 
+        .message-user-sent .message-bubble-parent {
+            display: flex;
+            justify-content: end;
+        }
+
         .message-header :where(p) {
-            font-family: Arial, Helvetica, sans-serif;
             font-size: 0.8rem;
             font-weight: 700;
         }
@@ -112,6 +119,22 @@
         .message-time {
             font-weight: 300;
             color: var(--dark-gray-text);
+        }
+
+        .message-group.message {
+            margin-top: 2px;
+        }
+
+        .message-group .message-header {
+            display: none;
+        }
+
+        .message-group:not(.message-user-sent) .message-bubble {
+            border-top-left-radius: 0px;
+        }
+
+        .message-group.message-user-sent .message-bubble {
+            border-top-right-radius: 0px;
         }
 
         .system-message {
@@ -124,6 +147,11 @@
             font-size: 1rem;
             margin: 0;
         }
+
+        .system-message.chat-date-display .system-message-body {
+            font-weight: 300;
+            font-size: 0.75rem;
+        }
         /* #endregion */
 
         /* #region Send Message */
@@ -133,13 +161,27 @@
         }
 
         #send-message-text {
-            border: 1px solid var(--light-gray-background);
+            border: 1px solid var(--offwhite-dark);
             padding: 10px;
+            padding-left: 15px;
             flex-grow: 1;
-            font-size: 1.1rem;
-            font-family: var(--body-font);
             border-radius: 20px;
             outline: none;
+            resize: none;
+            display: block;
+            box-sizing: border-box;
+            max-height: 5rem;
+            transition: border 0.2s;
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        #send-message-text:disabled {
+            border-color: var(--offwhite);
+        }
+
+        #send-message-text::-webkit-scrollbar { 
+            display: none;  /* Safari and Chrome */
         }
 
         #send-message-button {
@@ -168,23 +210,27 @@
     <div id="topnav"></div>
     <div id="content">
         <div id="request-details" class="content-card">
+            <h2 class="no-margin center-text">Session Details</h2>
             <p class="no-margin">Subject: <span id="request-subject"></span></p>
             <p>Time: <span id="request-time"></span></p>
             <p>Location: <span id="request-location"></span></p>
             <p class="no-margin">Student Name: <span id="request-student-name"></span></p>
         </div>
-        <div id="student-notes" class="content-card">
-            <p class="no-margin">Notes:</p>
-        </div>
+        <!-- <div id="student-notes" class="content-card">
+            <h2 class="no-margin center-text">Notes</h2>
+        </div> -->
         <div id="chat" class="content-card">
+            <h2 class="no-margin center-text">Chat</h2>
             <div id="chat-message-list">
 
             </div>
             <div id="send-message-row">
-                <input id="send-message-text">
-                <button id="send-message-button">
-                    <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><g><path d="m3.45559904 3.48107721 3.26013002 7.74280879c.20897233.4963093.20897233 1.0559187 0 1.552228l-3.26013002 7.7428088 18.83130296-8.5189228zm-.74951511-1.43663117 20.99999997 9.49999996c.3918881.1772827.3918881.7338253 0 .911108l-20.99999997 9.5c-.41424571.1873968-.8433362-.2305504-.66690162-.6495825l3.75491137-8.9179145c.10448617-.2481546.10448617-.5279594 0-.776114l-3.75491137-8.9179145c-.17643458-.41903214.25265591-.83697933.66690162-.64958246z"/><path d="m6 12.5v-1h16.5v1z"/></g></svg>
-                </button>
+                <textarea id="send-message-text" rows="1" placeholder="Message chat" wrap="soft"></textarea>
+                <div class="vert-centered">
+                    <button id="send-message-button" disabled="true">
+                        <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><g><path d="m3.45559904 3.48107721 3.26013002 7.74280879c.20897233.4963093.20897233 1.0559187 0 1.552228l-3.26013002 7.7428088 18.83130296-8.5189228zm-.74951511-1.43663117 20.99999997 9.49999996c.3918881.1772827.3918881.7338253 0 .911108l-20.99999997 9.5c-.41424571.1873968-.8433362-.2305504-.66690162-.6495825l3.75491137-8.9179145c.10448617-.2481546.10448617-.5279594 0-.776114l-3.75491137-8.9179145c-.17643458-.41903214.25265591-.83697933.66690162-.64958246z"/><path d="m6 12.5v-1h16.5v1z"/></g></svg>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -195,7 +241,7 @@
                     <p class="message-sender">SENDER</p>
                     <p class="message-time">TIME</p>
                 </div>
-                <div>
+                <div class="message-bubble-parent">
                     <div class="message-bubble">
                         <p class="message-body">BODY</p>
                     </div>
@@ -209,7 +255,7 @@
                 <div class="message-header">
                     <p class="message-time">TIME</p>
                 </div>
-                <div>
+                <div class="message-bubble-parent">
                     <div class="message-bubble">
                         <p class="message-body">BODY</p>
                     </div>
@@ -224,44 +270,132 @@
     </template>
     <script src="scripts.js"></script>
     <script>
+        const CHAT_GROUP_MAXIMUM_TIME = 300000; // 5 minutes
+        // #debug
+        const SID = 0;
+        // #enddebug
+        // #debug
+        /*
+        // #enddebug
+        const SID = <?!= sid ?>;
+        // #debug
+        */
+        // #enddebug
         let systemMessageTemplate = document.getElementById("system-message-template");
         let userSentMessageTemplate = document.getElementById("user-sent-message-template");
         let messageTemplate = document.getElementById("message-template");
         let chatMessageList = document.getElementById("chat-message-list");
+        let sendMessageTextArea = document.getElementById("send-message-text");
+        let sendMessageButton = document.getElementById("send-message-button");
+        let chatMessages = [];
 
-        function fillInRequestInfo(requestInfo) {
-            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, { dateStyle: "full" });
+        sendMessageButton.addEventListener("click", sendMessage);
+        sendMessageTextArea.addEventListener("input", updateSendMessageRowStyles);
+        sendMessageTextArea.addEventListener("keydown", sendMessageTextAreaKeyPressed);
+        updateSendMessageRowStyles();
+
+        function sendMessage() {
+            let messageText = sendMessageTextArea.value;
+            if (messageText == "") return;
+            sendMessageTextArea.value = "";
+            sendMessageTextArea.disabled = true;
+            sendMessageTextArea.placeholder = "Sending message...";
+            updateSendMessageRowStyles();
+            let message = {
+                "sender": "SELF",
+                "body": messageText,
+                "time": Date.now()
+            };
+            chatMessages.push(message);
+            updateChatDisplay();
+            sendAPIReq({
+                reqType: "sendTutorASessionDetailsPageMessage",
+                sid: SID,
+                message: message
+            }, (res) => {
+                sendMessageTextArea.disabled = false;
+                sendMessageTextArea.placeholder = "Message chat";
+                chatMessages = res.chatMessages;
+                updateChatDisplay();
+            });
+        }
+
+        function sendMessageTextAreaKeyPressed(e) {
+            if (e.shiftKey || e.key != "Enter") return;
+            sendMessage();
+            e.preventDefault();
+        }
+
+        function updateSendMessageRowStyles() {
+            sendMessageButton.disabled = sendMessageTextArea.value == "";
+            sendMessageTextArea.style.height = "auto";
+            sendMessageTextArea.style.height = (sendMessageTextArea.scrollHeight + 2) + "px";
+        }
+
+        function formatDate(time, formatShort) {
+            let options = { dateStyle: "full" };
+            if (formatShort) options.dateStyle = "medium";
+            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
+
+            return dateFormatter.format(new Date(time));
+        }
+
+        function formatTime(time) {
             let timeFormatter = Intl.DateTimeFormat({ region: "en-us" }, { timeStyle: "short", hour12: false });
 
+            return timeFormatter.format(new Date(time));
+        }
+
+        function fillInRequestInfo(requestInfo) {
             document.getElementById("request-subject").textContent = requestInfo.subject;
-            document.getElementById("request-time").textContent = `${dateFormatter.format(new Date(requestInfo.time.start))} from ${timeFormatter.format(new Date(requestInfo.time.start))} - ${timeFormatter.format(new Date(requestInfo.time.end))}`;
+            document.getElementById("request-time").textContent = `${formatDate(requestInfo.time.start)} from ${formatTime(requestInfo.time.start)} - ${formatTime(requestInfo.time.end)}`;
             document.getElementById("request-location").textContent = requestInfo.location;
             document.getElementById("request-student-name").textContent = requestInfo.studentName;
 
-            updateChatDisplay(requestInfo.chat);
+            chatMessages = requestInfo.chat;
+            updateChatDisplay();
         }
 
-        function updateChatDisplay(chat) {
-            chat.forEach(messageData => {
+        function updateChatDisplay() {
+            chatMessageList.innerHTML = "";
+            let lastMessageDisplayed = null;
+            chatMessages.forEach(messageData => {
+                if (!lastMessageDisplayed || formatDate(lastMessageDisplayed.time) != formatDate(messageData.time)) {
+                    /** @type {DocumentFragment} */
+                    let message = systemMessageTemplate.content.cloneNode(true);
+                    message.querySelectorAll(".system-message-body")[0].textContent = formatDate(messageData.time, true);
+                    message.querySelectorAll("div.system-message")[0].classList.add("chat-date-display");
+                    chatMessageList.appendChild(message);
+                }
                 if (messageData.sender == "SYSTEM") {
-                    /** @type {HTMLElement} */
+                    /** @type {DocumentFragment} */
                     let message = systemMessageTemplate.content.cloneNode(true);
                     message.querySelectorAll(".system-message-body")[0].textContent = messageData.body;
                     chatMessageList.appendChild(message);
                 } else if (messageData.sender == "SELF") {
-                    /** @type {HTMLElement} */
+                    /** @type {DocumentFragment} */
                     let message = userSentMessageTemplate.content.cloneNode(true);
                     message.querySelectorAll(".message-body")[0].textContent = messageData.body;
-                    message.querySelectorAll(".message-time")[0].textContent = messageData.time;
+                    message.querySelectorAll(".message-time")[0].textContent = formatTime(messageData.time);
+                    if (lastMessageDisplayed
+                        && lastMessageDisplayed.sender == "SELF"
+                        && messageData.time - lastMessageDisplayed.time <= CHAT_GROUP_MAXIMUM_TIME) message.querySelectorAll("div.message")[0].classList.add("message-group");
+                    chatMessageList.appendChild(message);
+                } else if (messageData.sender == "OTHER_USER") {
+                    /** @type {DocumentFragment} */
+                    let message = messageTemplate.content.cloneNode(true);
+                    message.querySelectorAll(".message-sender")[0].textContent = messageData.authorName;
+                    message.querySelectorAll(".message-body")[0].textContent = messageData.body;
+                    message.querySelectorAll(".message-time")[0].textContent = formatTime(messageData.time);
+                    if (lastMessageDisplayed
+                        && lastMessageDisplayed.authorName == messageData.authorName
+                        && messageData.time - lastMessageDisplayed.time <= CHAT_GROUP_MAXIMUM_TIME) message.querySelectorAll("div.message")[0].classList.add("message-group");
                     chatMessageList.appendChild(message);
                 } else {
-                    /** @type {HTMLElement} */
-                    let message = messageTemplate.content.cloneNode(true);
-                    message.querySelectorAll(".message-sender")[0].textContent = messageData.sender;
-                    message.querySelectorAll(".message-body")[0].textContent = messageData.body;
-                    message.querySelectorAll(".message-time")[0].textContent = messageData.time;
-                    chatMessageList.appendChild(message);
+                    console.error("Unexpected error: malformed message data.");
+                    console.error(messageData);
                 }
+                lastMessageDisplayed = messageData;
             });
         }
 
@@ -278,17 +412,19 @@
             chat: [
                 {
                     "sender": "SYSTEM",
-                    "body": "Hello! Message 1!"
+                    "body": "Hello! Message 1!",
+                    "time": 1740749300000
                 },
                 {
-                    "sender": "Brody Smalley",
+                    "sender": "OTHER_USER",
+                    "authorName": "Somebody",
                     "body": "Hello! Message 22!",
-                    "time": "Feb 28, 19:01"
+                    "time": 1740749400000
                 },
                 {
                     "sender": "SELF",
                     "body": "Hello! Message 333!",
-                    "time": "Feb 28, 19:23"
+                    "time": 1740750400000
                 }
             ]
         });
