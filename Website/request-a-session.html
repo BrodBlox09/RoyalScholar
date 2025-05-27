@@ -667,13 +667,14 @@
         function isTimeAndPlacePageFilled() {
             if (selectedTime == null) return false;
             if (selectedLocation == null) return false;
-            if (timeInput.value == -1) {
+            if (timeInput.value == -1) { // Custom time
                 try {
                     let timeInputs = [displayTimeInput_date, displayTimeInput_start, displayTimeInput_end].map(x => x.children.item(0));
                     let allCustomsFilledIn = !timeInputs.some(element => element.value == "");
                     if (allCustomsFilledIn == false) return false;
-                    if (Date.parse(selectedTime.timeStart) >= Date.parse(selectedTime.timeEnd)) return false;
-                    if (Date.parse(selectedTime.timeStart) <= Date.now()) return false;
+                    if (Number.isNaN(Date.parse(selectedTime.timeStart)) || Number.isNaN(Date.parse(selectedTime.timeEnd))) return false; // Ensure both the start and end times are valid
+                    if (Date.parse(selectedTime.timeStart) >= Date.parse(selectedTime.timeEnd)) return false; // Ensure the start time is before the end time
+                    if (Date.parse(selectedTime.timeStart) <= Date.now()) return false; // Ensure the date is not before the moment the session is being scheduled
                 } catch {
                     return false;
                 }
