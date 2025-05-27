@@ -1,0 +1,8 @@
+https://www.qr-code-generator.com/
+
+Method:
+Input URL into qr code generator
+Inspect and copy svg
+Convert svg to png with dimensions 2048x2048 using https://cloudconvert.com/svg-to-png
+Replace Adobe qr code with new
+Save as png
