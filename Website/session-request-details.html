@@ -101,7 +101,7 @@
         .message-bubble {
             background-color: var(--light-gray-background);
             border-radius: 20px;
-            border-bottom-left-radius: 0px;
+            border-bottom-left-radius: 3px;
             padding: 10px;
             padding-inline: 15px;
             width: fit-content;
@@ -109,7 +109,7 @@
 
         .message-user-sent .message-bubble {
             border-radius: 20px;
-            border-bottom-right-radius: 0px;
+            border-bottom-right-radius: 3px;
             background-color: var(--primary-soft);
         }
 
@@ -154,11 +154,11 @@
         }
 
         .message-group:not(.message-user-sent) .message-bubble {
-            border-top-left-radius: 0px;
+            border-top-left-radius: 3px;
         }
 
         .message-group.message-user-sent .message-bubble {
-            border-top-right-radius: 0px;
+            border-top-right-radius: 3px;
         }
 
         .system-message {
@@ -360,7 +360,10 @@
         }
 
         function sendMessageTextAreaKeyPressed(e) {
-            if (e.shiftKey || e.key != "Enter") return;
+            if (e.shiftKey && e.key == "Enter") {
+                e.preventDefault();
+                return;
+            } else if (e.key != "Enter") return;
             sendMessage();
             e.preventDefault();
         }
@@ -464,6 +467,16 @@
                     "sender": "SELF",
                     "body": "Hello! Message 333!",
                     "time": 1740750400000
+                },
+                {
+                    "sender": "SELF",
+                    "body": "Hello! Message 333!",
+                    "time": 1740750409000
+                },
+                {
+                    "sender": "SELF",
+                    "body": "Hello! Message 333!",
+                    "time": 1740750415000
                 }
             ]
         });
