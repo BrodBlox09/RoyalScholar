@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #tos-title {
+            margin-bottom: 0;
+        }
+
+        #tos-update-date {
+            font-style: italic;
+            font-size: 1.1em;
+            margin-top: 0;
+        }
+
+        :not(ol)>ol {
+            counter-reset: item;
+            list-style-type: none;
+        }
+
+        :not(ol)>ol>li:before {
+            content: counter(item, decimal) '. ';
+            counter-increment: item;
+        }
+
+        ol>ol {
+            counter-reset: subitem;
+            list-style-type: none;
+        }
+
+        ol>ol>div>li {
+            display: inline;
+        }
+
+        ol>ol>div>li:before {
+            content: counter(item, decimal) '.' counter(subitem, decimal) '. ';
+            counter-increment: subitem;
+        }
+
+        ol>ol>div>li:after {
+            content: '.';
+        }
+
+        :not(ol)>ol>li {
+            font-family: "Playfair Display";
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        ol>ol>div>li {
+            font-family: "Playfair Display";
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        ol>ol>div>p {
+            display: inline;
+            font-size: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="topnav"></div>
+    <div class="section-primary-bg">
+        <h1 class="section-title-left" id="tos-title">Terms of Service</h1>
+        <h2 id="tos-update-date">Last updated: May 28, 2025</h2>
+
+        <p>
+            These Terms of Service ("Terms") govern your access to and use of the RoyalScholar tutoring web application
+            and
+            related services (collectively, the "Service"), operated by the National Honor Society at Ramstein High
+            School
+            ("RoyalScholar," "we," "us," or "our"). By accessing or using the Service, you ("you" or "User") agree to be
+            bound by these Terms.
+        </p>
+
+        <ol>
+            <li>Eligibility & Account Creation</li>
+            <ol>
+                <div>
+                    <li>Eligibility</li>
+                    <p>The Service is available exclusively to active DoDEA students with a valid @student.dodea.edu
+                        email address. Faculty members of Ramstein High School may request sessions on behalf of
+                        students as described
+                        in Section 6.</p>
+                </div>
+                <div>
+                    <li>Automatic Account Creation</li>
+                    <p>Upon your first login with a verified DoDEA account, an account will be created.
+                        We collect and store only your name, school email address, and basic profile data
+                        in a DoDEA-controlled Google Spreadsheet. You must maintain access to your DoDEA account; loss
+                        of access may
+                        result in termination of your RoyalScholar account.</p>
+                </div>
+            </ol>
+
+            <li>Access Restrictions</li>
+            <ol>
+                <div>
+                    <li>Allowed Demographic</li>
+                    <p>Only verified DoDEA student accounts can access the Service. Non-DoDEA Google accounts will be
+                        rejected during authentication.</p>
+                </div>
+                <div>
+                    <li>Sharing Account Credentials</li>
+                    <p>You agree not to share your login credentials or to facilitate unauthorized access. Any breach
+                        may result in immediate suspension or termination.</p>
+                </div>
+            </ol>
+
+            <li>Session Sign-Up & Tutor Requests</li>
+            <ol>
+                <div>
+                    <li>Student Sign-Up</li>
+                    <p>Students may browse available time slots and subjects and sign up for sessions via our User
+                        Interface.</p>
+                </div>
+                <div>
+                    <li>Tutor Session Requests</li>
+                    <p>Verified peer tutors may view and accept student requests. By accepting a request, the tutor
+                        commits to providing a scheduled academic support session during the designated times requested
+                        by the student, unless otherwise negotiated prior by all participating parties.</p>
+                </div>
+                <div>
+                    <li>Teacher-Requested Sessions</li>
+                    <p>Ramstein High School teachers may request sessions for students. Such requests will trigger
+                        notifications to either the student or the NHS administrator, who may confirm or deny the
+                        session.</p>
+                </div>
+            </ol>
+
+            <li>Feedback & Reflection</li>
+            <ol>
+                <div>
+                    <li>Student Feedback</li>
+                    <p>After each session, students are asked to rate their experience on a 1-5 star scale via a Google
+                        Form.</p>
+                </div>
+                <div>
+                    <li>Tutor Reflection</li>
+                    <p>Tutors must complete a reflection form and may add notes to the student's profile. Completion of
+                        the tutor reflection form is required to receive session credit.</p>
+                </div>
+                <div>
+                    <li>Use of Feedback</li>
+                    <p>All feedback and reflection data will be aggregated unless otherwise noted, e.g. testimonials
+                        retain Personally Identifiable Information ("PII"), and used for program analysis and continuous
+                        improvement but will remain confidential within the NHS administrative team.</p>
+                </div>
+            </ol>
+
+            <li>Notification Preferences</li>
+            <ol>
+                <div>
+                    <li>Notification Filtering</li>
+                    <p>Tutors may choose between:</p>
+                    <ul>
+                        <li>Instant email notifications for every new request.</li>
+                        <li>Subject-specific notifications for selected subjects only.</li>
+                    </ul>
+                </div>
+                <div>
+                    <li>Preference Modification</li>
+                    <p>Preferences can be modified at any time via the <a href="account-dashboard.html"
+                            class="text-link">Account Dashboard</a>.</p>
+                </div>
+            </ol>
+
+            <li>Statistical Reporting</li>
+            <ol>
+                <div>
+                    <li>Report Generation</li>
+                    <p>We will generate automated reports on metrics such as session frequency, average tutor ratings,
+                        cancellation rates, and overall utilization.</p>
+                </div>
+                <div>
+                    <li>PII</li>
+                    <p>Reports are for internal NHS administrator use to inform program enhancements and will not
+                        include PII beyond aggregated statistics.</p>
+                </div>
+            </ol>
+
+            <li>Privacy & Data Security</li>
+            <ol>
+                <div>
+                    <li>Data Storage</li>
+                    <p>User data is stored in DoDEA-managed databases. Access is restricted to NHS administrators and
+                        authorized personnel only.</p>
+                </div>
+                <div>
+                    <li>Data Use</li>
+                    <p>We use your data solely for the administration and improvement of the tutoring program. We do not
+                        share personal data with third parties for advertising or otherwise.</p>
+                </div>
+                <div>
+                    <li>Retention</li>
+                    <p>Personal user data is retained for the duration of your enrollment at Ramstein High School, plus
+                        one academic year thereafter, unless otherwise required by DoDEA policy.</p>
+                </div>
+            </ol>
+
+            <li>Code of Conduct</li>
+            <ol>
+                <div>
+                    <li>Respect & Safety</li>
+                    <p>Users must conduct themselves respectfully. Harassment, discrimination, or any form of misconduct
+                        will result in immediate suspension.</p>
+                </div>
+                <div>
+                    <li>Academic Integrity</li>
+                    <p>Tutors and students must uphold the highest standards of academic honesty. All work performed
+                        during sessions is intended to guide, not to complete assignments on behalf of the student.</p>
+                </div>
+            </ol>
+
+            <li>Intellectual Property</li>
+            <ol>
+                <div>
+                    <li>Ownership</li>
+                    <p>All content, logos, and materials provided through the Service are the property of Ramstein High
+                        School NHS or its licensors. You may not reproduce, distribute, or create derivative works
+                        without prior written consent.</p>
+                </div>
+            </ol>
+
+            <li>Disclaimer & Limitation of Liability</li>
+            <ol>
+                <div>
+                    <li>No Guarantee of Outcomes</li>
+                    <p>While we strive to provide high-quality tutoring, we make no guarantees regarding specific
+                        academic results.</p>
+                </div>
+                <div>
+                    <li>Limitation of Liability</li>
+                    <p>To the fullest extent permitted by law, RoyalScholar, its officers, and NHS administrators shall
+                        not be liable for any indirect, incidental, or consequential damages arising out of your use of
+                        the Service.</p>
+                </div>
+            </ol>
+
+            <li>Termination</li>
+            <ol>
+                <div>
+                    <li>By You</li>
+                    <p>You may discontinue use of the Service at any time by ceasing to log in.</p>
+                </div>
+                <div>
+                    <li>By Us</li>
+                    <p>We reserve the right to suspend or terminate your account for violation of these Terms or DoDEA
+                        policies, with or without notice.</p>
+                </div>
+            </ol>
+
+            <li>Changes to These Terms</li>
+            <ol>
+                <div>
+                    <p>We may update these Terms at any time. If we make material changes, we will post the revised
+                        Terms with an updated "Last updated" date. Continued use of the Service after such posting
+                        constitutes acceptance of the new Terms.</p>
+                </div>
+            </ol>
+
+            <li>Governing Law & Contact</li>
+            <ol>
+                <div>
+                    <p>These Terms are governed by the laws of the Federal Republic of Germany, applicable to agreements
+                        made and wholly performed therein. For questions or concerns about these Terms, please contact
+                        the RoyalScholar NHS Administrator at <a href="mailto:royalscholar@dodea.edu" class="text-link">royalscholar@dodea.edu</a>.</p>
+                </div>
+            </ol>
+        </ol>
+        <p>By using RoyalScholar, you acknowledge that you have read, understood, and agree to abide by these Terms of Service.</p>
+    </div>
+    <script src="scripts.js"></script>
+    <script>
+
+    </script>
+</body>
+
+</html>
