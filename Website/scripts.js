@@ -58,6 +58,8 @@ const API = "https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPa
 const APIKey = "9ayWk9voW6WIWiNwpVK4l7AeN3EEBnYHzZk1XIkDDfYXcA8K3Gioxk2sSgplxR4HpOxzosgKmBDewIwAWAKgbYE4kkPyp80WG5kAbFN28rUMi3cGQqGlsD5qorSry15W";
 
 function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}) {
+    console.info("Sending API request with the following data:");
+    console.log(data);
     data.key = APIKey;
     fetch(API, {
         redirect: "follow",
