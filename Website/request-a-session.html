@@ -402,7 +402,7 @@
                     <div class="box-page">
                         <div>
                             <h2 class="page-title">Any specifics?</h2>
-                            <p>Feel free to add many details. The more we know, the better we can help.</p>
+                            <p>Feel free to add many details. The more we know beforehand, the better we can help. If you have any special requests, you can put them here.</p>
                         </div>
                         <div class="flex-grow">
                             <textarea id="details-input" placeholder="Details..."></textarea>
@@ -528,7 +528,7 @@
     </div>
     <div class="modal-bg" id="no-account">
         <div class="modal">
-            <h2 style="margin-bottom: 5px; margin-top: -10px;">Uh ohm it looks like you don't have an account yet!</h2>
+            <h2 style="margin-bottom: 5px; margin-top: -10px;">Uh oh, it looks like you don't have an account yet!</h2>
             <p>To access this feature, you need to create a RoyalScholar account. Don't worry—it's quick and easy!</p>
             <a href="new-account.html" title="Click here to join the RoyalScholar community!" class="button"
                 style="font-size: 1.5rem; font-weight: 600; text-align: center;">Create&nbsp;my&nbsp;Account</a>
@@ -548,7 +548,6 @@
         const numberOfInputPages = 4;
         const pageSlider = document.getElementById("box-page-slider");
         const progressBar = document.getElementById("progress-bar");
-        setPage(4);
 
         function setPage(pageNumber) {
             progressBar.style.setProperty("width", `${(pageNumber - 1) / numberOfInputPages * 100}%`);
