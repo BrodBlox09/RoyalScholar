@@ -113,6 +113,13 @@
             background-color: var(--primary-soft);
         }
 
+        .message-user-sent .message-bubble:hover {
+            background-color: var(--primary-soft-dark);
+        }
+        .message-bubble:hover {
+            background-color: var(--light-gray-background-dark);
+        }
+
         .message-header {
             display: flex;
             gap: 7px;
@@ -239,7 +246,6 @@
                 <div style="flex-grow: 1;">
                     <p class="no-margin">Subject: <span id="request-subject"></span></p>
                     <p>Time: <span id="request-time"></span></p>
-                    <p>Location: <span id="request-location"></span></p>
                     <p class="no-margin">Student Name: <span id="request-student-name"></span></p>
                 </div>
                 <div style="min-width: 200px;">
@@ -391,7 +397,6 @@
         function fillInRequestInfo(requestInfo) {
             document.getElementById("request-subject").textContent = requestInfo.subject;
             document.getElementById("request-time").textContent = `${formatDate(requestInfo.time.start)} from ${formatTime(requestInfo.time.start)} - ${formatTime(requestInfo.time.end)}`;
-            document.getElementById("request-location").textContent = requestInfo.location;
             document.getElementById("request-student-name").textContent = requestInfo.studentName;
 
             chatMessages = requestInfo.chat;
@@ -449,7 +454,6 @@
                 start: 1740744900000,
                 end: 1740749400000
             },
-            location: "Mr. Correa (A2.11)",
             subject: "AP Seminar+",
             chat: [
                 {

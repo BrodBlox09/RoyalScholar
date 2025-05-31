@@ -446,21 +446,16 @@
                             <p>
                                 I want to have the session on
                                 <select class="dropdown-field" id="time-input"></select>
-                                at
-                                <select class="dropdown-field" id="location-input">
-                                    <option>Select a place</option>
-                                    <option>the B3 neighborhood</option>
-                                    <option>my seminar (I have approval)</option>
-                                </select>.
+                                in the B3 neighborhood.
                             </p>
                             <div id="time-display-prefilled" class="active">
-                                <p>Date: <span id="time-input-displayDate"></span></p>
-                                <p>Starting Time: <span id="time-input-displayStart"></span></p>
-                                <p>Ending Time: <span id="time-input-displayEnd"></span></p>
+                                <p><b>Date:</b><span id="time-input-displayDate"></span></p>
+                                <p><b>Starting Time:</b><span id="time-input-displayStart"></span></p>
+                                <p><b>Ending Time:</b><span id="time-input-displayEnd"></span></p>
                             </div>
                             <div id="time-display-custom" class="flex-vert" style="gap: 10px;">
                                 <div class="center-vert">
-                                    <p class="no-margin">Date:</p>
+                                    <p class="no-margin"><b>Date:</b></p>
                                     <input class="custom-time-input" type="date" id="time-input-customDate">
                                     <p class="time-input-error" id="time-input-error-dateinvalid">
                                         <svg class="error-icon" height="1em" viewBox="0 0 80 70" fill="none" xmlns="http://www.w3.org/2000/svg"> <g clip-path="url(#clip0_6_8)"> <path d="M38.0518 3.875C38.9178 2.37518 41.0822 2.37518 41.9482 3.875L76.5898 63.875C77.4557 65.375 76.3726 67.25 74.6406 67.25H5.35938C3.68142 67.25 2.61269 65.4903 3.33496 64.0166L3.41016 63.875L38.0518 3.875Z" stroke="#FE3232" stroke-width="5.5" /> <path d="M41.0625 49H38.9375C38.9375 44.3333 38.25 39.5417 36.875 34.625C35.875 31.125 35.375 28.7083 35.375 27.375C35.5417 24.625 37.1042 23.125 40.0625 22.875C43.0208 22.9167 44.5417 24.3958 44.625 27.3125C44.625 28.6875 44.1875 30.875 43.3125 33.875C41.8125 39.2083 41.0625 44.25 41.0625 49ZM44.5 56.9375C44.5 57.6875 44.3333 58.3958 44 59.0625C43.1667 60.5625 41.8542 61.3125 40.0625 61.3125C39.3542 61.3125 38.6875 61.1458 38.0625 60.8125C36.4792 60.0208 35.6875 58.7292 35.6875 56.9375C35.6875 56.2292 35.8542 55.5417 36.1875 54.875C37.0208 53.2917 38.3125 52.5 40.0625 52.5C40.7708 52.5 41.4583 52.6667 42.125 53C43.7083 53.875 44.5 55.1875 44.5 56.9375Z" fill="#FE3232" /> </g> <defs> <clipPath id="clip0_6_8"> <rect width="80" height="70" fill="white" /> </clipPath> </defs> </svg>
@@ -472,7 +467,7 @@
                                     </p>
                                 </div>
                                 <div class="center-vert">
-                                    <p class="no-margin">Starting Time:</p>
+                                    <p class="no-margin"><b>Starting Time:</b></p>
                                     <input class="custom-time-input" type="time" id="time-input-customStart">
                                     <p class="time-input-error" id="time-input-error-startendmismatch">
                                         <svg class="error-icon" height="1em" viewBox="0 0 80 70" fill="none" xmlns="http://www.w3.org/2000/svg"> <g clip-path="url(#clip0_6_8)"> <path d="M38.0518 3.875C38.9178 2.37518 41.0822 2.37518 41.9482 3.875L76.5898 63.875C77.4557 65.375 76.3726 67.25 74.6406 67.25H5.35938C3.68142 67.25 2.61269 65.4903 3.33496 64.0166L3.41016 63.875L38.0518 3.875Z" stroke="#FE3232" stroke-width="5.5" /> <path d="M41.0625 49H38.9375C38.9375 44.3333 38.25 39.5417 36.875 34.625C35.875 31.125 35.375 28.7083 35.375 27.375C35.5417 24.625 37.1042 23.125 40.0625 22.875C43.0208 22.9167 44.5417 24.3958 44.625 27.3125C44.625 28.6875 44.1875 30.875 43.3125 33.875C41.8125 39.2083 41.0625 44.25 41.0625 49ZM44.5 56.9375C44.5 57.6875 44.3333 58.3958 44 59.0625C43.1667 60.5625 41.8542 61.3125 40.0625 61.3125C39.3542 61.3125 38.6875 61.1458 38.0625 60.8125C36.4792 60.0208 35.6875 58.7292 35.6875 56.9375C35.6875 56.2292 35.8542 55.5417 36.1875 54.875C37.0208 53.2917 38.3125 52.5 40.0625 52.5C40.7708 52.5 41.4583 52.6667 42.125 53C43.7083 53.875 44.5 55.1875 44.5 56.9375Z" fill="#FE3232" /> </g> <defs> <clipPath id="clip0_6_8"> <rect width="80" height="70" fill="white" /> </clipPath> </defs> </svg>
@@ -480,7 +475,7 @@
                                     </p>
                                 </div>
                                 <div class="center-vert">
-                                    <p class="no-margin">Ending Time:</p>
+                                    <p class="no-margin"><b>Ending Time:</b></p>
                                     <input class="custom-time-input" type="time" id="time-input-customEnd">
                                 </div>
                             </div>
@@ -533,7 +528,7 @@
     </div>
     <div class="modal-bg" id="no-account">
         <div class="modal">
-            <h2 style="margin-bottom: 5px; margin-top: -10px;">Uh oh! It looks like you don't have an account yet!</h2>
+            <h2 style="margin-bottom: 5px; margin-top: -10px;">Uh ohm it looks like you don't have an account yet!</h2>
             <p>To access this feature, you need to create a RoyalScholar account. Don't worry—it's quick and easy!</p>
             <a href="new-account.html" title="Click here to join the RoyalScholar community!" class="button"
                 style="font-size: 1.5rem; font-weight: 600; text-align: center;">Create&nbsp;my&nbsp;Account</a>
@@ -548,12 +543,12 @@
         let classesToView = [];
         let selectedClass = null;
         let selectedTime = null;
-        let selectedLocation = null;
         let ptd = null;
         let currentPage = 1;
         const numberOfInputPages = 4;
         const pageSlider = document.getElementById("box-page-slider");
         const progressBar = document.getElementById("progress-bar");
+        setPage(4);
 
         function setPage(pageNumber) {
             progressBar.style.setProperty("width", `${(pageNumber - 1) / numberOfInputPages * 100}%`);
@@ -650,12 +645,6 @@
             else setSelectedTime(validSessionTimes[sessionIndex]);
             verifyTimePlacePage();
         });
-        const locationInput = document.getElementById("location-input");
-        locationInput.addEventListener("input", () => {
-            selectedLocation = locationInput.value == "Select a place" ? null : locationInput.value;
-            verifyTimePlacePage();
-        });
-        locationInput.value = "Select a place";
         const timePageNextButton = document.getElementById("timePageNextButton");
         const displayTimeInput_date = document.getElementById("time-input-displayDate");
         const displayTimeInput_start = document.getElementById("time-input-displayStart");
@@ -736,7 +725,6 @@
         function isTimeAndPlacePageFilled() {
             if (timeInput.value == -1) updateCustomTimeInputErrorDisplays(); // If custom inputs, update errors
             if (selectedTime == null) return false;
-            if (selectedLocation == null) return false;
             if (timeInput.value == -1) { // Custom time
                 try {
                     let allCustomsFilledIn = !customTimeInputs.some(element => element.value == "");
@@ -781,7 +769,6 @@
                     sessionName: selectedTime.name,
                     timeStart: selectedTime.timeStart,
                     timeEnd: selectedTime.timeEnd,
-                    location: selectedLocation,
                     preferredTutor: document.getElementById("ptoci").checked ? ptd.e : undefined
                 }
             }, (res) => {

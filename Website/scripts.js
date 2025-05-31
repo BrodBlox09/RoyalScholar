@@ -3,8 +3,8 @@ const testing = false;
 // #debug
 /*
 // #enddebug
-let userIsTutor = <?!= userIsTutor ?>;
-if (userIsTutor) Array.from(document.getElementsByClassName("tutor-vis-only")).forEach(x => x.classList.add("show-tutor-vis"));
+let userAccess = <?!= userAccess ?>;
+if (userAccess >= 100) Array.from(document.getElementsByClassName("tutor-vis-only")).forEach(x => x.classList.add("show-tutor-vis"));
 // #debug
 */
 // #enddebug

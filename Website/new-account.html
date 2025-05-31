@@ -162,6 +162,22 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            animation: fade-in linear 250ms forwards;
+            user-select: none;
+        }
+        
+        #loading-page.active.finished {
+            background-color: rgb(255, 255, 255);
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
 
         .spin {
@@ -207,14 +223,6 @@
                     <div>
                         <p class="input-label required"><b>Full Name</b></p>
                         <input id="full-name" maxlength="30">
-                    </div>
-                    <div>
-                        <p class="input-label required"><b>Seminar Teacher</b></p>
-                        <input id="seminar-teacher">
-                    </div>
-                    <div>
-                        <p class="input-label"><b>Seminar Room</b></p>
-                        <input id="seminar-room">
                     </div>
                 </div>
                 <div id="checkboxes">
@@ -266,19 +274,13 @@
     <script src="scripts.js"></script>
     <script>
         let fullNameInput = document.getElementById("full-name");
-        let seminarTeacherInput = document.getElementById("seminar-teacher");
-        let seminarRoomInput = document.getElementById("seminar-room");
         let tosAgreement = document.getElementById("tos-agreement");
         let newsletterAgreement = document.getElementById("email-newsletter-agreement");
         let createNewAccountButton = document.getElementById("newAccountButton");
 
         fullNameInput.addEventListener("input", updateNewAccountButton);
-        seminarTeacherInput.addEventListener("input", updateNewAccountButton);
-        seminarRoomInput.addEventListener("input", updateNewAccountButton);
         tosAgreement.addEventListener("input", updateNewAccountButton);
         fullNameInput.value = "";
-        seminarTeacherInput.value = "";
-        seminarRoomInput.value = "";
         tosAgreement.checked = false;
         newsletterAgreement.checked = true;
         updateNewAccountButton();
@@ -291,7 +293,6 @@
         function checkInputsValid() {
             if (!tosAgreement.checked) return false;
             if (fullNameInput.value == "") return false;
-            if (seminarTeacherInput.value == "") return false;
             return true;
         }
 
@@ -300,8 +301,6 @@
                 reqType: "createNewAccount",
                 accountData: {
                     name: fullNameInput.value,
-                    seminarTeacher: seminarTeacherInput.value,
-                    seminarRoom: seminarRoomInput.value,
                     marketingAllowed: newsletterAgreement.checked
                 }
             }, (res) => {
@@ -310,6 +309,7 @@
                 a.click();
                 // Let the user know this tab is good to close and the account has been created
                 document.getElementById("loading-page").innerHTML = "<h1>Your account has been created. You may close this tab.</h1>";
+                document.getElementById("loading-page").classList.add("finished");
                 window.close();
             }, (err) => {
                 if (err.errorCode == 403) {
