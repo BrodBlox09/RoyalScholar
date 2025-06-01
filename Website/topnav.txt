@@ -1,5 +1,5 @@
 <div id="topnav-wrapper">
-    <div id="topnav">
+        <div id="topnav">
             <div id="topnav-left">
                 <a href="index.html">
                     <svg width="70px" viewBox="0 0 140 101" xmlns:xlink="http://www.w3.org/2000/svg"
@@ -23,9 +23,22 @@
                 <a href="request-a-session.html">
                     <p>Request a Session</p>
                 </a>
-                <a class="tutor-vis-only flex-element" href="tutor-a-session.html">
+                <a class="tutor-vis-only" href="tutor-a-session.html">
                     <p>Tutor a Session</p>
                 </a>
+                <div class="admin-vis-only topnav-dropdown">
+                    <p>Admin Tools</p>
+                    <span><svg class="caret" viewBox="7 8.5 10 7" width="3em" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 14L12 10L16 14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg></span>
+                    <div>
+                        <div>
+                            <a href="view-logs.html">
+                                View Logs
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id="topnav-right">
                 <a href="account-dashboard.html">
@@ -53,15 +66,24 @@
                     </svg>
                 </a>
                 <div onclick="toggleTopnavDropdown()" id="topnav-hamburger">
-                    <svg width="32px" height="32px" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 50 50">
-                        <path fill="var(--fill-color)" d="M 0 7.5 L 0 12.5 L 50 12.5 L 50 7.5 Z M 0 22.5 L 0 27.5 L 50 27.5 L 50 22.5 Z M 0 37.5 L 0 42.5 L 50 42.5 L 50 37.5 Z"></path>
+                    <svg width="32px" height="32px" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100"
+                        height="100" viewBox="0 0 50 50">
+                        <path fill="var(--fill-color)"
+                            d="M 0 7.5 L 0 12.5 L 50 12.5 L 50 7.5 Z M 0 22.5 L 0 27.5 L 50 27.5 L 50 22.5 Z M 0 37.5 L 0 42.5 L 50 42.5 L 50 37.5 Z">
+                        </path>
                     </svg>
                 </div>
                 <div id="topnav-dropdown">
                     <a href="request-a-session.html">Request a Session</a>
                     <a class="tutor-vis-only" href="tutor-a-session.html">Tutor a Session</a>
+                    <div class="admin-vis-only">
+                        <p>Admin Tools</p>
+                        <div>
+                            <a href="view-logs.html">View Logs</a>
+                        </div>
+                    </div>
                     <a href="account-dashboard.html">Dashboard</a>
                 </div>
             </div>
+        </div>
     </div>
-</div>

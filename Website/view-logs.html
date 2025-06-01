@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #FFFFFF;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td,
+        th {
+            padding: 10px;
+        }
+
+        td,
+        th {
+            border: 2px solid var(--gray-text);
+        }
+
+        .timestamp-head {
+            width: 10%;
+        }
+
+        #error-table-email-head {
+            width: 10%;
+        }
+
+        #error-table-reqtype-head {
+            width: 10%;
+        }
+
+        #error-logs-list pre {
+            margin: 0;
+        }
+
+        /* #region Log Tabs */
+        #logs-container {
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab-selector {
+            display: flex;
+            gap: 0;
+            height: 2.25em;
+            align-items: end;
+        }
+
+        .tab-selector .tab {
+            border-radius: 10px 10px 0 0;
+            padding: 5px;
+            padding-inline: 10px;
+            border: 3px solid var(--gray-text);
+            background-color: #FFFFFF;
+            border-bottom: 0;
+            height: 2em;
+        }
+
+        .tab-selector .tab.active {
+            height: 2.25em;
+            border: 3px solid var(--primary);
+            border-bottom: 0;
+        }
+
+        .tab-page-display {
+            background-color: #FFFFFF;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab-content {
+            flex-grow: 1;
+        }
+
+        #tab-select-instructions-tab {
+            display: grid;
+            place-items: center;
+            text-align: center;
+            height: 100%;
+        }
+
+        #tab-select-instructions {
+            font-size: 2em;
+            color: var(--gray-text);
+            margin: 0;
+        }
+
+        /* #endregion */
+    </style>
+</head>
+
+<body>
+    <!-- <button id="clear-logs" class="button">Clear Logs</button> -->
+    <div id="logs-container" class="tab-page">
+        <div class="tab-selector">
+            <button class="tab" onclick="showLogTab(1)">Error Logs</button>
+            <button class="tab" onclick="showLogTab(2)">Data Logs</button>
+        </div>
+        <div class="tab-page-display">
+            <div class="tab-content">
+                <div id="tab-select-instructions-tab">
+                    <p id="tab-select-instructions">Select a tab to view logs</p>
+                </div>
+            </div>
+            <div class="tab-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="timestamp-head">Timestamp</th>
+                            <th id="error-table-email-head">Associated Email</th>
+                            <th id="error-table-reqtype-head">Request Type</th>
+                            <th id="error-table-error-head">Error</th>
+                        </tr>
+                    </thead>
+                    <tbody id="error-logs-list">
+                        <!-- Error logs will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="timestamp-head">Timestamp</th>
+                            <th id="data-log-data-head">Data</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-logs-list">
+                        <!-- Error logs will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+    <script>
+        function showLogTab(tabNumber) {
+            const tabContents = document.querySelectorAll('#logs-container > .tab-page-display > .tab-content');
+            tabContents.forEach((tabContent, index) => {
+                tabContent.style.display = (index == tabNumber) ? 'block' : 'none';
+            });
+            const tabs = document.querySelectorAll('#logs-container > .tab-selector > .tab');
+            tabs.forEach((tab, index) => {
+                if (index + 1 == tabNumber) tab.classList.add('active');
+                else tab.classList.remove('active');
+            });
+        }
+        showLogTab(0); // Show the first tab by default
+
+        const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+            hourCycle: 'h24'
+        });
+        
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            const formattedDate = dateTimeFormat.format(date);
+            // const formattedDate = parts.map(part => part.value).join('');
+            return formattedDate;
+        }
+
+        function fillErrorLogs(logs) {
+            const errorLogsList = document.getElementById('error-logs-list');
+            logs = logs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            logs.forEach(log => {
+                let logItem = document.createElement('tr');
+                logItem.innerHTML = `<td>${formatTimestamp(log.timestamp)}</td><td>${log.email}</td><td>${log.requestType}</td><td><pre>${log.error}</pre></td>`;
+                errorLogsList.appendChild(logItem);
+            });
+        }
+
+        function fillDataLogs(logs) {
+            const dataLogsList = document.getElementById('data-logs-list');
+            logs = logs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            logs.forEach(log => {
+                let logItem = document.createElement('tr');
+                logItem.innerHTML = `<td>${formatTimestamp(log.timestamp)}</td><td>${log.data}</td>`;
+                dataLogsList.appendChild(logItem);
+            });
+        }
+
+        // #debug
+        /*
+        // #enddebug
+        fillErrorLogs(<?!= errorLogs ?>);
+        fillDataLogs(<?!= dataLogs ?>);
+        // #debug
+        */
+        // #enddebug
+
+        // #debug
+        // Example logs for debugging
+        fillErrorLogs([
+            { timestamp: "Sun Jun 01 2025 11:00:52 GMT+0200 (Central European Summer Time)", email: 'bsma3924@student.dodea.edu', requestType: "GET", error: "TypeError: htmlTemplate.evaluate is not a function\n    at sendEmail (Utils:102:35)\n    at handleRequest (Code:78:9)\n    at handleWebAppRequest (Code:28:13)\n    at __GS_INTERNAL_top_function_call__.gs:1:8" },
+            { timestamp: "Sun Jun 01 2025 11:39:28 GMT+0200 (Central European Summer Time)", email: 'bsma3924@student.dodea.edu', requestType: "createNewAccount", error: "SyntaxError: Unexpected identifier 'TO'\n    at Object.<anonymous> (__GS_INTERNAL_evaluate:1:31)\n    at handleRequest (Code:71:71)\n    at handleWebAppRequest (Code:21:13)\n    at __GS_INTERNAL_top_function_call__.gs:1:8" },
+            { timestamp: "Sun Jun 01 2025 15:10:20 GMT+0200 (Central European Summer Time)", email: 'twil3210@student.dodea.edu', requestType: "createNewAccount", error: "Error: SID invalid: 74411\n    at new TutoringSession (Types/TutoringSession:21:30)\n    at PageInfo.Page_Definitions [as getHtml] (pageDefinitions:125:21)\n    at doGet (Code:198:27)\n    at __GS_INTERNAL_top_function_call__.gs:1:8" }
+        ]);
+        fillDataLogs([
+            { timestamp: '2023-10-01 12:00:00', data: 'User logged in' },
+            { timestamp: '2023-10-01 12:05:00', data: 'User updated profile' },
+            { timestamp: '2023-10-01 12:10:00', data: 'User logged out' }
+        ]);
+        // #enddebug
+    </script>
+</body>
+
+</html>

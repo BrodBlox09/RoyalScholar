@@ -61,8 +61,6 @@
             <h2>Profile Summary</h2>
             <p><b>Name:</b> <span id="full-name"></span></p>
             <p><b>Email:</b> <span id="email"></span></p>
-            <p><b>Seminar Teacher:</b> <span id="seminar-teacher"></span></p>
-            <p><b>Seminar Room:</b> <span id="seminar-room"></span></p>
         </div>
         <div>
             <h2>Upcoming Sessions</h2>
@@ -83,8 +81,6 @@
             document.getElementById("first-name").textContent = account.name.split(" ")[0];
             document.getElementById("full-name").textContent = account.name;
             document.getElementById("email").textContent = account.email;
-            document.getElementById("seminar-teacher").textContent = account.seminarTeacher;
-            document.getElementById("seminar-room").textContent = account.seminarRoom;
 
             let upcomingTutorSessions = account.upcomingTutorSessions;
             let upcomingSessionsList = document.getElementById("upcoming-sessions-list");

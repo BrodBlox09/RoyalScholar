@@ -1,14 +1,14 @@
-const testing = false;
+const testing = true; // Set to true to enable debug mode
 
 // #debug
 /*
 // #enddebug
 let userAccess = <?!= userAccess ?>;
-if (userAccess >= 100) Array.from(document.getElementsByClassName("tutor-vis-only")).forEach(x => x.classList.add("show-tutor-vis"));
+if (userAccess < 100) Array.from(document.getElementsByClassName("tutor-vis-only")).forEach(x => x.remove());
+if (userAccess < 999) Array.from(document.getElementsByClassName("admin-vis-only")).forEach(x => x.remove());
 // #debug
 */
 // #enddebug
-
 
 let dropdownHamburger = document.getElementById("topnav-hamburger");
 let dropdown = document.getElementById("topnav-dropdown");
