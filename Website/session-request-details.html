@@ -244,9 +244,9 @@
             <h2 class="no-margin center-text">Session Details</h2>
             <div class="flex-horiz-wrap" style="gap: 20px;">
                 <div style="flex-grow: 1;">
-                    <p class="no-margin">Subject: <span id="request-subject"></span></p>
-                    <p>Time: <span id="request-time"></span></p>
-                    <p class="no-margin">Student Name: <span id="request-student-name"></span></p>
+                    <p class="no-margin"><b>Class:</b> <span id="request-class"></span></p>
+                    <p><b>Time:</b> <span id="request-time"></span></p>
+                    <p class="no-margin"><b>Student Name:</b> <span id="request-student-name"></span></p>
                 </div>
                 <div style="min-width: 200px;">
                     <!-- TEMPORARY -->
@@ -395,7 +395,7 @@
         }
 
         function fillInRequestInfo(requestInfo) {
-            document.getElementById("request-subject").textContent = requestInfo.subject;
+            document.getElementById("request-class").textContent = requestInfo.subject;
             document.getElementById("request-time").textContent = `${formatDate(requestInfo.time.start)} from ${formatTime(requestInfo.time.start)} - ${formatTime(requestInfo.time.end)}`;
             document.getElementById("request-student-name").textContent = requestInfo.studentName;
 
