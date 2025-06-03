@@ -1,4 +1,4 @@
-const testing = true; // Set to true to enable debug mode
+const testing = false; // Set to true to enable debug mode
 
 // #debug
 /*

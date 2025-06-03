@@ -7,8 +7,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* #region Session Search Bar */
+        #session-search-bar {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* #region Search */
+        #session-search-wrapper {
+            --color: var(--primary);
+            position: relative;
+            display: flex;
+            border-radius: 1lh;
+            padding-inline: 10px;
+            border: 3px solid var(--color);
+            overflow: clip;
+            background: #FFFFFF;
+            transition: all 0.2s;
+        }
+
+        #session-search {
+            font-family: var(--body-font);
+            font-size: 1.25em;
+            padding: 10px;
+            color: #333333;
+            outline: none;
+            border: none;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #search-icon {
+            padding-right: 10px;
+            display: flex;
+            align-items: center;
+            fill: var(--color);
+            transition: all 0.2s;
+        }
+
+        #session-search-wrapper:focus-within {
+            --color: var(--primary-dark);
+        }
+
+        #no-sessions-found {
+            display: none;
+            text-align: center;
+        }
+        /* #endregion */
+
+        /* #region Tags */
+        #filter-list {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        #filter-list > div {
+            border-radius: 1lh;
+            background-color: #FFFFFF;
+            border: 1px solid var(--gray-text);
+            padding: 5px;
+            padding-inline: 10px;
+        }
+
+        #filter-list > div > p {
+            margin: 0;
+            user-select: none;
+        }
+
+        #filter-list > div#add-filter-button {
+            position: relative;
+        }
+
+        #filter-list > div#add-filter-button > #add-filter-menu {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px #00000088;
+        }
+
+        #filter-list > div#add-filter-button > #add-filter-menu.active {
+            display: flex;
+        }
+
+        #filter-list > div#add-filter-button > #add-filter-menu > p {
+            margin: 0;
+        }
+        /* #endregion */
+        /* #endregion */
+
         #session-card-list {
             padding: 1rem;
+            padding-top: 0;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -27,7 +125,7 @@
             justify-content: space-between;
         }
 
-        .session-card>div.session-card-top>.session-card-subject {
+        .session-card>div.session-card-top>.session-card-class {
             margin: 0;
         }
 
@@ -67,13 +165,38 @@
 
 <body>
     <div id="topnav"></div>
+    <div id="session-search-bar">
+        <div id="session-search-wrapper">
+            <input id="session-search" placeholder="Search sessions">
+            <div id="search-icon">
+                <svg height="24px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z">
+                    </path>
+                </svg>
+            </div>
+        </div>
+        <!-- <div id="filter-list">
+            <div id="add-filter-button">
+                <p>+ Add Filters</p>
+                <div id="add-filter-menu">
+                    <p>Subject</p>
+                    <p>Time</p>
+                </div>
+            </div>
+        </div> -->
+    </div>
     <div id="session-card-list">
         
+    </div>
+    <div id="no-sessions-found">
+        <h2>No sessions found</h2>
+        <p>Try rewording your search terms or removing some filters.</p>
     </div>
     <template id="session-card-template">
         <div class="session-card">
             <div class="session-card-top">
-                <h2 class="session-card-subject">Session Subject</h2>
+                <h2 class="session-card-class">Session Subject</h2>
                 <a href="link-to-full-screen-details-page.html" class="button session-card-details-button">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><path d="M83.333,50v33.333H16.667V16.667H50V10H16.667C13.001,10,10,13,10,16.667v66.667C10,86.999,13.001,90,16.667,90h66.666  C86.999,90,90,86.999,90,83.333V50H83.333z"/><path d="M90,36.667l-0.003-23.335C90,11.493,88.506,10,86.667,10H63.333v6.665h15.283L50,45.285L54.714,50l28.619-28.615v15.281H90z  "/></svg>
                     Details
@@ -97,12 +220,61 @@
     <script>
         let sessionCardTemplate = document.getElementById("session-card-template");
         let sessionCardList = document.getElementById("session-card-list");
+        let noSessionsFound = document.getElementById("no-sessions-found");
+        let sessions = [];
 
-        function addSessionCards(sessions) {
-            sessions.forEach(session => {
+        let searchBar = document.getElementById("session-search");
+        searchBar.addEventListener("input", updateSessionCards);
+        searchBar.value = "";
+
+        // let addTagButton = document.getElementById("add-filter-button");
+        // let addTagMenu = document.getElementById("add-filter-menu");
+        // document.addEventListener("click", () => {
+        //     addTagMenu.classList.remove("active");
+        // });
+        // addTagButton.addEventListener("click", (e) => {
+        //     addTagMenu.classList.add("active");
+        //     e.stopPropagation();
+        // });
+
+        function updateSessionCards() {
+            let visibleSessions = sessions;
+            let searchQuery = searchBar.value;
+            visibleSessions = visibleSessions.filter((/** @type {{subject: string, href: string, time: string, studentName: string}} */ session) => {
+                let query = searchQuery;
+                { // Subject
+                    let subjectQuery = /subject:([^ ]*)/.exec(query);
+                    if (subjectQuery) {
+                        subjectQuery = subjectQuery[1];
+                        if (!testStringsLoose(session.subject, subjectQuery)) return false;
+                        query = "".replace(/ ?subject:[^ ]* ?/, '');
+                    }
+                }
+                { // Class
+                    let classQuery = /class:([^ ]*)/.exec(query);
+                    if (classQuery) {
+                        classQuery = classQuery[1];
+                        if (!testStringsLoose(session.class, classQuery)) return false;
+                        query = "".replace(/ ?class:[^ ]* ?/, '');
+                    }
+                }
+                if (query == "") return true;
+                for (let key in session) {
+                    if (key == "href") continue;
+                    let value = session[key];
+                    if (testStringsLoose(value, query)) return true;
+                }
+            });
+            sessionCardList.innerHTML = "";
+            if (visibleSessions.length == 0) {
+                noSessionsFound.style.display = "block";
+            } else {
+                noSessionsFound.style.display = "none";
+            }
+            visibleSessions.forEach(session => {
                 /** @type {HTMLElement} */
                 let card = sessionCardTemplate.content.cloneNode(true);
-                card.querySelectorAll(".session-card-subject")[0].textContent = session.subject;
+                card.querySelectorAll(".session-card-class")[0].textContent = session.class;
                 card.querySelectorAll(".session-card-details-button")[0].href = session.href;
                 card.querySelectorAll(".session-card-time")[0].textContent = session.time;
                 card.querySelectorAll(".session-card-student-name")[0].textContent = session.studentName;
@@ -111,30 +283,38 @@
             });
         }
 
+        function testStringsLoose(str1, str2) {
+            return str1.toLowerCase().includes(str2.toLowerCase()) || str2.toLowerCase().includes(str1.toLowerCase());
+        }
+
         // #debug
-        addSessionCards([
+        sessions = [
             {
                 "subject": "Math",
-                "href": "http:www.youtube.com/watch?v=iadofnvo4",
+                "class": "AP Calculus AB",
+                "href": "https://www.youtube.com/watch?v=iadofnvo4",
                 "time": "Thursday, February 13, 2025 from 22:31 - 22:34",
-                "studentName": "Bto"
+                "studentName": "Brody"
             },
             {
-                "subject": "Math",
-                "href": "http:www.youtube.com/watch?v=iadofnvo4",
+                "subject": "English",
+                "class": "AP English Composition",
+                "href": "https://www.youtube.com/watch?v=iadofnvo4",
                 "time": "Thursday, February 13, 2025 from 22:31 - 22:34",
-                "studentName": "Bto"
+                "studentName": "Maya"
             }
-        ]);
+        ];
         // #enddebug
 
         // #debug
         /*
         // #enddebug
-        addSessionCards(<?!= sessionInfo ?>);
+        sessions = <?!= sessionInfo ?>;
         // #debug
         */
         // #enddebug
+
+        updateSessionCards();
     </script>
 </body>
 

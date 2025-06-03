@@ -286,8 +286,7 @@
         updateNewAccountButton();
 
         function updateNewAccountButton() {
-            if (checkInputsValid()) createNewAccountButton.disabled = false;
-            else createNewAccountButton.disabled = true;
+            createNewAccountButton.disabled = !checkInputsValid();
         }
 
         function checkInputsValid() {
@@ -326,15 +325,21 @@
             document.getElementById("loading-page").classList.add("active");
         }
 
-        if (!testing) sendAPIReq({ reqType: "doesUserHaveAnAccount" }, (res) => {
-            if (res.userHasAccount) {
-                document.getElementById("already-has-account").classList.add("active");
-                document.body.style.setProperty("overflow", "hidden");
-                return;
-            }
-            document.getElementById("user-email").textContent = res.userEmail;
-            if (!res.userEmail.endsWith("@student.dodea.edu")) document.getElementById("bad-email").classList.add("active");
-        });
+        // #debug
+        /*
+        // #enddebug
+        let userEmail = "<?!= userEmail ?>";
+        document.getElementById("user-email").textContent = userEmail;
+        if (!userEmail.endsWith("@student.dodea.edu")) document.getElementById("bad-email").classList.add("active");
+        // #debug
+        */
+        // #enddebug
+
+        // #debug
+        let userEmail = "bsma3924@student.dodea.edu";
+        document.getElementById("user-email").textContent = userEmail;
+        if (!userEmail.endsWith("@student.dodea.edu")) document.getElementById("bad-email").classList.add("active");
+        // #enddebug
     </script>
 </body>
 
