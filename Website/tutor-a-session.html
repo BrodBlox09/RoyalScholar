@@ -55,6 +55,14 @@
             display: none;
             text-align: center;
         }
+
+        .no-sessions-found-reason {
+            display: none;
+        }
+
+        .no-sessions-found-reason.active {
+            display: block;
+        }
         /* #endregion */
 
         /* #region Tags */
@@ -191,7 +199,8 @@
     </div>
     <div id="no-sessions-found">
         <h2>No sessions found</h2>
-        <p>Try rewording your search terms or removing some filters.</p>
+        <p id="no-sessions-found-reason-search" class="no-sessions-found-reason">Try rewording your search terms or removing some filters.</p>
+        <p id="no-sessions-found-reason-none" class="no-sessions-found-reason">Come back later to see new sessions once they are requested. You'll be notified for any subjects/classes you've marked that you have a preference for.</p>
     </div>
     <template id="session-card-template">
         <div class="session-card">
@@ -268,6 +277,13 @@
             sessionCardList.innerHTML = "";
             if (visibleSessions.length == 0) {
                 noSessionsFound.style.display = "block";
+                if (sessions.length == 0) { // No sessions at all
+                    noSessionsFound.querySelector("#no-sessions-found-reason-none").classList.add("active");
+                    noSessionsFound.querySelector("#no-sessions-found-reason-search").classList.remove("active");
+                } else { // No sessions matching search
+                    noSessionsFound.querySelector("#no-sessions-found-reason-none").classList.remove("active");
+                    noSessionsFound.querySelector("#no-sessions-found-reason-search").classList.add("active");
+                }
             } else {
                 noSessionsFound.style.display = "none";
             }
