@@ -254,7 +254,7 @@
                     let classQuery = /class:([^ ]*)/.exec(query);
                     if (classQuery) {
                         classQuery = classQuery[1];
-                        if (!testStringsLoose(session.class, classQuery)) return false;
+                        if (!testStringsLoose(session.className, classQuery)) return false;
                         query = "".replace(/ ?class:[^ ]* ?/, '');
                     }
                 }
@@ -274,7 +274,7 @@
             visibleSessions.forEach(session => {
                 /** @type {HTMLElement} */
                 let card = sessionCardTemplate.content.cloneNode(true);
-                card.querySelectorAll(".session-card-class")[0].textContent = session.class;
+                card.querySelectorAll(".session-card-class")[0].textContent = session.className;
                 card.querySelectorAll(".session-card-details-button")[0].href = session.href;
                 card.querySelectorAll(".session-card-time")[0].textContent = session.time;
                 card.querySelectorAll(".session-card-student-name")[0].textContent = session.studentName;
@@ -291,14 +291,14 @@
         sessions = [
             {
                 "subject": "Math",
-                "class": "AP Calculus AB",
+                "className": "AP Calculus AB",
                 "href": "https://www.youtube.com/watch?v=iadofnvo4",
                 "time": "Thursday, February 13, 2025 from 22:31 - 22:34",
                 "studentName": "Brody"
             },
             {
                 "subject": "English",
-                "class": "AP English Composition",
+                "className": "AP English Composition",
                 "href": "https://www.youtube.com/watch?v=iadofnvo4",
                 "time": "Thursday, February 13, 2025 from 22:31 - 22:34",
                 "studentName": "Maya"
