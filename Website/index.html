@@ -78,7 +78,7 @@
         }
         /* #endregion */
 
-        /* #region Subject cards section */
+        /* #region Subject Cards */
         #subject-card-list {
             display: flex;
             flex-wrap: wrap;
@@ -117,6 +117,66 @@
         }
         /* #endregion */
         
+        /* #region FAQ */
+        #faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #faq-list .faq-item:not(:last-child) {
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .faq-item {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .faq-item .faq-title {
+            font-weight: 600;
+            font-size: 1.4rem;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .faq-item .faq-title h3 {
+            margin: 0;
+        }
+
+        .faq-item .faq-title .caret {
+            rotate: 0deg;
+            height: 1em;
+            fill: none;
+            stroke: var(--primary);
+            transition: rotate 0.2s;
+        }
+
+        .faq-item .faq-content {
+            position: relative;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 250ms ease-out;
+            overflow: hidden;
+        }
+
+        .faq-item .faq-content * {
+            overflow: hidden;
+        }
+
+        .faq-item.open .faq-title .caret {
+            rotate: 180deg;
+        }
+
+        .faq-item.open .faq-content {
+            grid-template-rows: 1fr;
+        }
+        /* #endregion */
+
         .star {
             width: 2rem;
             height: 2rem;
@@ -215,7 +275,50 @@
 
         </div>
     </div> -->
+    <div class="section-primary-bg">
+        <h2 class="section-title">FAQ</h2>
+        <div id="faq-list">
+            <div class="faq-item">
+                <div class="faq-title">
+                    <h3>What is a tutoring session?</h3>
+                </div>
+                <div class="faq-content">
+                    <p>A tutoring session is a one-on-one meeting between you and a tutor to help with your studies.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-title">
+                    <h3>How do I request a session?</h3>
+                </div>
+                <div class="faq-content">
+                    <p>You can request a session by clicking on the subject you need help with above, or by going to the <a class="text-link" href="request-a-session.html">Request a Session</a> page.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-title">
+                    <h3>What subjects are available?</h3>
+                </div>
+                <div class="faq-content">
+                    <p>We offer tutoring in english, science, social studies, mathematics, and world languages.</p>
+                    <!-- Should subjects be capitalized? -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer"></div>
     <script src="scripts.js"></script>
+    <script>
+        for (let faqItem of document.getElementsByClassName("faq-item")) {
+            let faqTitle = faqItem.getElementsByClassName("faq-title")[0];
+            let faqContent = faqItem.getElementsByClassName("faq-content")[0];
+            let svgSpan = document.createElement('span');
+            svgSpan.innerHTML = `<svg class="caret" viewBox="7 8.5 10 7" width="3em" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 14L12 10L16 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+            faqTitle.append(svgSpan);
+            faqTitle.addEventListener("click", function () {
+                faqItem.classList.toggle("open");
+            });
+        }
+    </script>
 </body>
 
 </html>

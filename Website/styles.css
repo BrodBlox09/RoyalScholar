@@ -15,8 +15,8 @@
     
     --primary-soft: #ddeaf7;
     --primary-soft-dark: #caddf0;
-    /* --accent-soft: #f8e4e4; */
-    --accent-soft: #8b90ad;
+    /* --accent-soft: #8b90ad; */
+    --accent-soft: #c3c8e4;
     --gray-text: #888888;
     --dark-gray-text: #777777;
 
@@ -302,6 +302,17 @@ a:not(.button).text-link:hover::after {
         padding: 5px;
     }
 }
+/* #endregion */
+
+/* #region Footer */
+
+#footer {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+    padding: 2rem;
+    text-align: center;
+}
+
 /* #endregion */
 
 .horiz-spaced {
