@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Print</title>
+</head>
+<body>
+    <h1>Printing Page!</h1>
+    <button id="print-page">Print my Service Report!</button>
+    <script>
+        function setPrint() {
+            const closePrint = () => {
+                document.body.removeChild(this);
+            };
+            this.contentWindow.onbeforeunload = closePrint;
+            this.contentWindow.onafterprint = closePrint;
+            this.contentWindow.print();
+        }
+
+        document.getElementById('print-page').addEventListener('click', function () {
+            let printFrame = document.createElement("iframe");
+            printFrame.onload = setPrint;
+            printFrame.style.display = "none"; // hide iframe
+            printFrame.src = "printServiceReport.html";
+            document.body.appendChild(printFrame);
+        });
+    </script>
+</body>
+</html>
