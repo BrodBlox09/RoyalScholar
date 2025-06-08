@@ -136,8 +136,7 @@
 
         table { break-inside:auto; -webkit-break-inside:auto; }
         tr    { break-inside:avoid; break-after:auto; -webkit-break-inside:avoid; -webkit-break-after:auto; }
-        thead { display:table-header-group }
-        tfoot { display:table-footer-group }
+        thead { display:table-header-group; }
         
         @media print {
             * {
@@ -155,7 +154,7 @@
     <div class="paper" id="service-report">
         <div id="content">
             <div id="header-row">
-                <h1>RoyalScholar Service Report (SRID <span class="verification-code">XXXXX</span>)</h1>
+                <h1>RoyalScholar Service Report (SRID <span class="srid">XXXXX</span>)</h1>
                 <!-- <img src="../Graphics/Logos/blackFullLogo.png"> -->
                 <img src="../Graphics/Logos/blackIcon.png">
             </div>
@@ -187,7 +186,7 @@
                     <h2 id="verify-header">Verify this Report</h2>
                     <p>To verify this RoyalScholar Service Report, go to
                         <a href="https://sites.google.com/student.dodea.edu/royalscholar/verify-service-report">https://sites.google.com/student.dodea.edu/royalscholar/verify-service-report</a>
-                        or scan the QR code on the left. Then enter <span class="verification-code">XXXXX</span> to view this report.
+                        or scan the QR code on the left. Then enter <span class="srid">XXXXX</span> to view this report.
                     </p>
                 </div>
             </div>
@@ -215,16 +214,15 @@
         let serviceReportId = 39573;
         let serviceReportData = {"student":"Brody Smalley","dateRangeInfo":{"name":"SY 24-25 S1","start":"August 19, 2024","end":"January 16, 2025"},"sessionData":[{"sid":87436,"name":"June 6, Seminar Session 1","start":"2025-06-06T11:45:00.000Z","end":"2025-06-06T12:20:00.000Z"}],"generated":"2025-07-06T12:20:00.000Z"};
 
-        let verificationCode = "39573";
-        for (let verfCode of document.getElementsByClassName("verification-code")) {
-            verfCode.textContent = verificationCode;
+        for (let srid of document.getElementsByClassName("srid")) {
+            srid.textContent = serviceReportId;
         }
 
         let serviceReportRange = serviceReportData.dateRangeInfo;
         document.getElementById("date-range").textContent = `${formatDate(serviceReportRange.start)} - ${formatDate(serviceReportRange.end)}`;
         document.getElementById("date-range-type").textContent = serviceReportRange.name;
         document.getElementById("date-generated").textContent = `${formatDate(serviceReportData.generated)} ${formatTime(serviceReportData.generated)}`;
-        document.getElementById("student-name").textContent = `${serviceReportData.student}`; // Follow RFC5322 guidelines
+        document.getElementById("student-name").textContent = `${serviceReportData.student} <bsma3924@student.dodea.edu>`; // Follow RFC5322 guidelines 'Name <email>'
 
         let serviceTable = document.getElementById("service-table");
         let totalHours = 0;
