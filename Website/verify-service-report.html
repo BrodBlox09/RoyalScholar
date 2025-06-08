@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        
+    </style>
+</head>
+
+<body>
+    <div id="topnav"></div>
+    <h1>Enter SRID:</h1>
+    <input id="srid-input" inputmode="numeric" pattern="[0-9]">
+    <button id="view-service-report">Go!</button>
+    <script src="scripts.js"></script>
+    <script>
+        let sridInput = document.getElementById("srid-input");
+        let viewServiceReport = document.getElementById("view-service-report");
+        sridInput.addEventListener("input", (e) => {
+            sridInput.value = sridInput.value.replace(/[^0-9]/, "");
+        });
+        sridInput.addEventListener("keydown", (e) => {
+            if (e.repeat) return;
+            if (e.key == "Enter") {
+                viewServiceReport.click();
+            }
+        })
+        viewServiceReport.addEventListener("click", (e) => {
+            console.log("VIEWING!");
+        });
+    </script>
+</body>
+
+</html>
