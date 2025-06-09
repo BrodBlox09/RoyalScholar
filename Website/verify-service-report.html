@@ -7,15 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <style>
-        
+        .center-horiz {
+            display: flex;
+            justify-content: center;
+            gap: 10px;;
+        }
+
+        #srid-input {
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            outline: none;
+            background: #FFFFFF;
+            border: 2px solid var(--primary);
+        }
     </style>
 </head>
 
 <body>
     <div id="topnav"></div>
     <h1>Enter SRID:</h1>
-    <input id="srid-input" inputmode="numeric" pattern="[0-9]">
-    <button id="view-service-report">Go!</button>
+    <div class="center-horiz">
+        <input id="srid-input" inputmode="numeric">
+        <button id="view-service-report" class="button"><b>Go!</b></button>
+    </div>
     <script src="scripts.js"></script>
     <script>
         let sridInput = document.getElementById("srid-input");
