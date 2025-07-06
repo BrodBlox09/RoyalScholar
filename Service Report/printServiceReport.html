@@ -33,26 +33,7 @@
             flex-direction: column;
         }
 
-        #content {
-            flex-grow: 1;
-        }
-
         /* #region Headers */
-        #header {
-            -webkit-page-break-before: avoid-page;
-            page-break-before: avoid-page;
-            -webkit-break-before: avoid-page;
-            break-before: avoid-page;
-            -webkit-page-break-inside: avoid-page;
-            page-break-inside: avoid-page;
-            -webkit-break-inside: avoid-page;
-            break-inside: avoid-page;
-            -webkit-page-break-after: avoid-page;
-            page-break-after: avoid-page;
-            -webkit-break-after: avoid-page;
-            break-after: avoid-page;
-        }
-
         #header-row {
             display: flex;
             justify-content: space-between;
@@ -84,28 +65,28 @@
         /* #endregion */
 
         /* #region Table */
-        table {
+        #service-table {
             width: 100%;
             border-collapse: collapse;
             padding: 0;
             margin-bottom: 10px;
         }
-        th {
+        #service-table th {
             background-color: #3F51B5;
             font-weight: 600;
             color: #FFFFFF;
         }
-        th, td {
+        #service-table th, td {
             border: 1px solid #222e72;
             padding-inline: 10px;
         }
-        tr:nth-child(2n) td { /* Even rows */
+        #service-table tr:nth-child(2n) td { /* Even rows */
             background-color: #ddeaf7;
         }
-        tr:nth-child(2n+1) td { /* Odd rows */
+        #service-table tr:nth-child(2n+1) td { /* Odd rows */
             background-color: #caddf0;
         }
-        tr td.empty-cell {
+        #service-table tr td.empty-cell {
             border: none;
             background-color: transparent;
         }
@@ -165,50 +146,94 @@
             @bottom-left { content: ''; }
             /* Breaks VSCode syntax highlighting without this comment bc the above are not registered as valid at-rules yet */
         }
+
+        .no-page-break {
+            -webkit-page-break-before: avoid-page;
+            page-break-before: avoid-page;
+            -webkit-break-before: avoid-page;
+            break-before: avoid-page;
+            -webkit-page-break-inside: avoid-page;
+            page-break-inside: avoid-page;
+            -webkit-break-inside: avoid-page;
+            break-inside: avoid-page;
+            -webkit-page-break-after: avoid-page;
+            page-break-after: avoid-page;
+            -webkit-break-after: avoid-page;
+            break-after: avoid-page;
+        }
+
+        #paper-table {
+            border: none;
+            flex-grow: 1;
+        }
+
+        #paper-table > * > tr > td,
+        #paper-table > * > tr > th {
+            border: none;
+            vertical-align: top;
+        }
     </style>
 </head>
 <body>
     <div class="paper" id="service-report">
-        <div id="content">
-            <div id="header">
-                <div id="header-row">
-                    <h1>RoyalScholar Service Report (SRID-<span class="srid">XXXXX</span>)</h1>
-                    <img src="../Graphics/Logos/blackFullLogo.png">
-                </div>
-                <div id="header-line"></div>
-                <div id="subheader-info-block">
-                    <p><b>Date Range:</b> <span id="date-range">XX/XX/XXXX - XX/XX/XXXX</span></p>
-                    <p><b>Date Range Type:</b> <span id="date-range-type">TYPE</span></p>
-                    <p><b>Date of Generation:</b> <span id="date-generated">XX/XX/XXXX</span></p>
-                    <p><b>Session Count:</b> <span id="session-count">XX</span></p>
-                    <p style="grid-column: span 2;"><b>Student:</b> <span id="student-name">-----</span></p>
-                </div>
-            </div>
-            <table id="service-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>SID</th>
-                        <th>Session Name</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Hours</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div id="footer">
-            <div id="verify-footer">
-                <img src="verifyServiceReport.png" id="verify-qr-code">
-                <div id="verify-text">
-                    <h2 id="verify-header">Verify this Report</h2>
-                    <p>To verify this RoyalScholar Service Report, go to
-                        <a href="https://sites.google.com/student.dodea.edu/royalscholar/verify-service-report">https://sites.google.com/student.dodea.edu/royalscholar/verify-service-report</a>
-                        or scan the QR code on the left. Then enter SRID-<span class="srid">XXXXX</span> to view this report.
-                    </p>
-                </div>
-            </div>
-        </div>
+        <table id="paper-table">
+            <thead>
+                <tr>
+                    <td>
+                        <div id="header-row">
+                            <h1>RoyalScholar Service Report (SRID-<span class="srid">XXXXX</span>)</h1>
+                            <img src="../Graphics/Logos/blackFullLogo.png">
+                        </div>
+                        <div id="header-line"></div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="subheader-info-block">
+                            <p><b>Date Range:</b> <span id="date-range">XX/XX/XXXX - XX/XX/XXXX</span></p>
+                            <p><b>Date Range Type:</b> <span id="date-range-type">TYPE</span></p>
+                            <p><b>Date of Generation:</b> <span id="date-generated">XX/XX/XXXX</span></p>
+                            <p><b>Session Count:</b> <span id="session-count">XX</span></p>
+                            <p style="grid-column: span 2;"><b>Student:</b> <span id="student-name">-----</span></p>
+                        </div>
+                        <table id="service-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>SID</th>
+                                    <th>Session Name</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <div id="footer">
+                            <div id="verify-footer">
+                                <img src="verifyServiceReport.png" id="verify-qr-code">
+                                <div id="verify-text">
+                                    <h2 id="verify-header">Verify this Report</h2>
+                                    <p>To verify this RoyalScholar Service Report, go to
+                                        <a
+                                            href="https://sites.google.com/student.dodea.edu/royalscholar/verify-service-report">https://sites.google.com/student.dodea.edu/royalscholar/verify-service-report</a>
+                                        or scan the QR code on the left. Then enter SRID-<span class="srid">XXXXX</span> to
+                                        view this report.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
     <script>
         try {
@@ -233,7 +258,7 @@
         let serviceReportData = {"student":"Brody Smalley <bsma3924@student.dodea.edu>","dateRangeInfo":{"name":"SY 24-25 S1","start":"August 19, 2024","end":"January 16, 2025"},"sessionData":[{"sid":87436,"name":"June 6, Seminar Session 1","start":"2025-06-06T11:45:00.000Z","end":"2025-06-06T12:20:00.000Z"}],"generated":"2025-07-06T12:20:00.000Z"};
         let sessionData = serviceReportData.sessionData;
         // For testing, inject false data
-        sessionData = new Array(600).fill(sessionData[0]);
+        sessionData = new Array(40).fill(sessionData[0]);
 
         for (let srid of document.getElementsByClassName("srid")) {
             srid.textContent = serviceReportId;
