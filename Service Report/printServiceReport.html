@@ -23,10 +23,9 @@
         }
 
         .paper {
-            max-width: 100%;
-            aspect-ratio: 1 / 1.294; /* Letter aspect ratio */
+            min-height: 100vh; /* Make the paper at least one page in height, when more than one it will only fill the page up to where needed */
+            /* Would prefer to find a solution that fills the last paper to the max so that the footer always goes to the bottom of the screen */
             position: relative;
-            margin: 20px;
         }
 
         #service-report {
@@ -36,6 +35,22 @@
 
         #content {
             flex-grow: 1;
+        }
+
+        /* #region Headers */
+        #header {
+            -webkit-page-break-before: avoid-page;
+            page-break-before: avoid-page;
+            -webkit-break-before: avoid-page;
+            break-before: avoid-page;
+            -webkit-page-break-inside: avoid-page;
+            page-break-inside: avoid-page;
+            -webkit-break-inside: avoid-page;
+            break-inside: avoid-page;
+            -webkit-page-break-after: avoid-page;
+            page-break-after: avoid-page;
+            -webkit-break-after: avoid-page;
+            break-after: avoid-page;
         }
 
         #header-row {
@@ -48,7 +63,7 @@
             height: 2.5em;
         }
 
-        #heading-line {
+        #header-line {
             width: 100%;
             height: 3px;
             background-color: #000000;
@@ -56,16 +71,17 @@
             margin-block: 10px;
         }
 
-        #subheading-info-block {
+        #subheader-info-block {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-bottom: 10px;
         }
 
-        #subheading-info-block p {
+        #subheader-info-block p {
             margin: 0;
         }
+        /* #endregion */
 
         /* #region Table */
         table {
@@ -75,7 +91,6 @@
             margin-bottom: 10px;
         }
         th {
-            /* background-color: #CCCCCC; */
             background-color: #3F51B5;
             font-weight: 600;
             color: #FFFFFF;
@@ -106,7 +121,6 @@
             flex-shrink: 0;
             display: grid;
             place-items: center;
-            -webkit-break-before: auto;
             -webkit-break-inside: avoid-page;
             break-before: auto;
             break-inside: avoid-page;
@@ -132,9 +146,7 @@
         }
         /* #endregion */
 
-        table { break-inside:auto; -webkit-break-inside:auto; }
-        tr    { break-inside:avoid; break-after:auto; -webkit-break-inside:avoid; -webkit-break-after:auto; }
-        thead { display:table-header-group; }
+        thead { display: table-header-group; }
         
         @media print {
             * {
@@ -144,38 +156,47 @@
         }
 
         @page {
+            /* Forces portrait orientation on Firefox and Chrome */
+            size: portrait;
+            /* Decreases page margins to 20px */
             margin: 20px;
+            /* Hides header and footer metadata text on Chrome */
+            @top-left { content: ''; }
+            @bottom-left { content: ''; }
+            /* Breaks VSCode syntax highlighting without this comment bc the above are not registered as valid at-rules yet */
         }
     </style>
 </head>
 <body>
     <div class="paper" id="service-report">
         <div id="content">
-            <div id="header-row">
-                <h1>RoyalScholar Service Report (SRID-<span class="srid">XXXXX</span>)</h1>
-                <img src="../Graphics/Logos/blackFullLogo.png">
+            <div id="header">
+                <div id="header-row">
+                    <h1>RoyalScholar Service Report (SRID-<span class="srid">XXXXX</span>)</h1>
+                    <img src="../Graphics/Logos/blackFullLogo.png">
+                </div>
+                <div id="header-line"></div>
+                <div id="subheader-info-block">
+                    <p><b>Date Range:</b> <span id="date-range">XX/XX/XXXX - XX/XX/XXXX</span></p>
+                    <p><b>Date Range Type:</b> <span id="date-range-type">TYPE</span></p>
+                    <p><b>Date of Generation:</b> <span id="date-generated">XX/XX/XXXX</span></p>
+                    <p><b>Session Count:</b> <span id="session-count">XX</span></p>
+                    <p style="grid-column: span 2;"><b>Student:</b> <span id="student-name">-----</span></p>
+                </div>
             </div>
-            <div id="heading-line"></div>
-            <div id="subheading-info-block">
-                <p><b>Date Range:</b> <span id="date-range">XX/XX/XXXX - XX/XX/XXXX</span></p>
-                <p><b>Date Range Type:</b> <span id="date-range-type">TYPE</span></p>
-                <p><b>Date of Generation:</b> <span id="date-generated">XX/XX/XXXX</span></p>
-                <p><b>Session Count:</b> <span id="session-count">XX</span></p>
-                <p style="grid-column: span 2;"><b>Student:</b> <span id="student-name">-----</span></p>
-            </div>
-                <table id="service-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>SID</th>
-                            <th>Session Name</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                            <th>Hours</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+            <table id="service-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>SID</th>
+                        <th>Session Name</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Hours</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
         <div id="footer">
             <div id="verify-footer">
@@ -212,6 +233,8 @@
         let serviceReportId = 39573;
         let serviceReportData = {"student":"Brody Smalley <bsma3924@student.dodea.edu>","dateRangeInfo":{"name":"SY 24-25 S1","start":"August 19, 2024","end":"January 16, 2025"},"sessionData":[{"sid":87436,"name":"June 6, Seminar Session 1","start":"2025-06-06T11:45:00.000Z","end":"2025-06-06T12:20:00.000Z"}],"generated":"2025-07-06T12:20:00.000Z"};
         let sessionData = serviceReportData.sessionData;
+        // For testing, inject false data
+        sessionData = new Array(600).fill(sessionData[0]);
 
         for (let srid of document.getElementsByClassName("srid")) {
             srid.textContent = serviceReportId;
