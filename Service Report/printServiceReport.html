@@ -195,7 +195,6 @@
                         <th>Hours</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
             </table>
         </div>
         <div id="footer">
@@ -247,11 +246,10 @@
         document.getElementById("session-count").textContent = sessionData.length;
         document.getElementById("student-name").textContent = serviceReportData.student; // Follow RFC5322 guidelines 'Name <email>'
 
-        let serviceTable = document.getElementById("service-table");
+        let serviceTable = document.getElementById("service-table").createTBody();
         let totalHours = 0;
 
         sessionData.forEach(session => {
-            let tr = document.createElement('tr');
             let fdate = formatDate(session.start);
             let fstart = formatTime(session.start);
             let fend = formatTime(session.end);
