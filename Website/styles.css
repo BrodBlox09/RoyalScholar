@@ -49,9 +49,13 @@ h6 {
     font-family: "Playfair Display";
 }
 
-p, li, a, input, textarea {
+p, li, a, input, textarea, select {
     font-size: 1em;
     font-family: var(--body-font);
+}
+
+input, textarea, select {
+    color: #333333;
 }
 
 .no-margin {
@@ -142,21 +146,21 @@ a:not(.button).text-link:hover::after {
     background: #FAFAFA;
 }
 
-#topnav>div>div.topnav-dropdown> span {
+#topnav>div>div.topnav-dropdown>span {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-left: 10px;
 }
 
-#topnav>div>div.topnav-dropdown>span> .caret {
+#topnav>div>div.topnav-dropdown>span>.caret {
     stroke: var(--primary);
     rotate: 180deg; /* Rotate the caret to point downwards */
     transition: 0.2s all;
     width: 20px;
 }
 
-#topnav>div>div.topnav-dropdown:hover>span> .caret {
+#topnav>div>div.topnav-dropdown:hover>span>.caret {
     stroke: var(--primary-dark);
     rotate: 0deg; /* Rotate the caret back to point upwards */
 }
