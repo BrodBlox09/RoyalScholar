@@ -1,4 +1,17 @@
+/* #final */
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+/* #endfinal */
+
+/* #debug */
+@font-face {
+    font-family: "Playfair Display";
+    src: url("../../Fonts/PlayfairDisplay.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Merriweather";
+    src: url("../../Fonts/Merriweather.ttf") format("truetype");
+}
+/* #enddebug */
 
 :root {
     /* --accent-bright: #FF1E27;
