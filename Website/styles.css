@@ -1,10 +1,6 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap'); */
 
-/* Offline fonts */
-@font-face {
-    font-family: "Playfair Display";
-    src: url("../../Fonts/PlayfairDisplay.ttf") format("truetype");
-}
+/* Offline font */
 @font-face {
     font-family: "Merriweather";
     src: url("../../Fonts/Merriweather.ttf") format("truetype");
@@ -57,8 +53,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Playfair Display";
-    /* font-family: var(--body-font); */
+    font-family: var(--body-font);
     color: #333333;
 }
 
