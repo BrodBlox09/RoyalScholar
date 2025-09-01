@@ -238,7 +238,7 @@ a:not(.button).text-link:hover::after {
     display: none;
 }
 
-@media screen and (max-width: 920px) {
+@media screen and (max-width: 975px) {
     #topnav {
         padding-right: 10px;
     }
