@@ -13,27 +13,49 @@
             flex-direction: column;
         }
 
-        #no-account {
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s;
+        #content {
+            max-width: var(--max-content-width);
+            margin-inline: auto;
         }
 
-        #no-account.active {
-            pointer-events: auto;
-            opacity: 1;
+        #lead-section {
+            display: flex;
+            margin-block: 20px;
+        }
+
+        #heading {
+            margin: 0;
+        }
+
+        #subheading {
+            margin-top: 0;
+            font-weight: 400;
+        }
+
+        #settings-btn {
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-top: 10px;
         }
 
         #content {
-            flex-grow: 1;
+            padding-inline: 10px;
         }
 
         #dashboard-content {
-            padding-left: 10px;
-            padding-right: 10px;
+            display: grid;
+            grid-template-columns: 1fr 5fr;
+            gap: 20px;
         }
 
-        #upcoming-sessions-list>div {
+        #dashboard-content > div {
+            border-radius: 20px;
+            box-shadow: 0 0 10px #000000;
+            padding: 20px;
+            background: #FFFFFF;
+        }
+
+        /* #upcoming-sessions-list>div {
             background-color: var(--accent-soft);
             padding: 10px;
             border-radius: 10px;
@@ -46,25 +68,50 @@
 
         #upcoming-sessions-list>div>p {
             margin-bottom: 0;
+        } */
+
+        /* #region Settings Page */
+
+        /* #endregion */
+
+        /* #region No Account Modal */
+        #no-account {
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
         }
+
+        #no-account.active {
+            pointer-events: auto;
+            opacity: 1;
+        }
+        /* #endregion */
     </style>
 </head>
 
 <body>
     <div id="topnav"></div>
     <div id="content">
-        <div class="vert-centered flex-vert">
-            <h1>Welcome back, <span id="first-name"></span>!</h1>
-            <h3>Ready to make the most of your learning journey today?</h3>
+        <div id="lead-section">
+            <div class="flex-grow">
+                <h1 id="heading">Welcome back, <span id="first-name"></span>!</h1>
+                <h3 id="subheading">Ready to make the most of your learning journey today?</h3>
+            </div>
+            <div>
+                <button id="settings-btn" class="button">Settings</button>
+            </div>
         </div>
-        <div>
-            <h2>Profile Summary</h2>
-            <p><b>Name:</b> <span id="full-name"></span></p>
-            <p><b>Email:</b> <span id="email"></span></p>
-        </div>
-        <div>
-            <h2>Upcoming Sessions</h2>
-            <div id="upcoming-sessions-list"></div>
+        <div id="dashboard-content">
+            <div>
+                <h2>Profile Summary</h2>
+                <p><b>Name:</b> <span id="full-name"></span></p>
+                <p><b>Email:</b> <span id="email"></span></p>
+                <p><b>Role:</b> <span id="role"></span></p>
+            </div>
+            <div>
+                <h2>Upcoming Sessions</h2>
+                <div id="upcoming-sessions-list"></div>
+            </div>
         </div>
     </div>
     <div class="modal-bg" id="no-account">
@@ -81,6 +128,7 @@
             document.getElementById("first-name").textContent = account.name.split(" ")[0];
             document.getElementById("full-name").textContent = account.name;
             document.getElementById("email").textContent = account.email;
+            document.getElementById("role").textContent = "Tutor"; //account.role
 
             let upcomingTutorSessions = account.upcomingTutorSessions;
             let upcomingSessionsList = document.getElementById("upcoming-sessions-list");
