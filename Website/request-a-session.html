@@ -135,10 +135,8 @@
 
         #subject-picker {
             font-family: var(--body-font);
-            font-size: 1.25em;
             padding: 10px;
             border-radius: 10px;
-            color: #333333;
             outline: none;
             border: none;
             width: 100%;
@@ -150,14 +148,15 @@
             border-radius: 10px;
             border: 2px solid var(--primary-soft);
             height: 13rem;
+            font-size: 1.0625em;
             overflow: auto;
         }
 
         #subject-search-list p {
             margin: 0;
             padding: 10px;
+            padding-block: 7px;
             user-select: none;
-            font-size: 1.25em;
         }
 
         #subject-search-list p:hover {
@@ -202,7 +201,6 @@
             outline: none;
             font-family: var(--body-font);
             margin-bottom: 50px;
-            font-size: 1.1em;
         }
 
         .dropdown-field {
@@ -354,7 +352,7 @@
                 <div id="progress-bar"></div>
             </div>
             <div id="box-pages">
-                <div id="box-page-slider" style="--pages: 5;">
+                <div id="box-page-slider" style="--pages: 6;">
                     <div class="box-page">
                         <h2 class="page-title">Which subject would you like help with?</h2>
                         <div>
@@ -402,10 +400,10 @@
                     <div class="box-page">
                         <div>
                             <h2 class="page-title">Any specifics?</h2>
-                            <p>Feel free to add many details. The more we know beforehand, the better we can help. If you have any special requests, you can put them here.</p>
+                            <p>The more we know beforehand, the better we can help. If you have any special requests, you can put them here.</p>
                         </div>
                         <div class="flex-grow">
-                            <textarea id="details-input" placeholder="Details..."></textarea>
+                            <textarea id="details-input" placeholder="What's the specific assignment or topic? What are you struggling with most?"></textarea>
                         </div>
                         <div class="bottom-buttons horiz-spaced">
                             <button onclick="previousPage()">
@@ -501,6 +499,53 @@
                                 Back
                             </button>
                             <button onclick="nextPage()" id="timePageNextButton">
+                                Next
+                                <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" transform="matrix(-2, 0, 0, -2, 0, 0)rotate(0)">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="0.288"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <g id="Arrow / Caret_Left_SM">
+                                            <path id="Vector" d="M13 15L10 12L13 9" stroke-width="1.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Review session request before sending -->
+                    <div class="box-page">
+                        <div>
+                            <h2 class="page-title">Review your request</h2>
+                            <p>Please verify all information below is correct before submitting your request.</p>
+                        </div>
+                        <div class="flex-grow">
+                            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr;">
+                                <p><b>Class:</b> <span id="review-class"></span></p>
+                                <p><b>Date:</b> <span id="review-date"></span></p>
+                                <p><b>Time:</b> <span id="review-start"></span> - <span id="review-end"></span></p>
+                            </div>
+                            <p><b>Session Details:</b><br><span id="review-details"></span></p>
+                        </div>
+                        <div class="bottom-buttons horiz-spaced">
+                            <button onclick="previousPage()">
+                                <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" transform="matrix(2, 0, 0, 2, 0, 0)rotate(0)">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="0.288"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <g id="Arrow / Caret_Left_SM">
+                                            <path id="Vector" d="M13 15L10 12L13 9" stroke-width="1.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                                Back
+                            </button>
+                            <button onclick="nextPage()">
                                 Request Session
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(-2, 0, 0, -2, 0, 0)rotate(0)">
@@ -536,8 +581,8 @@
     </div>
     <script src="scripts.js"></script>
     <script>
-        let subjects = ["Math", "Science", "English", "Social Studies", "Spanish", "German", "French"];
-        let classes = [{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"AP Environmental Science","subject":"Science"},{"name":"Environmental Science","subject":"Science"},{"name":"Marine Biology","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"AP Physics C","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"AP Research","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP Psychology","subject":"Social Studies"},{"name":"AP Government","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"},{"name":"AP Spanish Language and Culture","subject":"Spanish"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"},{"name":"French III","subject":"French"},{"name":"French IV","subject":"French"}];
+        let subjects = ["Math","Science","English","Social Studies","Spanish","German","French"];
+        let classes = [{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"AP Environmental Science","subject":"Science"},{"name":"Environmental Science","subject":"Science"},{"name":"Marine Biology","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"AP Physics C","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Literature and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"AP Research","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP Government","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"},{"name":"AP Spanish Language and Culture","subject":"Spanish"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"},{"name":"French III","subject":"French"},{"name":"French IV","subject":"French"}];
         let validSessionTimes = [];
         let selectedSubject = null;
         let classesToView = [];
@@ -545,7 +590,7 @@
         let selectedTime = null;
         let ptd = null;
         let currentPage = 1;
-        const numberOfInputPages = 4;
+        const numberOfInputPages = 5;
         const pageSlider = document.getElementById("box-page-slider");
         const progressBar = document.getElementById("progress-bar");
 
@@ -553,7 +598,8 @@
             progressBar.style.setProperty("width", `${(pageNumber - 1) / numberOfInputPages * 100}%`);
             pageSlider.style.setProperty("translate", `calc(${pageNumber - 1} * -1 * (100% + 100px) / ${numberOfInputPages + 1})`);
             currentPage = pageNumber;
-            if (pageNumber == 5) sendSessionRequest();
+            if (pageNumber == numberOfInputPages) updateReviewPage();
+            if (pageNumber == numberOfInputPages + 1) sendSessionRequest();
         }
         function previousPage() {
             if (selectedSubject == "Other (Not Listed)" && currentPage == 3) {
@@ -752,6 +798,30 @@
             else customTimeInputError_sessionEarly.classList.remove("active");
             if (startEndFilled && startEndMismatch) customTimeInputError_startEndMismatch.classList.add("active");
             else customTimeInputError_startEndMismatch.classList.remove("active");
+        }
+        // #endregion
+
+        // #region Review Page Logic
+        const reviewClass = document.getElementById("review-class");
+        const reviewDetails = document.getElementById("review-details");
+        const reviewDate = document.getElementById("review-date");
+        const reviewStart = document.getElementById("review-start");
+        const reviewEnd = document.getElementById("review-end");
+        const reviewTutorPref = document.getElementById("review-tutorPref");
+        function updateReviewPage() {
+            reviewClass.textContent = selectedSubject == "Other (Not Listed)" ? "Other" : selectedClass.name;
+            reviewDetails.textContent = detailsInput.value || "No additional details provided.";
+            if (timeInput.value == -1) { // Custom time
+                reviewDate.textContent = new Date(selectedTime.date).toDateString();
+                reviewStart.textContent = formatTime(new Date(selectedTime.timeStart));
+                reviewEnd.textContent = formatTime(new Date(selectedTime.timeEnd));
+            } else { // Prefilled time
+                reviewDate.textContent = selectedTime.timeStart.toDateString();
+                reviewStart.textContent = formatTime(selectedTime.timeStart);
+                reviewEnd.textContent = formatTime(selectedTime.timeEnd);
+            }
+            if (document.getElementById("ptoci").checked) reviewTutorPref.textContent = ptd.n;
+            else reviewTutorPref.textContent = "No preference";
         }
         // #endregion
 
