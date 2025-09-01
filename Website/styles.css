@@ -134,6 +134,10 @@ a:not(.button).text-link:hover::after {
     line-height: 2; /* Fixes the bug that makes the right side have horizontal white-space channels because the SVG is bigger than line-height */
 }
 
+#topnav * {
+    color: inherit;
+}
+
 #topnav>div {
     display: flex;
     height: 100%;
