@@ -13,33 +13,32 @@
             flex-direction: column;
         }
 
-        #content {
-            max-width: var(--max-content-width);
-            margin-inline: auto;
-        }
-
-        #lead-section {
+        .lead-section {
             display: flex;
             margin-block: 20px;
+            gap: 20px;
         }
 
-        #heading {
+        .heading {
             margin: 0;
         }
 
-        #subheading {
+        .subheading {
             margin-top: 0;
             font-weight: 400;
         }
 
-        #settings-btn {
+        #settings-btn, #close-settings-btn {
             font-weight: 700;
             font-size: 1.1em;
             margin-top: 10px;
+            display: flex;
+            gap: 5px;
+            align-items: center;
         }
 
         #content {
-            padding-inline: 10px;
+            padding-inline: 20px;
         }
 
         #dashboard-content {
@@ -48,29 +47,65 @@
             gap: 20px;
         }
 
-        #dashboard-content > div {
+        .dashboard-panel {
             border-radius: 20px;
-            box-shadow: 0 0 10px #000000;
+            box-shadow: 0 0 5px #000000;
             padding: 20px;
+            padding-block: 15px;
             background: #FFFFFF;
         }
 
-        /* #upcoming-sessions-list>div {
-            background-color: var(--accent-soft);
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid var(--accent);
-        }
-
-        #upcoming-sessions-list>div>h2 {
+        .dashboard-panel > h2:first-child {
             margin-top: 0;
         }
 
-        #upcoming-sessions-list>div>p {
-            margin-bottom: 0;
-        } */
+        .content-page {
+            display: none;
+            justify-content: center;
+        }
+
+        .content-page > div {
+            max-width: var(--max-content-width);
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .content-page.active {
+            display: flex;
+        }
 
         /* #region Settings Page */
+
+        #settings-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 100px;
+        }
+
+        .no-interact {
+            user-select: none;
+            pointer-events: none;
+        }
+
+        #settings-changes-panel {
+            opacity: 0;
+            user-select: none;
+            pointer-events: none;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.5s;
+            display: flex;
+            gap: 10px;
+        }
+
+        #settings-changes-panel.active {
+            user-select: unset;
+            pointer-events: unset;
+            opacity: 1;
+        }
 
         /* #endregion */
 
@@ -86,31 +121,87 @@
             opacity: 1;
         }
         /* #endregion */
+    
+        @media (max-width: 800px) {
+            #dashboard-content {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div id="topnav"></div>
-    <div id="content">
-        <div id="lead-section">
-            <div class="flex-grow">
-                <h1 id="heading">Welcome back, <span id="first-name"></span>!</h1>
-                <h3 id="subheading">Ready to make the most of your learning journey today?</h3>
+    <div id="content" class="active content-page">
+        <div>
+            <div class="lead-section">
+                <div class="flex-grow">
+                    <h1 class="heading">Welcome back, <span id="first-name"></span>!</h1>
+                    <h3 class="subheading">Ready to make the most of your learning journey today?</h3>
+                </div>
+                <div>
+                    <button id="settings-btn" class="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                        Settings
+                    </button>
+                </div>
             </div>
-            <div>
-                <button id="settings-btn" class="button">Settings</button>
+            <div id="dashboard-content">
+                <div>
+                    <div class="dashboard-panel">
+                        <h2>Profile Summary</h2>
+                        <p><b>Name:</b> <span id="full-name"></span></p>
+                        <p><b>Email:</b> <span id="email"></span></p>
+                        <p><b>Role:</b> <span id="role"></span></p>
+                    </div>
+                </div>
+                <div class="dashboard-panel">
+                    <h2>Upcoming Sessions</h2>
+                    <div id="upcoming-sessions-list"></div>
+                </div>
             </div>
         </div>
-        <div id="dashboard-content">
-            <div>
-                <h2>Profile Summary</h2>
-                <p><b>Name:</b> <span id="full-name"></span></p>
-                <p><b>Email:</b> <span id="email"></span></p>
-                <p><b>Role:</b> <span id="role"></span></p>
+    </div>
+    <div id="settings-page" class="content-page">
+        <div>
+            <div class="lead-section">
+                <div class="flex-grow">
+                    <h1 class="heading">Account Settings</h1>
+                    <h3 class="subheading">Update your account settings here.</h3>
+                </div>
+                <div>
+                    <button id="close-settings-btn" class="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        Close
+                    </button>
+                </div>
             </div>
-            <div>
-                <h2>Upcoming Sessions</h2>
-                <div id="upcoming-sessions-list"></div>
+            
+            <div id="settings-dashboard">
+                <div class="dashboard-panel">
+                    <h2 class="heading">Terms of Service (ToS)</h2>
+                    <p class="subheading">The ToS describe the rules, responsibilities, and guidelines for participating in the RoyalScholar tutoring program. <a href="./marketing-activities.html" class="text-link">Read the full ToS here.</a></a></p>
+                    <label class="checkbox-label no-interact">Yes, I agree to the ToS described above.
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="dashboard-panel">
+                    <h2 class="heading">Marketing Activities</h2>
+                    <p class="subheading">Receive updates about new features, special offers, and educational content. <a href="./marketing-activities.html" class="text-link">Further reading.</a></a></p>
+                    <label class="checkbox-label">Yes, I want to receive marketing communications.
+                        <input type="checkbox" id="marketing-activities-checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="dashboard-panel" id="settings-changes-panel">
+                <button id="save-settings-btn" class="button">
+                    Save Changes
+                </button>
+                <button id="discard-settings-btn" class="accent-button">
+                    Discard Changes
+                </button>
             </div>
         </div>
     </div>
@@ -124,30 +215,95 @@
     </div>
     <script src="scripts.js"></script>
     <script>
+        let userSettings = null;
+        let newUserSettings = null;
+        const settingsBtn = document.getElementById("settings-btn");
+        const closeSettingsBtn = document.getElementById("close-settings-btn");
+        const settingsPage = document.getElementById("settings-page");
+        const content = document.getElementById("content");
+        settingsBtn.addEventListener("click", () => {
+            settingsPage.classList.add("active");
+            content.classList.remove("active");
+        });
+        closeSettingsBtn.addEventListener("click", () => {
+            settingsPage.classList.remove("active");
+            content.classList.add("active");
+        });
+
+        const marketingActivitiesCheckbox = document.getElementById("marketing-activities-checkbox");
+        const saveSettingsBtn = document.getElementById("save-settings-btn");
+        const discardSettingsBtn = document.getElementById("discard-settings-btn");
+        const settingsChangesPanel = document.getElementById("settings-changes-panel");
+        marketingActivitiesCheckbox.addEventListener("input", () => {
+            newUserSettings.marketingActivities = marketingActivitiesCheckbox.checked;
+            updateChangeSettingsDisplay();
+        });
+        saveSettingsBtn.addEventListener("click", () => {
+            sendAPIReq({
+                reqType: "updateSettings",
+                settings: newUserSettings
+            }, () => {
+                userSettings = duplicateObject(newUserSettings);
+                loadSettingsDisplay();
+            });
+        });
+        discardSettingsBtn.addEventListener("click", () => {
+            newUserSettings = duplicateObject(userSettings);
+            loadSettingsDisplay(); // Reset everything and refresh settings
+        });
+
         function loadAccountDashboard(account) {
             document.getElementById("first-name").textContent = account.name.split(" ")[0];
             document.getElementById("full-name").textContent = account.name;
             document.getElementById("email").textContent = account.email;
-            document.getElementById("role").textContent = "Tutor"; //account.role
+            document.getElementById("role").textContent = account.role;
+            userSettings = account.settings;
+            newUserSettings = duplicateObject(userSettings);
+            loadSettingsDisplay();
 
-            let upcomingTutorSessions = account.upcomingTutorSessions;
-            let upcomingSessionsList = document.getElementById("upcoming-sessions-list");
-            upcomingTutorSessions.forEach(session => {
-                upcomingSessionsList.innerHTML += `
-                    <div>
-                        <h2>${session[3]}</h2>
-                        <p><b>Date:</b> ${new Date(session[0]).toDateString()}</p>
-                        <p><b>Start Time:</b> ${new Date(session[1]).toLocaleTimeString()}</p>
-                        <p><b>End Time:</b> ${new Date(session[2]).toLocaleTimeString()}</p>
-                        <p><b>Location:</b> ${session[4]}</p>
-                        <p><b>Subject:</b> ${session[5].subject}</p>
-                        <p><b>Class:</b> ${session[5].className}</p>
-                        <p><b>Details:</b> ${session[6]}</p>
-                        <p><b>Tutor:</b> ${session[10] != "" ? session[10] : "Not assigned"}</p>
-                    </div>
-                `;
-            });
+            // let upcomingTutorSessions = account.upcomingTutorSessions;
+            // let upcomingSessionsList = document.getElementById("upcoming-sessions-list");
+            // upcomingTutorSessions.forEach(session => {
+            //     upcomingSessionsList.innerHTML += `
+            //         <div>
+            //             <h2>${session[3]}</h2>
+            //             <p><b>Date:</b> ${new Date(session[0]).toDateString()}</p>
+            //             <p><b>Start Time:</b> ${new Date(session[1]).toLocaleTimeString()}</p>
+            //             <p><b>End Time:</b> ${new Date(session[2]).toLocaleTimeString()}</p>
+            //             <p><b>Location:</b> ${session[4]}</p>
+            //             <p><b>Subject:</b> ${session[5].subject}</p>
+            //             <p><b>Class:</b> ${session[5].className}</p>
+            //             <p><b>Details:</b> ${session[6]}</p>
+            //             <p><b>Tutor:</b> ${session[10] != "" ? session[10] : "Not assigned"}</p>
+            //         </div>
+            //     `;
+            // });
         }
+
+        function loadSettingsDisplay() {
+            marketingActivitiesCheckbox.checked = userSettings.marketingActivities;
+            updateChangeSettingsDisplay();
+        }
+
+        function updateChangeSettingsDisplay() {
+            if (!compareObjects(userSettings, newUserSettings)) settingsChangesPanel.classList.add("active");
+            else settingsChangesPanel.classList.remove("active");
+        }
+
+        function compareObjects(obj1, obj2) {
+            return JSON.stringify(obj1) == JSON.stringify(obj2);
+        }
+
+        function duplicateObject(obj) {
+            return JSON.parse(JSON.stringify(obj));
+        }
+
+        loadAccountDashboard({
+        name: "Brody Smalley",
+        email: "bsma3924@student.dodea.edu",
+        upcomingTutorSessions: [],
+        settings: { marketingActivities: true }
+      });
 
         function showNoAccountModal() {
             document.getElementById("no-account").classList.add("active");
