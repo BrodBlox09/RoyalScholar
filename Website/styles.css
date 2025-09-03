@@ -109,6 +109,21 @@ a:not(.button).text-link:hover::after {
     color: #dddddd;
 }
 
+.accent-button {
+    background: var(--gray-text);
+    border-radius: 10px;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.accent-button:hover {
+    background: var(--dark-gray-text);
+    color: #dddddd;
+}
+
 /* #region topnav */
 #topnav-wrapper {
     z-index: 999; /* Ensure stacking context is ALWAYS above all other things on the page */
