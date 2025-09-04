@@ -84,7 +84,8 @@ function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}) {
             thenLambda(res);
         });
     }).catch(() => {
-        showErrorModal("Failed to access API. Please try again later.");
+        let handled = errorLambda({errorCode: "no-connection"});
+        if (!handled) showErrorModal("Failed to access API. Please try again later.");
         return;
     });
 }
