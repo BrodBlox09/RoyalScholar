@@ -92,8 +92,8 @@
             opacity: 0;
             user-select: none;
             pointer-events: none;
-            position: absolute;
-            bottom: 20px;
+            position: fixed;
+            bottom: -20px;
             left: 50%;
             transform: translateX(-50%);
             transition: all 0.5s;
@@ -105,6 +105,7 @@
             user-select: unset;
             pointer-events: unset;
             opacity: 1;
+            bottom: 20px;
         }
 
         /* #endregion */
@@ -239,13 +240,20 @@
             updateChangeSettingsDisplay();
         });
         saveSettingsBtn.addEventListener("click", () => {
+            saveSettingsBtn.disabled = true;
+            discardSettingsBtn.disabled = true;
             sendAPIReq({
                 reqType: "updateSettings",
                 settings: newUserSettings
             }, () => {
                 userSettings = duplicateObject(newUserSettings);
+                after();
+            }, after); // Even if it fails, we want to re-enable the buttons
+            function after() {
                 loadSettingsDisplay();
-            });
+                saveSettingsBtn.disabled = false;
+                discardSettingsBtn.disabled = false;
+            }
         });
         discardSettingsBtn.addEventListener("click", () => {
             newUserSettings = duplicateObject(userSettings);
