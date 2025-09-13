@@ -111,7 +111,7 @@
 
         div:has(> .tnp-class-list) {
             display: grid;
-            grid-template-rows: auto 0fr;
+            grid-template-rows: calc(1lh + 12px) 0fr;
             transition: grid-template-rows 0.5s;
         }
 
@@ -121,7 +121,7 @@
         }
 
         div:has(> .tnp-class-list.active) {
-            grid-template-rows: auto 1fr;
+            grid-template-rows: calc(1lh + 12px) 1fr;
         }
 
         div:has(> .caret-span) {
@@ -348,12 +348,12 @@
 
                     subjectDivs[cls.subject] = subjectDiv;
                 }
-                subjectDivs[cls.subject].classListDiv.appendChild(createClassNotificationCheckbox(cls.name, tnpHasClass({subject: cls.subject, className: cls.name}), (input) => {
+                subjectDivs[cls.subject].classListDiv.appendChild(createClassNotificationCheckbox(cls.name, tnpHasClass(cls), (input) => {
                     if (input.checked) {
-                        newUserSettings.tnp.push({ subject: cls.subject, className: cls.name });
+                        if (!newTnpHasClass(cls)) newUserSettings.tnp.push(cls);
                         updateChangeSettingsDisplay();
                     } else {
-                        newUserSettings.tnp = newUserSettings.tnp.filter(x => !(x.subject == cls.subject && x.className == cls.name));
+                        newUserSettings.tnp = newUserSettings.tnp.filter(x => !(x.subject == cls.subject && x.name == cls.name));
                         updateChangeSettingsDisplay();
                     }
                 }));
@@ -377,7 +377,11 @@
         }
 
         function tnpHasClass(cls) {
-            return userSettings.tnp.some(x => x.subject == cls.subject && x.className == cls.className);
+            return userSettings.tnp.some(x => x.subject == cls.subject && x.name == cls.name);
+        }
+
+        function newTnpHasClass(cls) {
+            return newUserSettings.tnp.some(x => x.subject == cls.subject && x.name == cls.name);
         }
 
         function loadSettingsDisplay() {
@@ -398,14 +402,6 @@
         function duplicateObject(obj) {
             return JSON.parse(JSON.stringify(obj));
         }
-
-        loadAccountDashboard({
-        name: "Brody Smalley",
-        email: "bsma3924@student.dodea.edu",
-        upcomingTutorSessions: [],
-        settings: { marketingActivities: true, tnp: [{"subject": "Math", "className": "Algebra I"}, {"subject": "Science", "className": "Biology"}] },
-        role: "Administrator"
-      });
 
         function showNoAccountModal() {
             document.getElementById("no-account").classList.add("active");

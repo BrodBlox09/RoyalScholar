@@ -36,16 +36,6 @@
             margin-bottom: 20px;
         }
 
-        @media screen and (max-width: 600px) {
-            #box {
-                width: 100%;
-                min-width: 0;
-                min-height: 75%;
-                justify-content: space-evenly;
-                border-radius: 0;
-            }
-        }
-
         #progress-bar-wrapper {
             width: 100%;
             height: 10px;
@@ -88,6 +78,11 @@
             /* Fix floating point precission error */
             gap: 30px;
             width: 100%;
+        }
+
+        .box-page .flex-grow {
+            max-height: 40vh;
+            overflow: auto;
         }
 
         .bottom-buttons button {
@@ -180,6 +175,7 @@
         }
         /* #endregion */
 
+        /* #region Details */
         #details-input {
             width: 100%;
             height: 10em;
@@ -192,7 +188,9 @@
             font-family: var(--body-font);
             margin-bottom: 50px;
         }
+        /* #endregion */
 
+        /* #region Date and Time Selection */
         .dropdown-field {
             background-color: #ffffff;
             font-family: var(--body-font);
@@ -232,6 +230,13 @@
         .time-input-error:not(.active) {
             display: none;
         }
+        /* #endregion */
+
+        #review-summary-top-grid {
+            display: grid;
+            grid-template-areas: "class class date time";
+            gap: 10px;
+        }
 
         #no-account {
             pointer-events: none;
@@ -263,7 +268,6 @@
 
         #ptoc {
             margin-top: 2rem;
-            opacity: 0;
             pointer-events: none;
             position: relative;
             padding-left: 35px;
@@ -274,12 +278,12 @@
             -ms-user-select: none;
             user-select: none;
             width: fit-content;
-            display: flex;
+            display: none;
             align-items: center;
         }
 
         #ptoc.visible {
-            opacity: 1;
+            display: flex;
             pointer-events: auto;
         }
 
@@ -331,6 +335,19 @@
             transform: rotate(45deg);
         }
         /* #endregion */
+        
+        @media screen and (max-width: 600px) {
+            #box {
+                width: 100%;
+                min-width: 0;
+                min-height: 75%;
+                justify-content: space-evenly;
+                border-radius: 0;
+            }
+            #review-summary-top-grid {
+                grid-template-areas: "class class date" "class class time";
+            }
+        }
     </style>
 </head>
 
@@ -467,7 +484,8 @@
                                     <input class="custom-time-input" type="time" id="time-input-customEnd">
                                 </div>
                             </div>
-                            <label id="ptoc">I would prefer<span id="tn"></span>as my tutor (I understand this is not guaranteed)
+                            <label id="ptoc" class="checkbox-label">
+                                <p>I would prefer<span id="tn"></span>as my tutor (I understand this is not guaranteed)</p>
                                 <input type="checkbox" id="ptoci">
                                 <span class="checkmark"></span>
                             </label>
@@ -512,11 +530,12 @@
                             <p>Please verify all information below is correct before submitting your request.</p>
                         </div>
                         <div class="flex-grow">
-                            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr;">
-                                <p><b>Class:</b> <span id="review-class"></span></p>
-                                <p><b>Date:</b> <span id="review-date"></span></p>
-                                <p><b>Time:</b> <span id="review-start"></span> - <span id="review-end"></span></p>
+                            <div id="review-summary-top-grid">
+                                <p style="grid-area: class;"><b>Class:</b> <span id="review-class"></span></p>
+                                <p style="grid-area: date;"><b>Date:</b> <span id="review-date"></span></p>
+                                <p style="grid-area: time;"><b>Time:</b> <span id="review-start"></span> - <span id="review-end"></span></p>
                             </div>
+                            <p style="margin-top: 0;"><b>Tutor Preference:</b> <span id="review-tutorPref"></span></p>
                             <p><b>Session Details:</b><br><span id="review-details"></span></p>
                         </div>
                         <div class="bottom-buttons horiz-spaced">
@@ -810,8 +829,10 @@
                 reviewStart.textContent = formatTime(selectedTime.timeStart);
                 reviewEnd.textContent = formatTime(selectedTime.timeEnd);
             }
-            if (document.getElementById("ptoci").checked) reviewTutorPref.textContent = ptd.n;
-            else reviewTutorPref.textContent = "No preference";
+            if (document.getElementById("ptoci").checked) {
+                reviewTutorPref.textContent = ptd.n;
+                reviewTutorPref.parentElement.style.display = "block";
+            } else reviewTutorPref.parentElement.style.display = "none";
         }
         // #endregion
 
