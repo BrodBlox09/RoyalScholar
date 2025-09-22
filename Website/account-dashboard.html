@@ -26,6 +26,10 @@
         .subheading {
             margin-top: 0;
             font-weight: 400;
+            color: #555;
+        }
+        p.subheading {
+            font-size: 0.9em;
         }
 
         #settings-btn, #close-settings-btn {
@@ -43,7 +47,7 @@
 
         #dashboard-content {
             display: grid;
-            grid-template-columns: 1fr 5fr;
+            grid-template-columns: 0fr 1fr;
             gap: 20px;
         }
 
@@ -107,7 +111,7 @@
             bottom: 20px;
         }
 
-        /* Tutor Notification Preferences */
+        /* #region Tutor Notification Preferences */
 
         div:has(> .tnp-class-list) {
             display: grid;
@@ -159,11 +163,77 @@
         }
         /* #endregion */
     
-        @media (max-width: 800px) {
+        @media (max-width: 1050px) {
             #dashboard-content {
                 grid-template-columns: 1fr;
             }
         }
+
+        .no-sessions-message {
+            display: none;
+        }
+
+        .no-sessions-message.active {
+            display: block;
+        }
+
+        .session-card {
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #0002;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            background: #f9f9fc;
+            border: 1px solid rgb(214, 214, 205);
+        }
+
+        .session-card-heading-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* #region Session Card Tags */
+        .session-card-tags {
+            display: flex;
+            gap: 8px;
+            --cancelled: none;
+            --pending: none;
+            --confirmed: none;
+            --requested: none;
+            --tutoring: none;
+        }
+
+        .session-card-tags > div {
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        .cancelled-tag {
+            display: var(--cancelled);
+            background: #f8d7da; color: #842029; border: 1px solid #f5c2c7;
+        }
+
+        .pending-tag {
+            display: var(--pending);
+            background: #fff3cd; color: #664d03; border: 1px solid #ffecb5;
+        }
+
+        .confirmed-tag {
+            display: var(--confirmed);
+            background: #d1e7dd; color: #0f5132; border: 1px solid #badbcc;
+        }
+
+        .requested-tag {
+            display: var(--requested);
+            background: #cff4fc; color: #055160; border: 1px solid #b6effb;
+        }
+
+        .tutoring-tag {
+            display: var(--tutoring);
+            background: #e7d6fd; color: #4b2995; border: 1px solid #d3bdfd;
+        }
+        /* #endregion */
     </style>
 </head>
 
@@ -194,7 +264,14 @@
                 </div>
                 <div class="dashboard-panel">
                     <h2>Upcoming Sessions</h2>
-                    <div id="upcoming-sessions-list"></div>
+                    <div id="upcoming-sessions-list">
+                        <div id="student-no-sessions" class="no-sessions-message">
+                            <p>You have no upcoming sessions scheduled. <a href="request-a-session.html" class="text-link">Schedule one now!</a></p>
+                        </div>
+                        <div id="tutor-no-sessions" class="no-sessions-message">
+                            <p>You have no upcoming sessions scheduled. <a href="request-a-session.html" class="text-link">Schedule one</a> or <a href="tutor-a-session.html" class="text-link">find one to tutor</a> now!</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -217,7 +294,7 @@
             <div id="settings-dashboard">
                 <div class="dashboard-panel">
                     <h2 class="heading">Terms of Service (ToS)</h2>
-                    <p class="subheading">The ToS describe the rules, responsibilities, and guidelines for participating in the RoyalScholar tutoring program. <a href="./marketing-activities.html" class="text-link">Read the full ToS here.</a></a></p>
+                    <p class="subheading">The ToS describe the rules, responsibilities, and guidelines for participating in the RoyalScholar tutoring program. <a href="./terms-of-service.html" class="text-link">Read the full ToS here.</a></a></p>
                     <label class="checkbox-label no-interact">Yes, I agree to the ToS described above.
                         <input type="checkbox" checked>
                         <span class="checkmark"></span>
@@ -255,8 +332,50 @@
                 style="font-size: 1.5rem; font-weight: 600; text-align: center;">Create&nbsp;my&nbsp;Account</a>
         </div>
     </div>
+
+    <template id="session-card-template">
+        <div class="session-card">
+            <div class="session-card-top-row">
+                <div class="session-card-heading-row">
+                    <h3 class="heading session-card-class">Class</h3>
+                    <div>
+                        <div class="session-card-tags">
+                            <div class="requested-tag">
+                                <span>You&nbsp;Requested</span>
+                            </div>
+                            <div class="tutoring-tag">
+                                <span>You're&nbsp;Tutoring</span>
+                            </div>
+                            <div class="cancelled-tag">
+                                <span>Cancelled</span>
+                            </div>
+                            <div class="pending-tag">
+                                <span>Pending</span>
+                            </div>
+                            <div class="confirmed-tag">
+                                <span>Confirmed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="subheading session-card-subject">Subject</p>
+            </div>
+            <div class="session-card-details-row">
+                <p><b>Date:</b> <span class="session-card-date">Date</span></p>
+                <p><b>Time:</b> <span class="session-card-time">Time</span></p>
+                <p><b class="session-card-user-descriptor">Student:</b> <span class="session-card-user">Name</span></p>
+            </div>
+            <a class="text-link session-card-details-link">View Details</a>
+        </div>
+    </template>
+
     <script src="scripts.js"></script>
     <script>
+        let upcomingSessionsList = document.getElementById("upcoming-sessions-list");
+        let sessionCardTemplate = document.getElementById("session-card-template");
+        let noSessionsMessage;
+
+        // #region Settings Setup
         let userSettings = null;
         let newUserSettings = null;
         const settingsBtn = document.getElementById("settings-btn");
@@ -303,17 +422,78 @@
             newUserSettings = duplicateObject(userSettings);
             loadSettingsDisplay(); // Reset everything and refresh settings
         });
+        // #endregion
 
         function loadAccountDashboard(account) {
             document.getElementById("first-name").textContent = account.name.split(" ")[0];
             document.getElementById("full-name").textContent = account.name;
             document.getElementById("email").textContent = account.email;
             document.getElementById("role").textContent = account.role;
+            noSessionsMessage = document.getElementById(account.role == "Student" ? "student-no-sessions" : "tutor-no-sessions");
+            loadUpcomingSessions(account.upcomingSessions, account.email, account.sessionDetailsBaseHref);
             userSettings = account.settings;
             newUserSettings = duplicateObject(userSettings);
             loadSettingsDisplay();
         }
 
+        function loadUpcomingSessions(sessions, userEmail, baseHref) {
+            if (sessions.length == 0) {
+                noSessionsMessage.classList.add("active");
+                return;
+            }
+            sessions.sort((a, b) => new Date(a.start) - new Date(b.start));
+            sessions.forEach(session => {
+                /** @type {HTMLElement} */
+                let card = sessionCardTemplate.content.cloneNode(true);
+                let cardTags = card.querySelectorAll(".session-card-tags")[0];
+
+                card.querySelectorAll(".session-card-class")[0].textContent = session.classData.name;
+                card.querySelectorAll(".session-card-subject")[0].textContent = session.classData.subject;
+                card.querySelectorAll(".session-card-date")[0].textContent = formatDate(session.date);
+                let start = new Date(session.start);
+                let end = new Date(session.end);
+                card.querySelectorAll(".session-card-time")[0].textContent = `${formatTime(start)} - ${formatTime(end)}`;
+                if (userEmail == session.studentEmail) {
+                    cardTags.style.setProperty("--requested", "block");
+                    card.querySelectorAll(".session-card-user")[0].textContent = session.tutorName == "" ? "TBD" : session.tutorName;
+                    card.querySelectorAll(".session-card-user-descriptor")[0].textContent = "Tutor:";
+                    if (session.tutorEmail != "") {
+                        cardTags.style.setProperty("--confirmed", "block");
+                    } else {
+                        cardTags.style.setProperty("--pending", "block");
+                    }
+                } else {
+                    cardTags.style.setProperty("--tutoring", "block");
+                    card.querySelectorAll(".session-card-user")[0].textContent = session.studentName;
+                    card.querySelectorAll(".session-card-user-descriptor")[0].textContent = "Student:";
+                    if (session.tutorEmail != "") {
+                        if (session.tutorEmail == userEmail) cardTags.style.setProperty("--confirmed", "block");
+                        else cardTags.style.setProperty("--cancelled", "block");
+                    } else {
+                        cardTags.style.setProperty("--pending", "block");
+                    }
+                }
+                card.querySelectorAll(".session-card-details-link")[0].href = baseHref + session.metadata.sid;
+                
+                upcomingSessionsList.appendChild(card);
+            });
+        }
+
+        function formatDate(time, formatShort) {
+            let options = { dateStyle: "full" };
+            if (formatShort) options.dateStyle = "medium";
+            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
+
+            return dateFormatter.format(new Date(time));
+        }
+
+        function formatTime(time) {
+            let timeFormatter = Intl.DateTimeFormat({ region: "en-us" }, { timeStyle: "short", hour12: false });
+
+            return timeFormatter.format(new Date(time));
+        }
+
+        // #region Settings
         function setupTNPCheckboxes() {
             tnpCheckboxes.innerHTML = "";
             let subjectDivs = {};
@@ -394,6 +574,7 @@
             if (!compareObjects(userSettings, newUserSettings)) settingsChangesPanel.classList.add("active");
             else settingsChangesPanel.classList.remove("active");
         }
+        // #endregion
 
         function compareObjects(obj1, obj2) {
             return JSON.stringify(obj1) == JSON.stringify(obj2);
@@ -406,6 +587,23 @@
         function showNoAccountModal() {
             document.getElementById("no-account").classList.add("active");
         }
+
+        // #debug
+        loadAccountDashboard({"hasAccount":true,"name":"Brody Smalley","email":"bsma3924@student.dodea.edu","role":"Administrator","upcomingSessions":[{"row":2,"sid":63940,"dataRange":["Fri Sep 19 2025","2025-09-19T11:45:00.000Z","2025-09-19T12:20:00.000Z","September 19, Seminar Session 1",{"subject":"German","name":"German III"},"Perfect und preteretum.","egil4211@student.dodea.edu",{"chat":[]},{"sid":63940},"bsma3924@student.dodea.edu",null],
+            "date":"Fri Sep 19 2025",
+            "start":"2025-09-19T11:45:00.000Z",
+            "end":"2025-09-19T12:20:00.000Z",
+            "name":"September 19, Seminar Session 1",
+            "classData":{"subject":"German","name":"German III"},
+            "requestDetails":"Perfect und preteretum.",
+            "tutorEmail":"bsma3924@student.dodea.edu",
+            "requestChat":{"chat":[]},"metadata":{"sid":63940, "signedUpTutors": [{email: "bsma3924@student.dodea.edu", name: "Brody Smalley"}]},
+            "studentEmail":"egil4211@student.dodea.edu",
+            "tutorName":"Brody Smalley",
+            "studentName":"Eddie Gilbert"}
+            ],"sessionDetailsBaseHref":"https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPatlXiZzjcSlTi5rxrgjiqEXL_dMjGY1YTIMDMwzG2GA/exec?page=session-request-details&sid=",
+        "settings": {"marketingActivities":true,"tnp":[{"subject":"Math","name":"Algebra I"},{"subject":"Science","name":"Biology"},{"subject":"English","name":"AP Seminar"}]}});
+        // #enddebug
 
         // #debug
         /*

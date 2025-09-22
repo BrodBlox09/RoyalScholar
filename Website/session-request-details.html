@@ -249,8 +249,7 @@
                     <p class="no-margin"><b>Student Name:</b> <span id="request-student-name"></span></p>
                 </div>
                 <div style="min-width: 200px;">
-                    <!-- TEMPORARY -->
-                    <p style="margin-top: 0;">No tutors signed up.</p>
+                    <p style="margin-top: 0;" id="sign-up-for-session-text">No tutors signed up.</p>
                     <button id="sign-up-for-session-button">Sign Up</button>
                 </div>
             </div>
@@ -327,12 +326,63 @@
         let sendMessageTextArea = document.getElementById("send-message-text");
         let sendMessageButton = document.getElementById("send-message-button");
         let signUpForSessionButton = document.getElementById("sign-up-for-session-button");
+        let signUpForSessionText = document.getElementById("sign-up-for-session-text");
+        let sessionSignUp = null;
+        let userEmail = null;
+        let userSignedUp = false;
         let chatMessages = [];
 
         signUpForSessionButton.addEventListener("click", (e) => {
-            signUpForSessionButton.textContent = "Signed Up! (not active)";
-            signUpForSessionButton.disabled = true;
+            if (userSignedUp) {
+                // Withdraw sign up
+                signUpForSessionButton.textContent = "Withdrawing...";
+                signUpForSessionButton.disabled = true;
+                sendAPIReq({
+                    reqType: "tutorChangeSignUpForSession",
+                    sid: SID,
+                    signUpType: "withdraw"
+                }, (res) => {
+                    sessionSignUp = res.signedUpTutors;
+                    updateSignUpStatusDisplay();
+                    userSignedUp = false;
+                });
+                return;
+            } else {
+                // Sign up
+                signUpForSessionButton.textContent = "Signing up...";
+                signUpForSessionButton.disabled = true;
+                sendAPIReq({
+                    reqType: "tutorChangeSignUpForSession",
+                    sid: SID,
+                    signUpType: "signUp"
+                }, (res) => {
+                    sessionSignUp = res.signedUpTutors;
+                    updateSignUpStatusDisplay();
+                    signUpForSessionButton.textContent = "Withdraw Sign Up";
+                    signUpForSessionButton.disabled = false;
+                    userSignedUp = true;
+                });
+            }
         });
+
+        function updateSignUpStatusDisplay() {
+            if (sessionSignUp.length == 0) {
+                signUpForSessionText.textContent = "No tutors signed up.";
+                signUpForSessionButton.textContent = "Sign Up";
+            } else if (sessionSignUp.length == 1) {
+                signUpForSessionText.textContent = `1 tutor signed up: ${sessionSignUp[0].name}`;
+            } else {
+                let tutorNames = sessionSignUp.map(tutor => tutor.name);
+                signUpForSessionText.textContent = `${sessionSignUp.length} tutors signed up: ${tutorNames.slice(0, -1).join(", ")} and ${tutorNames.slice(-1)}`;
+            }
+            if (sessionSignUp.some(tutor => tutor.email == userEmail)) {
+                signUpForSessionButton.textContent = "Withdraw Sign Up";
+                userSignedUp = true;
+            } else {
+                signUpForSessionButton.textContent = "Sign Up";
+                userSignedUp = false;
+            }
+        }
 
         sendMessageButton.addEventListener("click", sendMessage);
         sendMessageTextArea.addEventListener("input", updateSendMessageRowStyles);
@@ -395,9 +445,13 @@
         }
 
         function fillInRequestInfo(requestInfo) {
-            document.getElementById("request-class").textContent = requestInfo.subject;
+            document.getElementById("request-class").textContent = requestInfo.className;
             document.getElementById("request-time").textContent = `${formatDate(requestInfo.time.start)} from ${formatTime(requestInfo.time.start)} - ${formatTime(requestInfo.time.end)}`;
             document.getElementById("request-student-name").textContent = requestInfo.studentName;
+
+            sessionSignUp = requestInfo.signedUpTutors;
+            userEmail = requestInfo.userEmail;
+            updateSignUpStatusDisplay();
 
             chatMessages = requestInfo.chat;
             updateChatDisplay();
@@ -449,12 +503,14 @@
         // #debug
         fillInRequestInfo({
             studentName: "Brody Smalley",
+            userEmail: "bsma3924@student.dodea.edu",
             time: {
                 text: "Feb. 28 13:15 - 14:30",
                 start: 1740744900000,
                 end: 1740749400000
             },
-            subject: "AP Seminar+",
+            className: "AP Seminar+",
+            metadata: {"sid":461, "signedUpTutors": []},
             chat: [
                 {
                     "sender": "SYSTEM",

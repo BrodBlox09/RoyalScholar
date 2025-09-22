@@ -370,6 +370,13 @@ a:not(.button).text-link:hover::after {
     text-align: center;
 }
 
+.no-user-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .flex-vert {
     display: flex;
     flex-direction: column;
