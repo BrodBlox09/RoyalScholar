@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #content {
+            max-width: var(--max-content-width);
+            margin-inline: auto;
+            margin-top: 1em;
+            padding-inline: 1rem;
+        }
+
+        .heading {
+            margin: 0;
+        }
+
+        .subheading {
+            margin-top: 0;
+            font-weight: 400;
+            color: #555;
+        }
+        p.subheading {
+            font-size: 0.9em;
+        }
+
+        .session-card {
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #0002;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            background: #ffffff;
+            border: 1px solid rgb(212, 212, 212);
+        }
+
+        .session-card-heading-row {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .session-card-details-row {
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* #region Session Card Tags */
+        .session-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: end;
+            gap: 8px;
+            --unassigned: none;
+            --assigned: none;
+        }
+
+        .session-card-tags > div {
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            user-select: none;
+        }
+
+        .unassigned-tag {
+            display: var(--unassigned);
+            background: #fff3cd; color: #664d03; border: 1px solid #ffecb5;
+        }
+
+        .assigned-tag {
+            display: var(--assigned);
+            background: #d1e7dd; color: #0f5132; border: 1px solid #badbcc;
+        }
+        /* #endregion */
+
+        .session-card-assign-tutor-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .session-card-assign-tutor-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 8px;
+            background: #f9f9f9;
+            font-size: 0.9em;
+        }
+
+        .tutor-assign-button {
+            padding: 6px 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="topnav"></div>
+    <div id="content">
+        <h1 class="heading">Session Manager</h1>
+        <h3 class="subheading">Manage sessions and assign tutors here.</h3>
+
+        <div id="session-list-container">
+            
+        </div>
+    </div>
+
+    <template id="session-card-template">
+        <div class="session-card">
+            <div class="session-card-heading-row">
+                <div class="flex-grow">
+                    <h3 class="heading session-card-class">Class</h3>
+                    <p class="subheading session-card-subject" style="margin-bottom: 0;">Subject</p>
+                </div>
+                <div>
+                    <div class="session-card-tags">
+                        <div class="unassigned-tag">Unassigned</div>
+                        <div class="assigned-tag">Assigned</div>
+                    </div>
+                </div>
+            </div>
+            <div class="session-card-details-row">
+                <div>
+                    <p style="margin-top: 0;"><b>Date:</b> <span class="session-card-date">Date</span></p>
+                    <p><b>Time:</b> <span class="session-card-time">Time</span></p>
+                    <p><strong>Student:</strong> <span class="session-card-student">Name</span></p>
+                    <p><strong>Tutor:</strong> <span class="session-card-tutor">Name</span></p>
+                </div>
+                <div class="session-card-assign-tutor-container">
+                    
+                </div>
+            </div>
+            <a class="text-link session-card-details-link">View Details</a>
+        </div>
+    </template>
+    <template id="session-card-assign-tutor-item-template">
+        <div class="session-card-assign-tutor-item">
+            <span class="tutor-name">Name</span>
+            <button class="button tutor-assign-button">Assign</button>
+        </div>
+    </template>
+    <script src="scripts.js"></script>
+    <script>
+        let sessionListContainer = document.getElementById("session-list-container");
+        let sessionCardTemplate = document.getElementById("session-card-template");
+
+        function updateSessionsDisplay(sessionData) {
+            sessionListContainer.innerHTML = "";
+            if (sessionData.length === 0) {
+                let noSessionsMessage = document.createElement("p");
+                noSessionsMessage.textContent = "No sessions have been scheduled.";
+                sessionListContainer.appendChild(noSessionsMessage);
+                return;
+            }
+            sessionData.forEach(session => {
+                let card = sessionCardTemplate.content.cloneNode(true);
+                let cardTags = card.querySelector(".session-card-tags");
+
+                card.querySelector(".session-card-class").textContent = session.classData.name;
+                card.querySelector(".session-card-subject").textContent = session.classData.subject;
+                card.querySelector(".session-card-date").textContent = session.date;
+                let start = new Date(session.start);
+                let end = new Date(session.end);
+                card.querySelector(".session-card-time").textContent = `${formatTime(start)} - ${formatTime(end)}`;
+                card.querySelector(".session-card-student").textContent = session.studentName;
+                card.querySelector(".session-card-tutor").textContent = session.tutorName || "Unassigned";
+
+                let assignContainer = card.querySelector(".session-card-assign-tutor-container");
+                if (session.metadata.signedUpTutors.length > 0) {
+                    let tutorItemTemplate = document.getElementById("session-card-assign-tutor-item-template");
+                    session.metadata.signedUpTutors.forEach(tutor => {
+                        let tutorItem = tutorItemTemplate.content.cloneNode(true);
+                        tutorItem.querySelector(".tutor-name").textContent = tutor.name;
+                        let assignButton = tutorItem.querySelector(".tutor-assign-button");
+                        assignButton.dataset.assigned = session.tutorEmail == tutor.email;
+                        if (assignButton.dataset.assigned == "true") assignButton.textContent = "Unassign";
+                        assignButton.onclick = () => {
+                            assignContainer.querySelectorAll(".tutor-assign-button").forEach(button => button.disabled = true);
+                            sendAPIReq({
+                                reqType: "sessionManagerAssignTutorToSession",
+                                sid: session.sid,
+                                assigning: assignButton.dataset.assigned != "true",
+                                tutorEmail: tutor.email
+                            }, () => {
+                                if (assignButton.dataset.assigned == "true") {
+                                    session.tutorEmail = "";
+                                    session.tutorName = "";
+                                } else {
+                                    session.tutorEmail = tutor.email;
+                                    session.tutorName = tutor.name;
+                                }
+                                
+                                updateSessionsDisplay(sessionData); // Reload to update UI
+                            });
+                        };
+                        assignContainer.appendChild(tutorItem);
+                    });
+                } else {
+                    assignContainer.innerHTML = "<span>No tutors have signed up for this session.</span>";
+                }
+
+                if (session.tutorName) cardTags.style.setProperty("--assigned", "block");
+                else cardTags.style.setProperty("--unassigned", "block");
+
+                card.querySelector(".session-card-details-link").href = `session-details.html?sessionId=${session.sid}`;
+
+                sessionListContainer.appendChild(card);
+            });
+        }
+
+        // #debug
+        // generate example session data
+        const exampleSessions = [
+            {"row":2,"sid":63940,"dataRange":["Fri Sep 19 2025","2025-09-19T11:45:00.000Z","2025-09-19T12:20:00.000Z","September 19, Seminar Session 1",{"subject":"German","name":"German III"},"Perfect und preteretum.","egil4211@student.dodea.edu",{"chat":[]},{"sid":63940},"bsma3924@student.dodea.edu",null],
+            "date":"Fri Sep 19 2025",
+            "start":"2025-09-19T11:45:00.000Z",
+            "end":"2025-09-19T12:20:00.000Z",
+            "name":"September 19, Seminar Session 1",
+            "classData":{"subject":"German","name":"German III"},
+            "requestDetails":"Perfect und preteretum.",
+            "tutorEmail":"",
+            "requestChat":{"chat":[]},"metadata":{"sid":63940, "signedUpTutors": [{email: "bsma3924@student.dodea.edu", name: "Brody Smalley"}, {email: "asdf345@student.dodea.edu", name: "R T"}]},
+            "studentEmail":"expl1234@student.dodea.edu",
+            "tutorName":"",
+            "studentName":"Example Student"}
+        ];
+        updateSessionsDisplay(exampleSessions);
+        // #enddebug
+
+        // #debug
+        /*
+        // #enddebug
+        updateSessionsDisplay(<?!= sessionData ?>);
+        // #debug
+        */
+        // #enddebug
+    </script>
+</body>
+
+</html>

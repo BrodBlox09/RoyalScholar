@@ -33,6 +33,9 @@
                     </svg></span>
                     <div>
                         <div>
+                            <a href="session-manager.html">
+                                Session Manager
+                            </a>
                             <a href="view-logs.html">
                                 View Logs
                             </a>
@@ -78,6 +81,9 @@
                     <a class="tutor-vis-only" href="tutor-a-session.html">Tutor a Session</a>
                     <div class="admin-vis-only">
                         <p>Admin Tools</p>
+                        <div>
+                            <a href="session-manager.html">Session Manager</a>
+                        </div>
                         <div>
                             <a href="view-logs.html">View Logs</a>
                         </div>

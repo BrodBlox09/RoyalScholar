@@ -453,18 +453,18 @@
             sessions.forEach(session => {
                 /** @type {HTMLElement} */
                 let card = sessionCardTemplate.content.cloneNode(true);
-                let cardTags = card.querySelectorAll(".session-card-tags")[0];
+                let cardTags = card.querySelector(".session-card-tags");
 
-                card.querySelectorAll(".session-card-class")[0].textContent = session.classData.name;
-                card.querySelectorAll(".session-card-subject")[0].textContent = session.classData.subject;
-                card.querySelectorAll(".session-card-date")[0].textContent = formatDate(session.date);
+                card.querySelector(".session-card-class").textContent = session.classData.name;
+                card.querySelector(".session-card-subject").textContent = session.classData.subject;
+                card.querySelector(".session-card-date").textContent = formatDate(session.date);
                 let start = new Date(session.start);
                 let end = new Date(session.end);
-                card.querySelectorAll(".session-card-time")[0].textContent = `${formatTime(start)} - ${formatTime(end)}`;
+                card.querySelector(".session-card-time").textContent = `${formatTime(start)} - ${formatTime(end)}`;
                 if (userEmail == session.studentEmail) {
                     cardTags.style.setProperty("--requested", "block");
-                    card.querySelectorAll(".session-card-user")[0].textContent = session.tutorName == "" ? "TBD" : session.tutorName;
-                    card.querySelectorAll(".session-card-user-descriptor")[0].textContent = "Tutor:";
+                    card.querySelector(".session-card-user").textContent = session.tutorName == "" ? "TBD" : session.tutorName;
+                    card.querySelector(".session-card-user-descriptor").textContent = "Tutor:";
                     if (session.tutorEmail != "") {
                         cardTags.style.setProperty("--confirmed", "block");
                     } else {
@@ -472,8 +472,8 @@
                     }
                 } else {
                     cardTags.style.setProperty("--tutoring", "block");
-                    card.querySelectorAll(".session-card-user")[0].textContent = session.studentName;
-                    card.querySelectorAll(".session-card-user-descriptor")[0].textContent = "Student:";
+                    card.querySelector(".session-card-user").textContent = session.studentName;
+                    card.querySelector(".session-card-user-descriptor").textContent = "Student:";
                     if (session.tutorEmail != "") {
                         if (session.tutorEmail == userEmail) cardTags.style.setProperty("--confirmed", "block");
                         else cardTags.style.setProperty("--cancelled", "block");
@@ -481,7 +481,7 @@
                         cardTags.style.setProperty("--pending", "block");
                     }
                 }
-                card.querySelectorAll(".session-card-details-link")[0].href = baseHref + session.metadata.sid;
+                card.querySelector(".session-card-details-link").href = baseHref + session.metadata.sid;
                 
                 upcomingSessionsList.appendChild(card);
             });
