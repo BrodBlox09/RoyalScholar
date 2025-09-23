@@ -210,17 +210,27 @@
 
                 if (session.tutorName) cardTags.style.setProperty("--assigned", "block");
                 else cardTags.style.setProperty("--unassigned", "block");
+                
+                // #debug
+                card.querySelector(".session-card-details-link").href = "session-request-details.html?sid=" + session.sid;
+                // #enddebug
 
-                card.querySelector(".session-card-details-link").href = `session-details.html?sessionId=${session.sid}`;
+                // #debug
+                /*
+                // #enddebug
+                card.querySelector(".session-card-details-link").href = <?!= sessionDetailsBaseHref ?> + session.metadata.sid;
+                // #debug
+                */
+                // #enddebug
 
                 sessionListContainer.appendChild(card);
             });
         }
 
         // #debug
-        // generate example session data
         const exampleSessions = [
-            {"row":2,"sid":63940,"dataRange":["Fri Sep 19 2025","2025-09-19T11:45:00.000Z","2025-09-19T12:20:00.000Z","September 19, Seminar Session 1",{"subject":"German","name":"German III"},"Perfect und preteretum.","egil4211@student.dodea.edu",{"chat":[]},{"sid":63940},"bsma3924@student.dodea.edu",null],
+            {"row":2,"sid":63940,
+            "dataRange":["Fri Sep 19 2025","2025-09-19T11:45:00.000Z","2025-09-19T12:20:00.000Z","September 19, Seminar Session 1",{"subject":"German","name":"German III"},"Perfect und preteretum.","egil4211@student.dodea.edu",{"chat":[]},{"sid":63940},"bsma3924@student.dodea.edu",null],
             "date":"Fri Sep 19 2025",
             "start":"2025-09-19T11:45:00.000Z",
             "end":"2025-09-19T12:20:00.000Z",

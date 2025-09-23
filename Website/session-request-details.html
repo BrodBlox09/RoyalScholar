@@ -446,7 +446,7 @@
 
         function fillInRequestInfo(requestInfo) {
             document.getElementById("request-class").textContent = requestInfo.className;
-            document.getElementById("request-time").textContent = `${formatDate(requestInfo.time.start)} from ${formatTime(requestInfo.time.start)} - ${formatTime(requestInfo.time.end)}`;
+            document.getElementById("request-time").textContent = requestInfo.name == "Custom Session" ? `${formatDate(requestInfo.time.start)} from ${formatTime(requestInfo.time.start)} - ${formatTime(requestInfo.time.end)}` : requestInfo.name;
             document.getElementById("request-student-name").textContent = requestInfo.studentName;
 
             sessionSignUp = requestInfo.signedUpTutors;
@@ -509,8 +509,9 @@
                 start: 1740744900000,
                 end: 1740749400000
             },
+            name: "September 28, Seminar Session 1",
             className: "AP Seminar+",
-            metadata: {"sid":461, "signedUpTutors": []},
+            signedUpTutors: [],
             chat: [
                 {
                     "sender": "SYSTEM",
