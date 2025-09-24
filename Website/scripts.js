@@ -51,6 +51,7 @@ function apiReqResponseHandler(thenLambda, errorLambda, res) {
 
 function showErrorModal(errorText) {
     console.error(errorText);
+    alert(errorText);
 }
 
 // Past this point is debug only territory
@@ -88,9 +89,4 @@ function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}) {
         if (!handled) showErrorModal("Failed to access API. Please try again later.");
         return;
     });
-}
-
-function showErrorModal(errorText) {
-    console.error(errorText);
-    alert(errorText);
 }

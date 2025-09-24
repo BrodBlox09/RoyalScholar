@@ -161,6 +161,15 @@
                 sessionListContainer.appendChild(noSessionsMessage);
                 return;
             }
+            // Sort sessions by start time (soonest first)
+            sessionData = sessionData.sort((a, b) => new Date(a.start) - new Date(b.start));
+            // Send assigned sessions to the bottom
+            sessionData = sessionData.sort((a, b) => {
+                if (a.tutorEmail && !b.tutorEmail) return 1;
+                if (!a.tutorEmail && b.tutorEmail) return -1;
+                return 0;
+            });
+            // Display sessions
             sessionData.forEach(session => {
                 let card = sessionCardTemplate.content.cloneNode(true);
                 let cardTags = card.querySelector(".session-card-tags");
@@ -229,7 +238,7 @@
 
         // #debug
         const exampleSessions = [
-            {"row":2,"sid":63940,
+            {"row":2,"sid":0,
             "dataRange":["Fri Sep 19 2025","2025-09-19T11:45:00.000Z","2025-09-19T12:20:00.000Z","September 19, Seminar Session 1",{"subject":"German","name":"German III"},"Perfect und preteretum.","egil4211@student.dodea.edu",{"chat":[]},{"sid":63940},"bsma3924@student.dodea.edu",null],
             "date":"Fri Sep 19 2025",
             "start":"2025-09-19T11:45:00.000Z",
@@ -238,7 +247,7 @@
             "classData":{"subject":"German","name":"German III"},
             "requestDetails":"Perfect und preteretum.",
             "tutorEmail":"",
-            "requestChat":{"chat":[]},"metadata":{"sid":63940, "signedUpTutors": [{email: "bsma3924@student.dodea.edu", name: "Brody Smalley"}, {email: "asdf345@student.dodea.edu", name: "R T"}]},
+            "requestChat":{"chat":[]},"metadata":{"sid":0, "signedUpTutors": [{email: "bsma3924@student.dodea.edu", name: "Brody Smalley"}, {email: "asdf345@student.dodea.edu", name: "R T"}]},
             "studentEmail":"expl1234@student.dodea.edu",
             "tutorName":"",
             "studentName":"Example Student"}
