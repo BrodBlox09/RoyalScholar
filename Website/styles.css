@@ -23,8 +23,11 @@
     --primary-soft-dark: #caddf0;
     /* --accent-soft: #8b90ad; */
     --accent-soft: #c3c8e4;
-    --gray-text: #888888;
-    --dark-gray-text: #777777;
+    --gray: #888888;
+    --dark-gray: #555;
+    
+    --soft-box-shadow: 0 2px 8px #0002;
+    --soft-border: 1px solid rgb(212, 212, 212);
 
     --light-gray-background: #DDDDDD;
     --light-gray-background-dark: #CCCCCC;
@@ -115,7 +118,7 @@ a:not(.button).text-link:hover::after {
 }
 
 .accent-button {
-    background: var(--gray-text);
+    background: var(--gray);
     border-radius: 10px;
     color: #ffffff;
     border: none;
@@ -125,7 +128,7 @@ a:not(.button).text-link:hover::after {
 }
 
 .accent-button:hover {
-    background: var(--dark-gray-text);
+    background: var(--dark-gray);
     color: #dddddd;
 }
 
@@ -151,7 +154,8 @@ a:not(.button).text-link:hover::after {
     position: -webkit-sticky;
     position: sticky;
     width: 100%;
-    box-shadow: 0 0 20px 1px #000000;
+    /* box-shadow: 0 0 20px 1px #000000; */
+    box-shadow: var(--soft-box-shadow);
     z-index: 999;
     line-height: 2; /* Fixes the bug that makes the right side have horizontal white-space channels because the SVG is bigger than line-height */
 }
