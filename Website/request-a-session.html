@@ -86,16 +86,9 @@
         }
 
         .bottom-buttons button {
-            border: none;
-            border-radius: 5px;
-            background-color: var(--accent);
-            color: var(--offwhite);
-            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
-            transition: 0.2s background-color, 0.2s color;
         }
 
         .page-title {
@@ -176,6 +169,19 @@
         /* #endregion */
 
         /* #region Details */
+        #writing-focused-question {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #writing-focused-question.hidden {
+            opacity: 0;
+            user-select: none;
+            pointer-events: none;
+        }
+
         #details-input {
             width: 100%;
             height: 10em;
@@ -387,7 +393,7 @@
                             </div>
                         </div>
                         <div class="bottom-buttons">
-                            <button onclick="previousPage()">
+                            <button onclick="previousPage()" class="button">
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(2, 0, 0, 2, 0, 0)rotate(0)">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -410,10 +416,18 @@
                             <p>The more we know beforehand, the better we can help. If you have any special requests, you can put them here.</p>
                         </div>
                         <div class="flex-grow">
+                            <div id="writing-focused-question">
+                                <span>Do you need writing-focused assistance (e.g. writing thesis statements)?</span>
+                                <select class="dropdown-field" id="writing-focused-input">
+                                    <option value="" selected>Select one</option>
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
                             <textarea id="details-input" placeholder="What's the specific assignment or topic? What are you struggling with most?"></textarea>
                         </div>
                         <div class="bottom-buttons horiz-spaced">
-                            <button onclick="previousPage()">
+                            <button onclick="previousPage()" class="button">
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(2, 0, 0, 2, 0, 0)rotate(0)">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -428,7 +442,7 @@
                                 </svg>
                                 Back
                             </button>
-                            <button onclick="nextPage()">
+                            <button onclick="nextPage()" class="button" id="details-page-next-button">
                                 Next
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(-2, 0, 0, -2, 0, 0)rotate(0)">
@@ -490,7 +504,7 @@
                             </label>
                         </div>
                         <div class="bottom-buttons horiz-spaced">
-                            <button onclick="previousPage()">
+                            <button onclick="previousPage()" class="button">
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(2, 0, 0, 2, 0, 0)rotate(0)">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -505,7 +519,7 @@
                                 </svg>
                                 Back
                             </button>
-                            <button onclick="nextPage()" id="timePageNextButton">
+                            <button onclick="nextPage()" id="timePageNextButton" class="button" disabled>
                                 Next
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(-2, 0, 0, -2, 0, 0)rotate(0)">
@@ -538,7 +552,7 @@
                             <p><b>Session Details:</b><br><span id="review-details"></span></p>
                         </div>
                         <div class="bottom-buttons horiz-spaced">
-                            <button onclick="previousPage()">
+                            <button onclick="previousPage()" class="button">
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(2, 0, 0, 2, 0, 0)rotate(0)">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -553,7 +567,7 @@
                                 </svg>
                                 Back
                             </button>
-                            <button onclick="nextPage()">
+                            <button onclick="nextPage()" class="button">
                                 Request Session
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(-2, 0, 0, -2, 0, 0)rotate(0)">
@@ -591,10 +605,12 @@
     <script>
         let subjects = ["Math","Science","English","Social Studies","Spanish","German","French"];
         let classes = [{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"AP Environmental Science","subject":"Science"},{"name":"Environmental Science","subject":"Science"},{"name":"Marine Biology","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"AP Physics C","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Literature and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"AP Research","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP Government","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"},{"name":"AP Spanish Language and Culture","subject":"Spanish"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"},{"name":"French III","subject":"French"},{"name":"French IV","subject":"French"}];
+        let assumeWritingFocusedSubjects = ["English"];
         let validSessionTimes = [];
         let selectedSubject = null;
         let classesToView = [];
         let selectedClass = null;
+        let writingFocused = null;
         let selectedTime = null;
         let ptd = null;
         let currentPage = 1;
@@ -677,14 +693,40 @@
             else {
                 document.getElementById("ptoci").checked = false;
                 document.getElementById("ptoc").classList.remove("visible");
-            } 
+            }
+            updateDetailsPage();
             setPage(3);
         }
         // #endregion
 
         // #region Detail Input Logic
+        const writingFocusedQuestion = document.getElementById("writing-focused-question");
+        const writingFocusedInput = document.getElementById("writing-focused-input");
         const detailsInput = document.getElementById("details-input");
+        const detailsPageNextButton = document.getElementById("details-page-next-button");
+        writingFocusedInput.value = "";
         detailsInput.value = "";
+        writingFocusedQuestion.addEventListener("input", () => {
+            writingFocused = writingFocusedInput.value;
+            verifyDetailsPage();
+        });
+        function isDetailsPageFilled() {
+            return assumeWritingFocusedSubjects.includes(selectedSubject) || writingFocusedInput.value != "";
+        }
+        function verifyDetailsPage() {
+            detailsPageNextButton.disabled = !isDetailsPageFilled();
+        }
+        function updateDetailsPage() {
+            if (assumeWritingFocusedSubjects.includes(selectedSubject)) {
+                writingFocusedQuestion.classList.add("hidden");
+                writingFocused = "yes";
+            } else {
+                writingFocusedQuestion.classList.remove("hidden");
+                writingFocused = null;
+                writingFocusedInput.value = "";
+            }
+            verifyDetailsPage();
+        }
         // #endregion
 
         // #region Session Time and Place Logic
@@ -730,7 +772,6 @@
                 option.setAttribute("value", index);
                 timeInput.appendChild(option);
             });
-            timePageNextButton.disabled = true;
         }
         function setSelectedTime(time) {
             if (time == null) { // null = no time selected
@@ -824,7 +865,7 @@
                 reviewStart.textContent = formatTime(new Date(selectedTime.timeStart));
                 reviewEnd.textContent = formatTime(new Date(selectedTime.timeEnd));
             } else { // Prefilled time
-                reviewDate.textContent = selectedTime.timeStart.toDateString();
+                reviewDate.textContent = selectedTime.name;
                 reviewStart.textContent = formatTime(selectedTime.timeStart);
                 reviewEnd.textContent = formatTime(selectedTime.timeEnd);
             }
@@ -845,6 +886,7 @@
                     subject: selectedSubject == "Other (Not Listed)" ? "Other" : selectedSubject,
                     className: selectedSubject == "Other (Not Listed)" ? "Other" : selectedClass.name,
                     details: detailsInput.value,
+                    writingFocused: writingFocused == "yes",
                     sessionName: selectedTime.name,
                     timeStart: selectedTime.timeStart,
                     timeEnd: selectedTime.timeEnd,

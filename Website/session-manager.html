@@ -56,6 +56,8 @@
             gap: 8px;
             --unassigned: none;
             --assigned: none;
+            --writing-focused: none;
+            --non-writing-focused: none;
         }
 
         .session-card-tags > div {
@@ -68,12 +70,22 @@
 
         .unassigned-tag {
             display: var(--unassigned);
-            background: #fff3cd; color: #664d03; border: 1px solid #ffecb5;
+            background: #fff3cd; color: #664d03; border: 1px solid #f0dfad;
         }
 
         .assigned-tag {
             display: var(--assigned);
             background: #d1e7dd; color: #0f5132; border: 1px solid #badbcc;
+        }
+
+        .writing-focused-tag {
+            display: var(--writing-focused);
+            background: #cfe2ff; color: #084298; border: 1px solid #b6d4fe;
+        }
+
+        .non-writing-focused-tag {
+            display: var(--non-writing-focused);
+            background: #e2e3e5; color: #41464b; border: 1px solid #d3d6d8;
         }
         /* #endregion */
 
@@ -123,6 +135,8 @@
                 </div>
                 <div>
                     <div class="session-card-tags">
+                        <div class="writing-focused-tag">Writing Focused</div>
+                        <div class="non-writing-focused-tag">Non-Writing Focused</div>
                         <div class="unassigned-tag">Unassigned</div>
                         <div class="assigned-tag">Assigned</div>
                     </div>
@@ -221,6 +235,8 @@
 
                 if (session.tutorName) cardTags.style.setProperty("--assigned", "block");
                 else cardTags.style.setProperty("--unassigned", "block");
+                if (session.metadata.writingFocused) cardTags.style.setProperty("--writing-focused", "block");
+                else cardTags.style.setProperty("--non-writing-focused", "block");
                 
                 // #debug
                 card.querySelector(".session-card-details-link").href = "session-request-details.html?sid=" + session.sid;
@@ -249,7 +265,7 @@
             "classData":{"subject":"German","name":"German III"},
             "requestDetails":"Perfect und preteretum.",
             "tutorEmail":"",
-            "requestChat":{"chat":[]},"metadata":{"sid":0, "signedUpTutors": [{email: "bsma3924@student.dodea.edu", name: "Brody Smalley"}, {email: "asdf345@student.dodea.edu", name: "R T"}]},
+            "requestChat":{"chat":[]},"metadata":{"sid":0, "writingFocused": false, "signedUpTutors": [{email: "bsma3924@student.dodea.edu", name: "Brody Smalley"}, {email: "asdf345@student.dodea.edu", name: "R T"}]},
             "studentEmail":"expl1234@student.dodea.edu",
             "tutorName":"",
             "studentName":"Example Student"}
