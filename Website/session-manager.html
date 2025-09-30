@@ -34,6 +34,9 @@
             margin-bottom: 12px;
             background: #ffffff;
             border: 1px solid rgb(212, 212, 212);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .session-card-heading-row {
@@ -43,7 +46,6 @@
         }
 
         .session-card-details-row {
-            margin-top: 10px;
             display: grid;
             grid-template-columns: 1fr 1fr;
         }
@@ -112,6 +114,16 @@
         .tutor-assign-button {
             padding: 6px 12px;
         }
+
+        @media (max-width: 600px) {
+            .session-card-details-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .session-card-assign-tutor-container {
+                max-height: none;
+            }
+        }
     </style>
 </head>
 
@@ -146,14 +158,14 @@
                 <div>
                     <p style="margin-top: 0;"><b>Date:</b> <span class="session-card-date">Date</span></p>
                     <p><b>Time:</b> <span class="session-card-time">Time</span></p>
-                    <p><strong>Student:</strong> <span class="session-card-student">Name</span></p>
-                    <p><strong>Tutor:</strong> <span class="session-card-tutor">Name</span></p>
+                    <p><strong>Student:</strong> <span class="session-card-student">Name &lt;Email&gt;</span></p>
+                    <p style="margin-bottom: 0;"><strong>Tutor:</strong> <span class="session-card-tutor">Name &lt;Email&gt;</span></p>
                 </div>
                 <div class="session-card-assign-tutor-container">
                     
                 </div>
             </div>
-            <a class="text-link session-card-details-link">View Details</a>
+            <div><a class="text-link session-card-details-link">View Details</a></div>
         </div>
     </template>
     <template id="session-card-assign-tutor-item-template">
@@ -196,8 +208,9 @@
                     let end = new Date(session.end);
                     card.querySelector(".session-card-time").textContent = `${formatTime(start)} - ${formatTime(end)}`;
                 } else card.querySelector(".session-card-time").textContent = session.name;
-                card.querySelector(".session-card-student").textContent = session.studentName;
-                card.querySelector(".session-card-tutor").textContent = session.tutorName || "Unassigned";
+                // Follows RFC 5322 guidelines for email display
+                card.querySelector(".session-card-student").textContent = `${session.studentName} <${session.studentEmail}>`;
+                card.querySelector(".session-card-tutor").textContent = session.tutorEmail ? `${session.tutorName} <${session.tutorEmail}>` : "Unassigned";
 
                 let assignContainer = card.querySelector(".session-card-assign-tutor-container");
                 if (session.metadata.signedUpTutors.length > 0) {
