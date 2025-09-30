@@ -39,6 +39,10 @@
             gap: 12px;
         }
 
+        #past-session-list-container .session-card {
+            background: #f9f9f9;
+        }
+
         .session-card-heading-row {
             display: flex;
             gap: 10px;
@@ -133,7 +137,13 @@
         <h1 class="heading">Session Manager</h1>
         <h3 class="subheading">Manage sessions and assign tutors here.</h3>
 
-        <div id="session-list-container">
+        <h2>Active Sessions</h2>
+        <div id="active-session-list-container">
+            
+        </div>
+
+        <h2>Past Sessions (Non-Archived)</h2>
+        <div id="past-session-list-container">
             
         </div>
     </div>
@@ -176,16 +186,23 @@
     </template>
     <script src="scripts.js"></script>
     <script>
-        let sessionListContainer = document.getElementById("session-list-container");
+        let activeSessionListContainer = document.getElementById("active-session-list-container");
+        let pastSessionListContainer = document.getElementById("past-session-list-container");
         let sessionCardTemplate = document.getElementById("session-card-template");
 
         function updateSessionsDisplay(sessionData) {
-            sessionListContainer.innerHTML = "";
-            if (sessionData.length === 0) {
+            activeSessionListContainer.innerHTML = "";
+            let activeSessionsCount = sessionData.filter(s => Date.parse(s.end) >= Date.now()).length;
+            let pastSessionsCount = sessionData.length - activeSessionsCount;
+            if (activeSessionsCount === 0) {
                 let noSessionsMessage = document.createElement("p");
-                noSessionsMessage.textContent = "No sessions have been scheduled.";
-                sessionListContainer.appendChild(noSessionsMessage);
-                return;
+                noSessionsMessage.textContent = "There are no active sessions.";
+                activeSessionListContainer.appendChild(noSessionsMessage);
+            }
+            if (pastSessionsCount === 0) {
+                let noSessionsMessage = document.createElement("p");
+                noSessionsMessage.textContent = "There are no past sessions. Note that sessions are automatically archived 2 days after their end date.";
+                pastSessionListContainer.appendChild(noSessionsMessage);
             }
             // Sort sessions by start time (soonest first)
             sessionData = sessionData.sort((a, b) => new Date(a.start) - new Date(b.start));
@@ -195,6 +212,7 @@
                 if (!a.tutorEmail && b.tutorEmail) return -1;
                 return 0;
             });
+
             // Display sessions
             sessionData.forEach(session => {
                 let card = sessionCardTemplate.content.cloneNode(true);
@@ -263,6 +281,7 @@
                 */
                 // #enddebug
 
+                let sessionListContainer = Date.parse(session.end) < Date.now() ? pastSessionListContainer : activeSessionListContainer;
                 sessionListContainer.appendChild(card);
             });
         }
@@ -270,11 +289,22 @@
         // #debug
         const exampleSessions = [
             {"row":2,"sid":0,
-            "dataRange":["Fri Sep 19 2025","2025-09-19T11:45:00.000Z","2025-09-19T12:20:00.000Z","September 19, Seminar Session 1",{"subject":"German","name":"German III"},"Perfect und preteretum.","egil4211@student.dodea.edu",{"chat":[]},{"sid":63940},"bsma3924@student.dodea.edu",null],
-            "date":"Fri Sep 19 2025",
-            "start":"2025-09-19T11:45:00.000Z",
-            "end":"2025-09-19T12:20:00.000Z",
-            "name":"September 19, Seminar Session 1",
+            "date":"Fri Sep 31 2025",
+            "start":"2025-09-31T11:45:00.000Z",
+            "end":"2025-09-31T12:20:00.000Z",
+            "name":"September 31, Seminar Session 1",
+            "classData":{"subject":"German","name":"German III"},
+            "requestDetails":"Perfect und preteretum.",
+            "tutorEmail":"",
+            "requestChat":{"chat":[]},"metadata":{"sid":0, "writingFocused": false, "signedUpTutors": [{email: "bsma3924@student.dodea.edu", name: "Brody Smalley"}, {email: "asdf345@student.dodea.edu", name: "R T"}]},
+            "studentEmail":"expl1234@student.dodea.edu",
+            "tutorName":"",
+            "studentName":"Example Student"},
+            {"row":2,"sid":0,
+            "date":"Fri Sep 30 2025",
+            "start":"2025-09-30T11:45:00.000Z",
+            "end":"2025-09-30T12:20:00.000Z",
+            "name":"September 30, Seminar Session 1",
             "classData":{"subject":"German","name":"German III"},
             "requestDetails":"Perfect und preteretum.",
             "tutorEmail":"",
