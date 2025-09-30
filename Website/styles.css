@@ -1,10 +1,10 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 
 /* Offline font */
-@font-face {
+/* @font-face {
     font-family: "Merriweather";
     src: url("../../Fonts/Merriweather.ttf") format("truetype");
-}
+} */
 
 :root {
     /* --accent-bright: #FF1E27;
@@ -135,6 +135,28 @@ a:not(.button).text-link:hover::after {
 .accent-button:disabled {
     background-color: var(--offwhite-dark);
     color: #ffffff;
+}
+
+.inline-button {
+    border: 0;
+    background: none;
+    padding: 5px;
+    height: min-content;
+    border-radius: 10px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.inline-button:hover:not(:disabled) {
+    background: var(--light-gray-background);
+}
+
+.inline-button:disabled, .inline-button:disabled * {
+    color: var(--gray);
+    stroke: var(--gray);
 }
 
 button > svg {
