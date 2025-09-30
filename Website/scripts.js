@@ -35,18 +35,20 @@ function formatTime(dateObject) {
     return timeFormatter.format(dateObject);
 }
 
-function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}) {
-  google.script.run.withSuccessHandler(apiReqResponseHandler.bind(null, thenLambda, errorLambda)).handleWebAppRequest(JSON.stringify(data));
+function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}, finallyLambda = () => {}) {
+  google.script.run.withSuccessHandler(apiReqResponseHandler.bind(null, thenLambda, errorLambda, finallyLambda)).handleWebAppRequest(JSON.stringify(data));
 }
 
-function apiReqResponseHandler(thenLambda, errorLambda, res) {
+function apiReqResponseHandler(thenLambda, errorLambda, finallyLambda, res) {
     res = JSON.parse(res);
     if (res.error) {
       let handled = errorLambda(res);
       if (!handled) showErrorModal(`Error ${res.errorCode}. Something went wrong, please try again later.`);
+      finallyLambda(res);
       return;
     }
     thenLambda(res);
+    finallyLambda(res);
 }
 
 function showErrorModal(errorText) {
@@ -58,7 +60,7 @@ function showErrorModal(errorText) {
 const API = "https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPatlXiZzjcSlTi5rxrgjiqEXL_dMjGY1YTIMDMwzG2GA/exec";
 const APIKey = "9ayWk9voW6WIWiNwpVK4l7AeN3EEBnYHzZk1XIkDDfYXcA8K3Gioxk2sSgplxR4HpOxzosgKmBDewIwAWAKgbYE4kkPyp80WG5kAbFN28rUMi3cGQqGlsD5qorSry15W";
 
-function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}) {
+function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}, finallyLambda = () => {}) {
     console.info("Sending API request with the following data:", data);
     data.key = APIKey;
     fetch(API, {
@@ -73,20 +75,22 @@ function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}) {
             console.log("Received the following response:", res);
             if (res.error == "apiKeyInvalid") {
                 showErrorModal("API key invalid.");
+                finallyLambda(res);
                 return;
             }
             if (res.error) {
                 let handled = errorLambda(res);
-                if (!handled) {
-                    showErrorModal("Something went wrong, please try again later.");
-                }
+                if (!handled) showErrorModal("Something went wrong, please try again later.");
+                finallyLambda(res);
                 return;
             }
             thenLambda(res);
+            finallyLambda(res);
         });
     }).catch(() => {
         let handled = errorLambda({errorCode: "no-connection"});
         if (!handled) showErrorModal("Failed to access API. Please try again later.");
+        finallyLambda(res);
         return;
     });
 }
