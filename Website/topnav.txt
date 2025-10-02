@@ -36,6 +36,9 @@
                             <a href="session-manager.html">
                                 Session Manager
                             </a>
+                            <a href="account-manager.html">
+                                Account Manager
+                            </a>
                             <a href="view-logs.html">
                                 View Logs
                             </a>
@@ -83,6 +86,9 @@
                         <p>Admin Tools</p>
                         <div>
                             <a href="session-manager.html">Session Manager</a>
+                        </div>
+                        <div>
+                            <a href="account-manager.html">Account Manager</a>
                         </div>
                         <div>
                             <a href="view-logs.html">View Logs</a>
