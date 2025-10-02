@@ -80,7 +80,6 @@
         }
 
         /* #region Settings Page */
-
         #settings-dashboard {
             display: flex;
             flex-direction: column;
@@ -111,9 +110,9 @@
             opacity: 1;
             bottom: 20px;
         }
+        /* #endregion */
 
         /* #region Tutor Notification Preferences */
-
         div:has(> .tnp-class-list) {
             display: grid;
             grid-template-rows: calc(1lh + 12px) 0fr;
@@ -146,11 +145,8 @@
         .caret-span.active {
             rotate: 180deg;
         }
-
         /* #endregion */
 
-        /* #endregion */
-    
         @media (max-width: 1050px) {
             #dashboard-content {
                 grid-template-columns: 1fr;

@@ -7,16 +7,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <style>
-        
+        #content {
+            max-width: var(--max-content-width);
+            margin-inline: auto;
+            margin-top: 1em;
+            padding-inline: 1rem;
+        }
+
+        #content-card {
+            border-radius: 20px;
+            box-shadow: var(--soft-box-shadow);
+            border: var(--soft-border);
+            padding: 20px;
+            padding-block: 15px;
+            background: #FFFFFF;
+        }
+
+        .heading {
+            margin: 0;
+        }
+
+        .subheading {
+            margin-top: 0;
+            font-weight: 400;
+            color: #555;
+        }
+        p.subheading {
+            font-size: 0.9em;
+        }
+
+        #account-list-container {
+            margin-top: 10px;
+            height: 500px;
+        }
+
+        .account-card {
+            border-radius: 12px;
+            box-shadow: var(--soft-box-shadow);
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            background: #ffffff;
+            border: 1px solid rgb(212, 212, 212);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .account-card:hover {
+            background-color: var(--light-gray-background);
+        }
+
+        .account-card.selected {
+            border-left: 5px solid var(--primary);
+            background-color: var(--primary-soft);
+        }
+
+        .account-card.selected:hover {
+            border-left: 5px solid var(--primary-dark);
+            background-color: var(--primary-soft-dark);
+        }
     </style>
 </head>
 
 <body>
     <div id="topnav"></div>
-    
+    <div id="content">
+        <div id="content-card">
+            <h1 class="heading">Account Manager</h1>
+            <h3 class="subheading">Manage accounts here.</h3>
+            <div class="text-input-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-search-icon lucide-user-search"><circle cx="10" cy="7" r="4"/><path d="M10.3 15H7a4 4 0 0 0-4 4v2"/><circle cx="17" cy="17" r="3"/><path d="m21 21-1.9-1.9"/></svg>
+                <input id="account-search" placeholder="Search accounts">
+            </div>
+            <div id="account-list-container">
+
+            </div>
+            <div id="account-management-actions">
+                <p>Selected accounts: <span id="selected-accounts">0</span></p>
+                <button class="button">Delete Selected Accounts</button>
+            </div>
+        </div>
+    </div>
+
+    <template id="account-card-template">
+        <div class="account-card">
+            <h3 class="heading account-card-name">Name</h3>
+            <p class="account-card-role" style="margin: 0;">Role</p>
+        </div>
+    </template>
     <script src="scripts.js"></script>
     <script>
-        
+        let accountSearchInput = document.getElementById("account-search");
+        let accountListContainer = document.getElementById("account-list-container");
+        let accountCardTemplate = document.getElementById("account-card-template");
+        let selectedAccountsDisplay = document.getElementById("selected-accounts");
+        let accountList;
+        let selectedAccounts = [];
+
+        accountSearchInput.addEventListener("input", () => {
+            let query = accountSearchInput.value.toLowerCase();
+            // document.querySelectorAll("#add-tutor-list-container .add-tutor-item").forEach(item => {
+            //     let name = item.dataset.name;
+            //     if (name.includes(query)) item.classList.remove("hidden");
+            //     else item.classList.add("hidden");
+            // });
+        });
+
+        function updateAccountListDisplay() {
+            accountListContainer.innerHTML = "";
+            accountList.forEach(account => {
+                /**
+                 * @type {HTMLElement}
+                 */
+                let accountCard = accountCardTemplate.content.cloneNode(true).firstElementChild;
+
+                accountCard.querySelector(".account-card-name").textContent = account.name;
+                accountCard.querySelector(".account-card-role").textContent = account.role;
+
+                accountCard.addEventListener("click", () => {
+                    if (accountCard.classList.contains("selected")) {
+                        accountCard.classList.remove("selected");
+                        selectedAccounts = selectedAccounts.filter(x => x != account);
+                    } else {
+                        accountCard.classList.add("selected");
+                        selectedAccounts.push(account);
+                    }
+                    updateSelectedAccountsDisplay();
+                });
+
+                accountListContainer.appendChild(accountCard);
+            });
+        }
+
+        function updateSelectedAccountsDisplay() {
+            let selectedAccountsText = selectedAccounts.length;
+            if (selectedAccounts.length > 0) {
+                selectedAccountsText += ` (${selectedAccounts.map(x => x.name)})`;
+            }
+            selectedAccountsDisplay.textContent = selectedAccountsText;
+        }
+
+        // #debug
+        accountList = [
+            {
+                name: "Brody Smalley",
+                role: "Administrator"
+            }
+        ];
+        // #enddebug
+
+        // #debug
+        /*
+        // #enddebug
+        accountList = <?!= accountList ?>;
+        // #debug
+        */
+        // #enddebug
+
+        accountSearchInput.value = "";
+        updateAccountListDisplay();
     </script>
 </body>
 
