@@ -462,7 +462,7 @@ button > svg {
     flex-grow: 1;
 }
 
-.modal-bg {
+.modal-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -470,6 +470,14 @@ button > svg {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 900;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.modal-container.active {
+    pointer-events: auto;
+    opacity: 1;
 }
 
 .modal {
@@ -483,6 +491,15 @@ button > svg {
     display: flex;
     flex-direction: column;
     min-width: 60%;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 /* #region Checkbox */

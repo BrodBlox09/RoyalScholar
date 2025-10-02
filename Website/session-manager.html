@@ -155,6 +155,20 @@
         </div>
     </div>
 
+    <div class="modal-container" id="add-tutors-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="heading">Add Tutors to Session Sign Up</h2>
+                <span class="close-button" onclick="closeAddTutorsModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </span>
+            </div>
+            <div id="add-tutors-modal-body">
+                <p>Feature not yet implemented.</p>
+            </div>
+        </div>
+    </div>
+
     <template id="session-card-template">
         <div class="session-card">
             <div class="session-card-heading-row">
@@ -206,6 +220,7 @@
         let activeSessionListContainer = document.getElementById("active-session-list-container");
         let pastSessionListContainer = document.getElementById("past-session-list-container");
         let sessionCardTemplate = document.getElementById("session-card-template");
+        let addTutorsModal = document.getElementById("add-tutors-modal");
         let tutorList = null;
         let sessions = null;
 
@@ -306,7 +321,13 @@
         }
 
         function openAddTutorsModal() {
+            addTutorsModal.classList.add("active");
+            // document.body.style.setProperty("overflow", "hidden");
+        }
 
+        function closeAddTutorsModal() {
+            addTutorsModal.classList.remove("active");
+            // document.body.style.removeProperty("overflow");
         }
 
         // #debug
@@ -347,6 +368,7 @@
         /*
         // #enddebug
         sessions = <?!= sessionData ?>;
+        tutorList = <?!= tutorList ?>;
         // #debug
         */
         // #enddebug

@@ -44,17 +44,6 @@
             opacity: 1;
         }
 
-        #bad-email {
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        #bad-email.active {
-            pointer-events: auto;
-            opacity: 1;
-        }
-
         .subheading {
             margin-top: 0;
             font-weight: 400;
@@ -257,15 +246,7 @@
             </div>
         </div>
     </div>
-    <div class="modal-bg" id="already-has-account">
-        <div class="modal">
-            <h2 style="margin-bottom: 5px; margin-top: -10px;">You already have an account!</h2>
-            <p>It looks like you've already created a RoyalScholar account. Please go back to the home page.</p>
-            <a href="index.html" title="Click here to go to the home page" class="button"
-                style="font-size: 1.5rem; font-weight: 600; text-align: center;">Home</a>
-        </div>
-    </div>
-    <div class="modal-bg" id="bad-email">
+    <div class="modal-container" id="bad-email">
         <div class="modal">
             <h2 style="margin-bottom: 5px; margin-top: -10px;">School account not detected!</h2>
             <p style="margin-bottom: 0;">It looks like you aren't logged in to your school-provided Gmail account. Please log in to it and try again later.</p>
@@ -313,11 +294,6 @@
             }, (err) => {
                 if (err.errorCode == 403) {
                     document.getElementById("bad-email").classList.add("active");
-                    return true;
-                }
-                if (err.errorCode == 409) {
-                    document.getElementById("already-has-account").classList.add("active");
-                    document.body.style.setProperty("overflow", "hidden");
                     return true;
                 }
                 return false;

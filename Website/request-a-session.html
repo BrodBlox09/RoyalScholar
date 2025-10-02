@@ -593,14 +593,6 @@
             </div>
         </div>
     </div>
-    <div class="modal-bg" id="no-account">
-        <div class="modal">
-            <h2 style="margin-bottom: 5px; margin-top: -10px;">Uh oh, it looks like you don't have an account yet!</h2>
-            <p>To access this feature, you need to create a RoyalScholar account. Don't worry—it's quick and easy!</p>
-            <a href="new-account.html" title="Click here to join the RoyalScholar community!" class="button"
-                style="font-size: 1.5rem; font-weight: 600; text-align: center;">Create&nbsp;my&nbsp;Account</a>
-        </div>
-    </div>
     <script src="scripts.js"></script>
     <script>
         let subjects = ["Math","Science","English","Social Studies","Spanish","German","French"];
@@ -923,13 +915,6 @@
                     timeEnd: new Date(time.timeEnd)
                 };
             }));
-        }, (err) => {
-            if (err.errorCode == 401) {
-                document.getElementById("no-account").classList.add("active");
-                document.body.style.setProperty("overflow", "hidden");
-                return true;
-            }
-            return false;
         });
 
         // #debug
