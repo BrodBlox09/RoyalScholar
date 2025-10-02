@@ -99,7 +99,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            height: 150px;
+            height: 165px;
             overflow-y: auto;
         }
 
@@ -135,6 +135,49 @@
                 max-height: none;
             }
         }
+
+        /* #region Tutor Modal */
+        #tutor-search {
+            flex-grow: 1;
+            padding: 8px 12px;
+            font-size: 1rem;
+            border: none;
+            outline: none;
+        }
+
+        #search-icon svg {
+            display: block;
+        }
+
+        #add-tutor-list-container {
+            margin-top: 12px;
+            height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .add-tutor-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 8px;
+            background: #f9f9f9;
+            font-size: 0.9em;
+        }
+
+        .add-tutor-item.hidden {
+            display: none;
+        }
+
+        .tutor-add-button {
+            padding: 6px 12px;
+        }
+        /* #endregion */
     </style>
 </head>
 
@@ -155,16 +198,24 @@
         </div>
     </div>
 
-    <div class="modal-container" id="add-tutors-modal">
+    <div class="modal-container" id="add-tutor-modal">
         <div class="modal">
             <div class="modal-header">
                 <h2 class="heading">Add Tutors to Session Sign Up</h2>
-                <span class="close-button" onclick="closeAddTutorsModal()">
+                <button class="inline-button" onclick="closeAddTutorModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                </span>
+                </button>
             </div>
-            <div id="add-tutors-modal-body">
-                <p>Feature not yet implemented.</p>
+            <div>
+                <div id="tutor-search-wrapper" class="text-input-wrapper">
+                    <div id="search-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-search-icon lucide-user-search"><circle cx="10" cy="7" r="4"/><path d="M10.3 15H7a4 4 0 0 0-4 4v2"/><circle cx="17" cy="17" r="3"/><path d="m21 21-1.9-1.9"/></svg>
+                    </div>
+                    <input id="tutor-search" placeholder="Search tutors">
+                </div>
+                <div id="add-tutor-list-container">
+                    
+                </div>
             </div>
         </div>
     </div>
@@ -197,11 +248,11 @@
                     <a class="text-link session-card-details-link">View Details</a>
                 </div>
                 <div class="session-card-buttons center-vert">
-                    <button class="inline-button" disabled title="This feature is currently not ready for production use.">
+                    <button class="inline-button add-tutor-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                         Add Tutor
                     </button>
-                    <button class="inline-button" disabled title="This feature is currently not ready for production use.">
+                    <button class="inline-button cancel-session-button" disabled title="This feature is currently not ready for production use.">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                         Cancel Session
                     </button>
@@ -215,14 +266,34 @@
             <button class="button tutor-assign-button">Assign</button>
         </div>
     </template>
+    <template id="add-tutor-item-template">
+        <div class="add-tutor-item">
+            <span class="tutor-name">Name</span>
+            <button class="button tutor-add-button">Add</button>
+        </div>
+    </template>
     <script src="scripts.js"></script>
     <script>
         let activeSessionListContainer = document.getElementById("active-session-list-container");
         let pastSessionListContainer = document.getElementById("past-session-list-container");
         let sessionCardTemplate = document.getElementById("session-card-template");
-        let addTutorsModal = document.getElementById("add-tutors-modal");
+        let addTutorModal = document.getElementById("add-tutor-modal");
+        let tutorSearchInput = document.getElementById("tutor-search");
         let tutorList = null;
         let sessions = null;
+
+        document.getElementById("tutor-search-wrapper").onclick = () => {
+            tutorSearchInput.focus();
+        };
+
+        tutorSearchInput.addEventListener("input", () => {
+            let query = tutorSearchInput.value.toLowerCase();
+            document.querySelectorAll("#add-tutor-list-container .add-tutor-item").forEach(item => {
+                let name = item.dataset.name;
+                if (name.includes(query)) item.classList.remove("hidden");
+                else item.classList.add("hidden");
+            });
+        });
 
         function updateSessionsDisplay() {
             activeSessionListContainer.innerHTML = "";
@@ -302,6 +373,10 @@
                 else cardTags.style.setProperty("--unassigned", "block");
                 if (session.metadata.writingFocused) cardTags.style.setProperty("--writing-focused", "block");
                 else cardTags.style.setProperty("--non-writing-focused", "block");
+
+                card.querySelector(".add-tutor-button").onclick = () => {
+                    openAddTutorModal(session);
+                };
                 
                 // #debug
                 card.querySelector(".session-card-details-link").href = "session-request-details.html?sid=" + session.sid;
@@ -320,14 +395,40 @@
             });
         }
 
-        function openAddTutorsModal() {
-            addTutorsModal.classList.add("active");
-            // document.body.style.setProperty("overflow", "hidden");
+        function openAddTutorModal(session) {
+            addTutorModal.classList.add("active");
+            tutorSearchInput.value = "";
+            tutorSearchInput.focus();
+            // Fill tutor list
+            let addTutorListContainer = document.getElementById("add-tutor-list-container");
+            addTutorListContainer.innerHTML = "";
+            let addTutorItemTemplate = document.getElementById("add-tutor-item-template");
+            let unassignedTutors = tutorList.filter(t => !session.metadata.signedUpTutors.some(st => st.email == t.email));
+            unassignedTutors.forEach(tutor => {
+                let tutorItem = addTutorItemTemplate.content.cloneNode(true);
+                tutorItem.firstElementChild.dataset.name = tutor.name.toLowerCase();
+                tutorItem.querySelector(".tutor-name").textContent = tutor.name;
+                let addButton = tutorItem.querySelector(".tutor-add-button");
+                addButton.onclick = () => {
+                    addButton.disabled = true;
+                    sendAPIReq({
+                        reqType: "sessionManagerAddTutorToSessionSignup",
+                        sid: session.sid,
+                        tutorEmail: tutor.email
+                    }, (res) => {
+                        session.metadata.signedUpTutors = res.signedUpTutors;
+                        closeAddTutorModal();
+                        updateSessionsDisplay(sessions); // Reload to update UI
+                    });
+                };
+                addTutorListContainer.appendChild(tutorItem);
+            });
+            document.body.classList.add("no-scroll");
         }
 
-        function closeAddTutorsModal() {
-            addTutorsModal.classList.remove("active");
-            // document.body.style.removeProperty("overflow");
+        function closeAddTutorModal() {
+            addTutorModal.classList.remove("active");
+            document.body.classList.remove("no-scroll");
         }
 
         // #debug
@@ -352,12 +453,13 @@
             "classData":{"subject":"German","name":"German III"},
             "requestDetails":"Perfect und preteretum.",
             "tutorEmail":"",
-            "requestChat":{"chat":[]},"metadata":{"sid":0, "writingFocused": false, "signedUpTutors": [{email: "bsma3924@student.dodea.edu", name: "Brody Smalley"}, {email: "asdf345@student.dodea.edu", name: "R T"}]},
+            "requestChat":{"chat":[]},"metadata":{"sid":0, "writingFocused": false, "signedUpTutors": [{email: "asdf345@student.dodea.edu", name: "R T"}]},
             "studentEmail":"expl1234@student.dodea.edu",
             "tutorName":"",
             "studentName":"Example Student"}
         ];
         const tutors = [
+            {email: "bsma3924@student.dodea.edu", name: "Brody Smalley"},
             {email: "bsma3924@student.dodea.edu", name: "Brody Smalley"},
         ];
         sessions = exampleSessions;
@@ -372,6 +474,8 @@
         // #debug
         */
         // #enddebug
+
+        tutorList.sort((a, b) => a.name.localeCompare(b.name));
 
         updateSessionsDisplay();
     </script>

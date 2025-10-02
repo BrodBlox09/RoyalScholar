@@ -43,7 +43,7 @@ function apiReqResponseHandler(thenLambda, errorLambda, finallyLambda, res) {
     res = JSON.parse(res);
     if (res.error) {
       let handled = errorLambda(res);
-      if (!handled) showErrorModal(`Error ${res.errorCode}. Something went wrong, please try again later.`);
+      if (!handled) showErrorModal(`Error ${res.errorCode}. Something went wrong, please try again later.\nDetails: ${res.error}`);
       finallyLambda(res);
       return;
     }
@@ -80,7 +80,7 @@ function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}, finally
             }
             if (res.error) {
                 let handled = errorLambda(res);
-                if (!handled) showErrorModal("Something went wrong, please try again later.");
+                if (!handled) showErrorModal(`Error ${res.errorCode}.\nSomething went wrong, please try again later.\n\nDetails:\n${res.error}`);
                 finallyLambda(res);
                 return;
             }
@@ -89,7 +89,7 @@ function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}, finally
         });
     }).catch(() => {
         let handled = errorLambda({errorCode: "no-connection"});
-        if (!handled) showErrorModal("Failed to access API. Please try again later.");
+        if (!handled) showErrorModal("Failed to access server. Please try again later.");
         finallyLambda(res);
         return;
     });
