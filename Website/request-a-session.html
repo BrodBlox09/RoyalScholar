@@ -197,18 +197,6 @@
         /* #endregion */
 
         /* #region Date and Time Selection */
-        .dropdown-field {
-            background-color: #ffffff;
-            font-family: var(--body-font);
-            font-size: 1rem;
-            border-radius: 10px;
-            padding: 5px;
-            border: 2px solid var(--primary);
-            margin-top: 5px;
-            margin-bottom: 5px;
-            outline: none;
-        }
-
         .custom-time-input {
             margin-left: 5px;
             padding: 5px;
@@ -418,7 +406,7 @@
                         <div class="flex-grow">
                             <div id="writing-focused-question">
                                 <span>Do you need writing-focused assistance (e.g. writing thesis statements)?</span>
-                                <select class="dropdown-field" id="writing-focused-input">
+                                <select id="writing-focused-input">
                                     <option value="" selected>Select one</option>
                                     <option value="no">No</option>
                                     <option value="yes">Yes</option>
@@ -464,7 +452,7 @@
                         <div class="flex-grow">
                             <p>
                                 I want to have the session on
-                                <select class="dropdown-field" id="time-input"></select>.
+                                <select id="time-input"></select>.
                             </p>
                             <div id="time-display-prefilled" class="active">
                                 <p><b>Date:</b> <span id="time-input-displayDate"></span></p>
