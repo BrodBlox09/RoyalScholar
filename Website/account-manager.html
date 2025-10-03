@@ -141,8 +141,8 @@
         } */
         /* #endregion */
     
-        /* #region Rename Account Modal */
-        #rename-form {
+        /* #region Modals */
+        .modal-form {
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -159,15 +159,16 @@
         /* #endregion */
     
         @media (max-width: 600px) {
-            /* #account-management-actions {
+            #account-management-actions {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
             }
             #account-management-buttons {
                 width: 100%;
-                justify-content: space-between;
-            } */
+                justify-content: center;
+                flex-wrap: wrap;
+            }
             .account-card {
                 grid-template-columns: 1fr;
             }
@@ -186,16 +187,20 @@
         <h3 class="subheading">Manage accounts here.</h3>
         <div id="content-card">
             <div id="account-management-actions">
-                <!-- <div id="account-management-buttons">
-                    <button class="button" id="export-button">
+                <div id="account-management-buttons">
+                    <button class="button" id="set-roles-button" onclick="setAccountRoles()" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen-icon lucide-user-pen"><path d="M11.5 15H7a4 4 0 0 0-4 4v2"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></svg>
+                        Set Roles
+                    </button>
+                    <button class="button" id="export-button" onclick="exportSelectedAccounts()" disabled>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download-icon lucide-download"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
                         Export
                     </button>
-                    <button class="button" id="clear-button">
+                    <button class="button" id="clear-button" onclick="clearSelectedAccounts()" disabled>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                         Clear
                     </button>
-                </div> -->
+                </div>
             </div>
             <div id="account-selection-section">
                 <div id="account-selection-header">
@@ -214,6 +219,33 @@
         </div>
     </div>
 
+    <div class="modal-container" id="set-roles-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="heading">Set Roles</h2>
+                <button class="inline-button" onclick="closeModal('set-roles-modal')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-form">
+                <p class="no-margin">Selected students: <span id="set-roles-selected-students">None</span></p>
+                <div>
+                    <label for="set-roles-select-input" class="form-input-label">Select role</label>
+                    <select id="set-roles-select-input" class="dropdown-field">
+                        <option value="0"></option>
+                        <option value="1">Student</option>
+                        <option value="5">Teacher</option>
+                        <option value="100">Tutor</option>
+                        <option value="999">Admin</option>
+                    </select>
+                </div>
+                <div>
+                    <button class="button" id="set-roles-submit-button" style="margin-top: 10px; width: 100%;">Set Roles</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-container" id="rename-modal">
         <div class="modal">
             <div class="modal-header">
@@ -222,22 +254,22 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                 </button>
             </div>
-            <div id="rename-form">
-                <div class="form-input-row">
+            <div class="modal-form">
+                <div>
                     <label class="form-input-label">Old Full Name</label>
                     <div class="text-input-wrapper">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
                         <input id="rename-old-name-display" disabled>
                     </div>
                 </div>
-                <div class="form-input-row">
+                <div>
                     <label for="rename-account-input" class="form-input-label">New Full Name</label>
                     <div class="text-input-wrapper">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
                         <input id="rename-account-input" placeholder="Rename account">
                     </div>
                 </div>
-                <div class="form-input-row">
+                <div>
                     <button class="button" id="rename-account-submit-button" style="margin-top: 10px; width: 100%;">Rename Account</button>
                 </div>
             </div>
@@ -287,6 +319,62 @@
             100: "--tutor",
             999: "--admin"
         };
+
+        // #region Account Management Actions
+        let setRolesModal = document.getElementById("set-roles-modal");
+        let setRolesSelectedStudents = document.getElementById("set-roles-selected-students");
+        let setRolesSelectInput = document.getElementById("set-roles-select-input");
+        let setRolesSubmitButton = document.getElementById("set-roles-submit-button");
+
+        setRolesSubmitButton.addEventListener("click", () => {
+            let permissions = setRolesSelectInput.value;
+            sendAPIReq({
+                reqType: "accountManagerSetPermissions",
+                accountEmails: selectedAccounts.map(x => x.name),
+                permissions: permissions
+            }, (res) => {
+                selectedAccounts.forEach(account => {
+                    account.data.permissions = permissions;
+                });
+                accountListUpdated();
+            });
+        });
+
+        function setAccountRoles() {
+            setRolesSelectedStudents.textContent = selectedAccounts.map(x => x.name).join(", ");
+            setRolesSelectInput.value = 0;
+            setRolesModal.classList.add("active");
+        }
+
+        function exportSelectedAccounts() {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Email,Full Name,Permissions,Marketing Allowed\n";
+            csvContent += selectedAccounts.map(account => {
+                let row = [
+                    `"${account.email}"`,
+                    `"${account.name}"`,
+                    `"${account.data.permissions}"`,
+                    `"${account.data.marketingAllowed}"`
+                ];
+                return row.join(",");
+            }).join("\n");
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            let date = new Date();
+            let timestamp = date.toISOString().split('T')[0];
+            link.setAttribute("download", `RoyalScholar-exported-accounts-${timestamp}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function clearSelectedAccounts() {
+            selectedAccounts = [];
+            document.querySelectorAll("#account-list-container .account-card.selected").forEach(item => item.classList.remove("selected"));
+            updateSelectedAccountsDisplay();
+        }
+        // #endregion
 
         // #region Rename Account Modal
         let renameModal = document.getElementById("rename-modal");
@@ -400,6 +488,8 @@
                 selectedAccountsText += ` (${selectedAccounts.map(x => x.name).join(", ")})`;
             }
             selectedAccountsDisplay.textContent = selectedAccountsText;
+            let buttonsDisabled = selectedAccounts.length <= 0;
+            document.querySelectorAll("#account-management-buttons button").forEach(button => button.disabled = buttonsDisabled);
         }
 
         function accountListUpdated() {
