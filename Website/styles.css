@@ -65,6 +65,20 @@ h6 {
     color: #333333;
 }
 
+.heading {
+    margin: 0;
+}
+
+.subheading {
+    margin-top: 0;
+    font-weight: 400;
+    color: #555;
+}
+
+p.subheading {
+    font-size: 0.9em;
+}
+
 p, li, a, button, input, textarea {
     font-size: 1em;
     font-family: var(--body-font);
@@ -75,6 +89,7 @@ p, li, a, button, input, textarea {
     margin: 0;
 }
 
+/* #region Text Links */
 a {
     color: var(--accent);
     text-decoration: none;
@@ -101,7 +116,9 @@ a:not(.button).text-link:hover::after {
     width: 100%;
     background-color: var(--accent-dark);
 }
+/* #endregion */
 
+/* #region Buttons */
 .button {
     background: var(--accent);
     border-radius: 10px;
@@ -167,10 +184,11 @@ a:not(.button).text-link:hover::after {
 button > svg {
     display: block;
 }
+/* #endregion */
 
 /* #region topnav */
 #topnav-wrapper {
-    z-index: 999; /* Ensure stacking context is ALWAYS above all other things on the page */
+    z-index: 999; /* Ensure stacking context is ALWAYS above all other things on the page except modals */
 }
 
 #topnav {
@@ -187,7 +205,6 @@ button > svg {
     width: 100%;
     /* box-shadow: 0 0 20px 1px #000000; */
     box-shadow: var(--soft-box-shadow);
-    z-index: 999;
     line-height: 2; /* Fixes the bug that makes the right side have horizontal white-space channels because the SVG is bigger than line-height */
 }
 
@@ -504,7 +521,7 @@ button > svg {
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 900;
+    z-index: 1000;
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.5s;
