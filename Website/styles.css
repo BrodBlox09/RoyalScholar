@@ -23,6 +23,7 @@
     --primary-soft-dark: #caddf0;
     /* --accent-soft: #8b90ad; */
     --accent-soft: #c3c8e4;
+    --light-gray: #e9e9e9;
     --gray: #888888;
     --dark-gray: #555;
     
@@ -32,6 +33,7 @@
 
     --light-gray-background: #DDDDDD;
     --light-gray-background-dark: #CCCCCC;
+    --hover-overlay-color: #00000011;
     --background-color: var(--offwhite-primary);
     --top-down-blue-soft-background-gradient: linear-gradient(rgb(0% 0% 0% / 0) 0%, rgb(9.05% 9.559% 9.729% / 0.009607359798384785) 6.25%, rgb(20.321% 21.225% 21.526% / 0.03806023374435663) 12.5%, rgb(30.457% 31.717% 32.136% / 0.08426519384872738) 18.75%, rgb(39.769% 41.354% 41.883% / 0.1464466094067262) 25%, rgb(48.359% 50.245% 50.873% / 0.22221488349019886) 31.25%, rgb(56.261% 58.424% 59.145% / 0.3086582838174551) 37.5%, rgb(63.482% 65.897% 66.702% / 0.40245483899193585) 43.75%, rgb(70.01% 72.654% 73.536% / 0.49999999999999994) 50%, rgb(75.831% 78.679% 79.628% / 0.5975451610080641) 56.25%, rgb(80.925% 83.952% 84.96% / 0.6913417161825448) 62.5%, rgb(85.274% 88.452% 89.512% / 0.777785116509801) 68.75%, rgb(88.859% 92.163% 93.264% / 0.8535533905932737) 75%, rgb(91.664% 95.066% 96.201% / 0.9157348061512727) 81.25%, rgb(93.678% 97.15% 98.308% / 0.9619397662556434) 87.5%, rgb(94.889% 98.405% 99.576% / 0.9903926402016152) 93.75%, rgb(95.294% 98.824% 100%) 100% );
 
@@ -162,23 +164,27 @@ a:not(.button).text-link:hover::after {
 .inline-button {
     border: 0;
     background: none;
-    padding: 5px;
+    padding: 6px;
     height: min-content;
     border-radius: 10px;
     transition: background 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
 }
 
 .inline-button:hover:not(:disabled) {
-    background: var(--light-gray-background);
+    background: var(--hover-overlay-color);
 }
 
 .inline-button:disabled, .inline-button:disabled * {
     color: var(--gray);
     stroke: var(--gray);
+}
+
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
 }
 
 button > svg {
@@ -484,6 +490,7 @@ button > svg {
     flex-grow: 1;
 }
 
+/* #region Text Input */
 .text-input-wrapper {
     border: var(--soft-border);
     color: var(--gray);
@@ -496,6 +503,13 @@ button > svg {
     transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
 }
 
+.text-input-wrapper:has(input:disabled), .text-input-wrapper:has(input:disabled) * {
+    background-color: var(--offwhite-dark);
+    border-color: var(--offwhite-dark);
+    color: var(--gray);
+    cursor: text;
+}
+
 .text-input-wrapper:focus-within {
     border-color: var(--primary);
     color: var(--primary);
@@ -505,6 +519,10 @@ button > svg {
     cursor: text;
 }
 
+.text-input-wrapper svg {
+    flex-shrink: 0;
+}
+
 .text-input-wrapper input {
     flex-grow: 1;
     padding: 8px 12px;
@@ -512,6 +530,7 @@ button > svg {
     border: none;
     outline: none;
 }
+/* #endregion */
 
 /* #region Modal */
 .modal-container {
