@@ -271,7 +271,7 @@
             sendAPIReq({
                 reqType: "createNewAccount",
                 accountData: {
-                    name: fullNameInput.value,
+                    name: fullNameInput.value.trim(),
                     marketingAllowed: newsletterAgreement.checked
                 }
             }, (res) => {
