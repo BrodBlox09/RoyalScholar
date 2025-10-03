@@ -34,6 +34,11 @@ document.querySelectorAll(".text-input-wrapper").forEach((tiw) => {
     };
 });
 
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove("active");
+    document.body.classList.remove("no-scroll");
+}
+
 /**
  * Deletes all the children of the specified element.
  * @param {HTMLElement} element The element to delete the children of.
