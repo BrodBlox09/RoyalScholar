@@ -19,6 +19,21 @@ function toggleTopnavDropdown() {
     dropdown.classList.toggle("visible");
 }
 
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        document.querySelectorAll("input:focus, textarea:focus").forEach((el) => {
+            el.blur();
+        });
+    }
+}, true);
+
+document.querySelectorAll(".text-input-wrapper").forEach((tiw) => {
+    let textInput = tiw.querySelector("input, textarea");
+    tiw.onclick = () => {
+        textInput.focus();
+    };
+});
+
 /**
  * Deletes all the children of the specified element.
  * @param {HTMLElement} element The element to delete the children of.
