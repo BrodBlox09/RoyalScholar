@@ -40,6 +40,7 @@
 
         #error-logs-list pre {
             margin: 0;
+            text-wrap: wrap;
         }
 
         /* #region Log Tabs */
@@ -229,7 +230,8 @@
         fillErrorLogs([
             { timestamp: "Sun Jun 01 2025 11:00:52 GMT+0200 (Central European Summer Time)", email: 'bsma3924@student.dodea.edu', requestType: "GET", error: "TypeError: htmlTemplate.evaluate is not a function\n    at sendEmail (Utils:102:35)\n    at handleRequest (Code:78:9)\n    at handleWebAppRequest (Code:28:13)\n    at __GS_INTERNAL_top_function_call__.gs:1:8" },
             { timestamp: "Sun Jun 01 2025 11:39:28 GMT+0200 (Central European Summer Time)", email: 'bsma3924@student.dodea.edu', requestType: "createNewAccount", error: "SyntaxError: Unexpected identifier 'TO'\n    at Object.<anonymous> (__GS_INTERNAL_evaluate:1:31)\n    at handleRequest (Code:71:71)\n    at handleWebAppRequest (Code:21:13)\n    at __GS_INTERNAL_top_function_call__.gs:1:8" },
-            { timestamp: "Sun Jun 01 2025 15:10:20 GMT+0200 (Central European Summer Time)", email: 'twil3210@student.dodea.edu', requestType: "createNewAccount", error: "Error: SID invalid: 74411\n    at new TutoringSession (Types/TutoringSession:21:30)\n    at PageInfo.Page_Definitions [as getHtml] (pageDefinitions:125:21)\n    at doGet (Code:198:27)\n    at __GS_INTERNAL_top_function_call__.gs:1:8" }
+            { timestamp: "Sun Jun 01 2025 15:10:20 GMT+0200 (Central European Summer Time)", email: 'twil3210@student.dodea.edu', requestType: "createNewAccount", error: "Error: SID invalid: 74411\n    at new TutoringSession (Types/TutoringSession:21:30)\n    at PageInfo.Page_Definitions [as getHtml] (pageDefinitions:125:21)\n    at doGet (Code:198:27)\n    at __GS_INTERNAL_top_function_call__.gs:1:8" },
+            { timestamp: "Sun Jun 01 2025 15:20:20 GMT+0200 (Central European Summer Time)", email: 'bsma3924@student.dodea.edu', requestType: "createNewAccount", error: "{\"req\":{\"reqType\":\"accountManagerRenameAccount\",\"accountEmail\":\"abcd1234@student.dodea.edu\",\"newName\":\"Test Account 1\"},\"res\":{\"errorCode\":500,\"error\":\"Something went wrong, please try again later. This error has been logged.\"}}" }
         ]);
         fillDataLogs([
             { timestamp: '2023-10-01 12:00:00', data: 'User logged in' },
