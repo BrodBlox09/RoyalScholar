@@ -512,6 +512,7 @@ select {
     color: var(--gray);
     border-radius: 10px;
     background-color: #fff;
+    position: relative;
     display: flex;
     align-items: center;
     padding: 0 8px;

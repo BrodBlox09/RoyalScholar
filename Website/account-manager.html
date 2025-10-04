@@ -10,7 +10,7 @@
         #content {
             max-width: var(--max-content-width);
             margin-inline: auto;
-            margin-top: 1em;
+            margin-block: 1em;
             padding-inline: 1rem;
         }
 
@@ -23,7 +23,7 @@
             background: #FFFFFF;
         }
 
-        #account-management-buttons {
+        #account-management-actions, #account-management-selected-required-buttons {
             display: flex;
             gap: 10px;
         }
@@ -37,6 +37,33 @@
 
         #account-selection-header {
             padding: 10px 15px;
+            background-color: var(--light-gray);
+        }
+
+        #account-search-clear-button-wrapper {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none;
+        }
+
+        #account-search-clear-button-wrapper.active {
+            display: grid;
+            place-items: center;
+        }
+
+        #account-search-clear-button {
+            display: grid;
+            place-items: center;
+            padding: 2px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 20px;
+            transition: background-color 0.2s;
+        }
+
+        #account-search-clear-button:hover {
             background-color: var(--light-gray);
         }
 
@@ -164,11 +191,11 @@
                 align-items: flex-start;
                 gap: 10px;
             }
-            #account-management-buttons {
+            /* #account-management-buttons {
                 width: 100%;
                 justify-content: center;
                 flex-wrap: wrap;
-            }
+            } */
             .account-card {
                 grid-template-columns: 1fr;
             }
@@ -187,7 +214,11 @@
         <h3 class="subheading">Manage accounts here.</h3>
         <div id="content-card">
             <div id="account-management-actions">
-                <div id="account-management-buttons">
+                <button class="button" id="select-visible-button" onclick="selectVisibleAccounts()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-check-icon lucide-user-check"><path d="m16 11 2 2 4-4"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                    Select Visible
+                </button>
+                <div id="account-management-selected-required-buttons">
                     <button class="button" id="set-roles-button" onclick="setAccountRoles()" disabled>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen-icon lucide-user-pen"><path d="M11.5 15H7a4 4 0 0 0-4 4v2"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></svg>
                         Set Roles
@@ -207,10 +238,14 @@
                     <div class="text-input-wrapper">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-search-icon lucide-user-search"><circle cx="10" cy="7" r="4"/><path d="M10.3 15H7a4 4 0 0 0-4 4v2"/><circle cx="17" cy="17" r="3"/><path d="m21 21-1.9-1.9"/></svg>
                         <input id="account-search" placeholder="Search accounts">
+                        <div id="account-search-clear-button-wrapper">
+                            <div id="account-search-clear-button" class="inline-button" onclick="clearSearchQuery()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div id="account-list-container">
-                </div>
+                <div id="account-list-container"></div>
             </div>
             <div style="margin-top: 10px;">
                 <p class="subheading center-text" style="margin-bottom: 0;">Showing <span id="visible-accounts">0</span> of <span id="total-accounts">0</span> accounts</p>
@@ -228,7 +263,7 @@
                 </button>
             </div>
             <div class="modal-form">
-                <p class="no-margin">Selected students: <span id="set-roles-selected-students">None</span></p>
+                <p class="no-margin">Selected accounts: <span id="set-roles-selected-students">None</span></p>
                 <div>
                     <label for="set-roles-select-input" class="form-input-label">Select role</label>
                     <select id="set-roles-select-input" class="dropdown-field">
@@ -321,30 +356,56 @@
         };
 
         // #region Account Management Actions
+        function selectVisibleAccounts() {
+            document.querySelectorAll("#account-list-container .account-card:not(.hidden)").forEach(item => {
+                if (!item.classList.contains("selected")) {
+                    item.click();
+                }
+            });
+            updateSelectedAccountsDisplay();
+        }
+
+        // #region Set Roles
         let setRolesModal = document.getElementById("set-roles-modal");
         let setRolesSelectedStudents = document.getElementById("set-roles-selected-students");
         let setRolesSelectInput = document.getElementById("set-roles-select-input");
         let setRolesSubmitButton = document.getElementById("set-roles-submit-button");
 
+        setRolesSelectInput.addEventListener("input", updateSetRolesSubmitButtonState);
+
         setRolesSubmitButton.addEventListener("click", () => {
-            let permissions = setRolesSelectInput.value;
+            let permissions = parseInt(setRolesSelectInput.value);
+            setRolesSubmitButton.disabled = true;
+            setRolesSelectInput.disabled = true;
             sendAPIReq({
                 reqType: "accountManagerSetPermissions",
-                accountEmails: selectedAccounts.map(x => x.name),
+                accountEmails: selectedAccounts.map(x => x.email),
                 permissions: permissions
             }, (res) => {
+                setRolesSubmitButton.disabled = false;
+                setRolesSelectInput.disabled = false;
                 selectedAccounts.forEach(account => {
                     account.data.permissions = permissions;
                 });
                 accountListUpdated();
+                closeModal('set-roles-modal');
             });
         });
+
+        function updateSetRolesSubmitButtonState() {
+            let permissions = setRolesSelectInput.value;
+            if (permissions == 0) setRolesSubmitButton.disabled = true;
+            else setRolesSubmitButton.disabled = false;
+        }
 
         function setAccountRoles() {
             setRolesSelectedStudents.textContent = selectedAccounts.map(x => x.name).join(", ");
             setRolesSelectInput.value = 0;
             setRolesModal.classList.add("active");
+            document.body.classList.add("no-scroll");
+            updateSetRolesSubmitButtonState();
         }
+        // #endregion
 
         function exportSelectedAccounts() {
             let csvContent = "data:text/csv;charset=utf-8,";
@@ -456,6 +517,7 @@
                 accountCard.querySelector(".role-tags").style.setProperty(permissionsToVariable[account.data.permissions], "block");
 
                 accountCard.dataset.name = account.name.toLowerCase();
+                accountCard.dataset.email = account.email.toLowerCase();
 
                 accountListContainer.appendChild(accountCard);
             });
@@ -463,19 +525,37 @@
             updateVisibleAccountCountDisplay();
         }
 
+        let accountSearchClearButtonWrapper = document.getElementById("account-search-clear-button-wrapper");
         accountSearchInput.addEventListener("input", () => {
+            updateClearQueryButtonState();
+            filterAccountListDisplay();
+        });
+        
+        function updateClearQueryButtonState() {
+            if (accountSearchInput.value.length > 0) accountSearchClearButtonWrapper.classList.add("active");
+            else accountSearchClearButtonWrapper.classList.remove("active");
+        }
+
+        function filterAccountListDisplay() {
             let query = accountSearchInput.value.toLowerCase();
             visibleAccountCount = accountList.length;
             document.querySelectorAll("#account-list-container .account-card").forEach(item => {
                 let name = item.dataset.name;
-                if (name.includes(query)) item.classList.remove("hidden");
+                let email = item.dataset.email;
+                if (name.includes(query) || email.includes(query)) item.classList.remove("hidden");
                 else {
                     item.classList.add("hidden");
                     visibleAccountCount--;
                 }
             });
             updateVisibleAccountCountDisplay();
-        });
+        }
+
+        function clearSearchQuery() {
+            accountSearchInput.value = "";
+            filterAccountListDisplay();
+            updateClearQueryButtonState();
+        }
 
         function updateVisibleAccountCountDisplay() {
             visibleAccountsDisplay.textContent = visibleAccountCount;
@@ -489,17 +569,18 @@
             }
             selectedAccountsDisplay.textContent = selectedAccountsText;
             let buttonsDisabled = selectedAccounts.length <= 0;
-            document.querySelectorAll("#account-management-buttons button").forEach(button => button.disabled = buttonsDisabled);
+            document.querySelectorAll("#account-management-selected-required-buttons button").forEach(button => button.disabled = buttonsDisabled);
         }
 
         function accountListUpdated() {
             selectedAccounts = [];
             updateAccountListDisplay();
             updateSelectedAccountsDisplay();
+            filterAccountListDisplay();
         }
 
         // #debug
-        accountList = [{"row":2,"dataRange":["rachel.harris@student.dodea.edu","Rachel Harris",{"marketingAllowed":false,"permissions":999,"tutorInfo":{"notificationPreferences":[]}},{},{}],"email":"rachel.harris@student.dodea.edu","name":"Rachel Harris","data":{"marketingAllowed":false,"permissions":999,"tutorInfo":{"notificationPreferences":[]}},"history":{},"evaluation":{}},{"row":3,"dataRange":["bsma3924@student.dodea.edu","Brody Smalley",{"marketingAllowed":true,"permissions":999,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"}],"tutorCardScans":10,"emailsThatPreferred":[{"email":"mgil5697@student.dodea.edu","time":"2025-05-29T11:21:02.877Z"}]}},{},{}],"email":"bsma3924@student.dodea.edu","name":"Brody Smalley","data":{"marketingAllowed":true,"permissions":999,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"}],"tutorCardScans":10,"emailsThatPreferred":[{"email":"mgil5697@student.dodea.edu","time":"2025-05-29T11:21:02.877Z"}]}},"history":{},"evaluation":{}},{"row":4,"dataRange":["fbas2229@student.dodea.edu","Faako Bassit",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"AP Seminar","subject":"English"}]}},{},{}],"email":"fbas2229@student.dodea.edu","name":"Faako Bassit","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"AP Seminar","subject":"English"}]}},"history":{},"evaluation":{}},{"row":5,"dataRange":["mmcc1639@student.dodea.edu","Maggie McCain",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"AP Psychology","subject":"Social Studies"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"}]}},{},{}],"email":"mmcc1639@student.dodea.edu","name":"Maggie McCain","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"AP Psychology","subject":"Social Studies"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"}]}},"history":{},"evaluation":{}},{"row":6,"dataRange":["mpen3569@student.dodea.edu","Makayla Pena",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Language Arts 9","subject":"English"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"}]}},{},{}],"email":"mpen3569@student.dodea.edu","name":"Makayla Pena","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Language Arts 9","subject":"English"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"}]}},"history":{},"evaluation":{}},{"row":7,"dataRange":["enar5817@student.dodea.edu","Emily Narvaez ",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"}]}},{},{}],"email":"enar5817@student.dodea.edu","name":"Emily Narvaez ","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"}]}},"history":{},"evaluation":{}},{"row":8,"dataRange":["heidi.kretz@student.dodea.edu","Heidi Kretz",{"marketingAllowed":true,"permissions":999,"tutorInfo":{"notificationPreferences":[]}},{},{}],"email":"heidi.kretz@student.dodea.edu","name":"Heidi Kretz","data":{"marketingAllowed":true,"permissions":999,"tutorInfo":{"notificationPreferences":[]}},"history":{},"evaluation":{}},{"row":9,"dataRange":["lnic9705@student.dodea.edu","Lillian Nicholas",{"marketingAllowed":false,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"}]}},{},{}],"email":"lnic9705@student.dodea.edu","name":"Lillian Nicholas","data":{"marketingAllowed":false,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"}]}},"history":{},"evaluation":{}},{"row":10,"dataRange":["lsmi3050@student.dodea.edu","Leona Smith",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"Physics","subject":"Science"},{"name":"Global Studies","subject":"Social Studies"}]}},{},{}],"email":"lsmi3050@student.dodea.edu","name":"Leona Smith","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"Physics","subject":"Science"},{"name":"Global Studies","subject":"Social Studies"}]}},"history":{},"evaluation":{}},{"row":11,"dataRange":["ialv3974@student.dodea.edu","Isabel Alvarez",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"}]}},{},{}],"email":"ialv3974@student.dodea.edu","name":"Isabel Alvarez","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"}]}},"history":{},"evaluation":{}}];
+        accountList = [{"row":2,"dataRange":["rachel.harris@student.dodea.edu","Rachel Harris",{"marketingAllowed":false,"permissions":999,"tutorInfo":{"notificationPreferences":[]}},{},{}],"email":"rachel.harris@student.dodea.edu","name":"Rachel Harris","data":{"marketingAllowed":false,"permissions":999,"tutorInfo":{"notificationPreferences":[]}},"history":{},"evaluation":{}},{"row":3,"dataRange":["bsma3924@student.dodea.edu","Brody Smalley",{"marketingAllowed":true,"permissions":999,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"}],"tutorCardScans":10,"emailsThatPreferred":[{"email":"mgil5697@student.dodea.edu","time":"2025-05-29T11:21:02.877Z"}]}},{},{}],"email":"bsma3924@student.dodea.edu","name":"Brody Smalley","data":{"marketingAllowed":true,"permissions":999,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"}],"tutorCardScans":10,"emailsThatPreferred":[{"email":"mgil5697@student.dodea.edu","time":"2025-05-29T11:21:02.877Z"}]}},"history":{},"evaluation":{}},{"row":4,"dataRange":["fbas2229@student.dodea.edu","Faako Bassit",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"AP Seminar","subject":"English"}]}},{},{}],"email":"fbas2229@student.dodea.edu","name":"Faako Bassit","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"AP Seminar","subject":"English"}]}},"history":{},"evaluation":{}},{"row":5,"dataRange":["mmcc1639@student.dodea.edu","Maggie McCain",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"AP Psychology","subject":"Social Studies"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"}]}},{},{}],"email":"mmcc1639@student.dodea.edu","name":"Maggie McCain","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"AP Psychology","subject":"Social Studies"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"}]}},"history":{},"evaluation":{}},{"row":6,"dataRange":["mpen3569@student.dodea.edu","Makayla Pena",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Language Arts 9","subject":"English"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"}]}},{},{}],"email":"mpen3569@student.dodea.edu","name":"Makayla Pena","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Language Arts 9","subject":"English"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"}]}},"history":{},"evaluation":{}},{"row":7,"dataRange":["enar5817@student.dodea.edu","Emily Narvaez",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"}]}},{},{}],"email":"enar5817@student.dodea.edu","name":"Emily Narvaez","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"}]}},"history":{},"evaluation":{}},{"row":8,"dataRange":["heidi.kretz@student.dodea.edu","Heidi Kretz",{"marketingAllowed":true,"permissions":999,"tutorInfo":{"notificationPreferences":[]}},{},{}],"email":"heidi.kretz@student.dodea.edu","name":"Heidi Kretz","data":{"marketingAllowed":true,"permissions":999,"tutorInfo":{"notificationPreferences":[]}},"history":{},"evaluation":{}},{"row":9,"dataRange":["lnic9705@student.dodea.edu","Lillian Nicholas",{"marketingAllowed":false,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"}]}},{},{}],"email":"lnic9705@student.dodea.edu","name":"Lillian Nicholas","data":{"marketingAllowed":false,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"}]}},"history":{},"evaluation":{}},{"row":10,"dataRange":["lsmi3050@student.dodea.edu","Leona Smith",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"Physics","subject":"Science"},{"name":"Global Studies","subject":"Social Studies"}]}},{},{}],"email":"lsmi3050@student.dodea.edu","name":"Leona Smith","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"Physics","subject":"Science"},{"name":"Global Studies","subject":"Social Studies"}]}},"history":{},"evaluation":{}},{"row":11,"dataRange":["ialv3974@student.dodea.edu","Isabel Alvarez",{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"}]}},{},{}],"email":"ialv3974@student.dodea.edu","name":"Isabel Alvarez","data":{"marketingAllowed":true,"permissions":100,"tutorInfo":{"notificationPreferences":[{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"}]}},"history":{},"evaluation":{}}];
         // #enddebug
 
         // #debug
