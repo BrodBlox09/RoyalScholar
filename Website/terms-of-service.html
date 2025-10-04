@@ -7,6 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <style>
+        #content {
+            max-width: var(--max-content-width);
+            margin-inline: auto;
+            margin-top: 1em;
+            padding-inline: 1rem;
+        }
+
         #tos-title {
             margin-bottom: 0;
         }
@@ -47,13 +54,11 @@
         }
 
         :not(ol)>ol>li {
-            font-family: "Playfair Display";
             font-size: 1.3em;
             font-weight: 700;
         }
 
         ol>ol>div>li {
-            font-family: "Playfair Display";
             font-size: 1.1em;
             font-weight: 600;
         }
@@ -67,9 +72,9 @@
 
 <body>
     <div id="topnav"></div>
-    <div class="section-primary-bg">
+    <div id="content">
         <h1 class="section-title-left" id="tos-title">Terms of Service</h1>
-        <h2 id="tos-update-date">Last updated: May 29, 2025</h2>
+        <h2 id="tos-update-date">Last updated: September 1<sup>st</sup>, 2025</h2>
 
         <p>
             These Terms of Service ("Terms") govern your access to and use of the RoyalScholar tutoring web application

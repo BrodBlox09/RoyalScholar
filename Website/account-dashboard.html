@@ -13,104 +13,570 @@
             flex-direction: column;
         }
 
-        #no-account {
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s;
+        .lead-section {
+            display: flex;
+            margin-block: 20px;
+            gap: 20px;
         }
 
-        #no-account.active {
-            pointer-events: auto;
-            opacity: 1;
+        #settings-btn, #close-settings-btn {
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-top: 10px;
+            display: flex;
+            gap: 5px;
+            align-items: center;
         }
 
         #content {
-            flex-grow: 1;
+            padding-inline: 20px;
         }
 
         #dashboard-content {
-            padding-left: 10px;
-            padding-right: 10px;
+            display: grid;
+            grid-template-columns: 0fr 1fr;
+            gap: 20px;
         }
 
-        #upcoming-sessions-list>div {
-            background-color: var(--accent-soft);
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid var(--accent);
+        .dashboard-panel {
+            border-radius: 20px;
+            box-shadow: var(--soft-box-shadow);
+            border: var(--soft-border);
+            padding: 20px;
+            padding-block: 15px;
+            background: #FFFFFF;
         }
 
-        #upcoming-sessions-list>div>h2 {
+        .dashboard-panel > h2:first-child {
             margin-top: 0;
         }
 
-        #upcoming-sessions-list>div>p {
-            margin-bottom: 0;
+        .content-page {
+            display: none;
+            justify-content: center;
         }
+
+        .content-page > div {
+            max-width: var(--max-content-width);
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .content-page.active {
+            display: flex;
+        }
+
+        /* #region Settings Page */
+        #settings-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .no-interact {
+            user-select: none;
+            pointer-events: none;
+        }
+
+        #settings-changes-panel {
+            opacity: 0;
+            user-select: none;
+            pointer-events: none;
+            position: fixed;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.5s;
+            display: flex;
+            gap: 10px;
+        }
+
+        #settings-changes-panel.active {
+            user-select: unset;
+            pointer-events: unset;
+            opacity: 1;
+            bottom: 20px;
+        }
+        /* #endregion */
+
+        /* #region Tutor Notification Preferences */
+        div:has(> .tnp-class-list) {
+            display: grid;
+            grid-template-rows: calc(1lh + 12px) 0fr;
+            transition: grid-template-rows 0.5s;
+        }
+
+        .tnp-class-list {
+            padding-left: 35px;
+            overflow: hidden;
+        }
+
+        div:has(> .tnp-class-list.active) {
+            grid-template-rows: calc(1lh + 12px) 1fr;
+        }
+
+        div:has(> .caret-span) {
+            display: flex;
+            gap: 5px;
+        }
+
+        .caret-span {
+            width: 14px;
+            height: 1lh;
+            display: flex;
+            stroke: currentColor;
+            rotate: 90deg;
+            transition: rotate 0.5s;
+        }
+
+        .caret-span.active {
+            rotate: 180deg;
+        }
+        /* #endregion */
+
+        @media (max-width: 1050px) {
+            #dashboard-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .no-sessions-message {
+            display: none;
+        }
+
+        .no-sessions-message.active {
+            display: block;
+        }
+
+        .session-card {
+            border-radius: 12px;
+            box-shadow: var(--soft-box-shadow);
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            background: #f9f9fc;
+            border: 1px solid rgb(214, 214, 205);
+        }
+
+        .session-card-heading-row {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .session-card-details-row {
+            margin-top: 10px;
+        }
+
+        /* #region Session Card Tags */
+        .session-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: end;
+            gap: 8px;
+            --cancelled: none;
+            --pending: none;
+            --confirmed: none;
+            --requested: none;
+            --tutoring: none;
+        }
+
+        .session-card-tags > div {
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            user-select: none;
+        }
+
+        .cancelled-tag {
+            display: var(--cancelled);
+            background: #f8d7da; color: #842029; border: 1px solid #f5c2c7;
+        }
+
+        .pending-tag {
+            display: var(--pending);
+            background: #fff3cd; color: #664d03; border: 1px solid #ffecb5;
+        }
+
+        .confirmed-tag {
+            display: var(--confirmed);
+            background: #d1e7dd; color: #0f5132; border: 1px solid #badbcc;
+        }
+
+        .requested-tag {
+            display: var(--requested);
+            background: #cff4fc; color: #055160; border: 1px solid #b6effb;
+        }
+
+        .tutoring-tag {
+            display: var(--tutoring);
+            background: #e7d6fd; color: #4b2995; border: 1px solid #d3bdfd;
+        }
+        /* #endregion */
     </style>
 </head>
 
 <body>
     <div id="topnav"></div>
-    <div id="content">
-        <div class="vert-centered flex-vert">
-            <h1>Welcome back, <span id="first-name"></span>!</h1>
-            <h3>Ready to make the most of your learning journey today?</h3>
-        </div>
+    <div id="content" class="active content-page">
         <div>
-            <h2>Profile Summary</h2>
-            <p><b>Name:</b> <span id="full-name"></span></p>
-            <p><b>Email:</b> <span id="email"></span></p>
-        </div>
-        <div>
-            <h2>Upcoming Sessions</h2>
-            <div id="upcoming-sessions-list"></div>
+            <div class="lead-section">
+                <div class="flex-grow">
+                    <h1 class="heading">Welcome back, <span id="first-name"></span>!</h1>
+                    <h3 class="subheading">Ready to make the most of your learning journey today?</h3>
+                </div>
+                <div>
+                    <button id="settings-btn" class="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                        Settings
+                    </button>
+                </div>
+            </div>
+            <div id="dashboard-content">
+                <div>
+                    <div class="dashboard-panel">
+                        <h2>Profile Summary</h2>
+                        <p><b>Name:</b> <span id="full-name"></span></p>
+                        <p><b>Email:</b> <span id="email"></span></p>
+                        <p><b>Role:</b> <span id="role"></span></p>
+                    </div>
+                </div>
+                <div class="dashboard-panel">
+                    <h2>Upcoming Sessions</h2>
+                    <div id="upcoming-sessions-list">
+                        <div id="student-no-sessions" class="no-sessions-message">
+                            <p>You have no upcoming sessions scheduled. <a href="request-a-session.html" class="text-link">Schedule one now!</a></p>
+                        </div>
+                        <div id="tutor-no-sessions" class="no-sessions-message">
+                            <p>You have no upcoming sessions scheduled. <a href="request-a-session.html" class="text-link">Schedule one</a> or <a href="tutor-a-session.html" class="text-link">find one to tutor</a> now!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="modal-bg" id="no-account">
-        <div class="modal">
-            <h2 style="margin-bottom: 5px; margin-top: -10px;">Uh oh! It looks like you don't have an account yet!</h2>
-            <p>To access this feature, you need to create a RoyalScholar account. Don't worry—it's quick and easy!</p>
-            <a href="new-account.html" title="Click here to join the RoyalScholar community!" class="button"
-                style="font-size: 1.5rem; font-weight: 600; text-align: center;">Create&nbsp;my&nbsp;Account</a>
+    <div id="settings-page" class="content-page">
+        <div>
+            <div class="lead-section">
+                <div class="flex-grow">
+                    <h1 class="heading">Account Settings</h1>
+                    <h3 class="subheading">Update your account settings here.</h3>
+                </div>
+                <div>
+                    <button id="close-settings-btn" class="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        Close
+                    </button>
+                </div>
+            </div>
+            
+            <div id="settings-dashboard">
+                <div class="dashboard-panel">
+                    <h2 class="heading">Terms of Service (ToS)</h2>
+                    <p class="subheading">The ToS describe the rules, responsibilities, and guidelines for participating in the RoyalScholar tutoring program. <a href="./terms-of-service.html" class="text-link">Read the full ToS here.</a></a></p>
+                    <label class="checkbox-label no-interact">Yes, I agree to the ToS described above.
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="dashboard-panel">
+                    <h2 class="heading">Marketing Activities</h2>
+                    <p class="subheading">Receive updates about new features, special offers, and educational content. <a href="./marketing-activities.html" class="text-link">Further reading.</a></a></p>
+                    <label class="checkbox-label">Yes, I want to receive marketing communications.
+                        <input type="checkbox" id="marketing-activities-checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="dashboard-panel tutor-vis-only">
+                    <h2 class="heading">Tutor Notification Preferences</h2>
+                    <p class="subheading">Choose how you'd like to receive notifications about new session requests and messages from students.</p>
+                    <div id="tnp-checkboxes"></div>
+                </div>
+            </div>
+            <div class="dashboard-panel" id="settings-changes-panel">
+                <button id="save-settings-btn" class="button">
+                    Save Changes
+                </button>
+                <button id="discard-settings-btn" class="accent-button">
+                    Discard Changes
+                </button>
+            </div>
         </div>
     </div>
+
+    <template id="session-card-template">
+        <div class="session-card">
+            <div class="session-card-heading-row">
+                <div class="flex-grow">
+                    <h3 class="heading session-card-class">Class</h3>
+                    <p class="subheading session-card-subject" style="margin-bottom: 0;">Subject</p>
+                </div>
+                <div>
+                    <div class="session-card-tags">
+                        <div class="requested-tag">
+                            <span>You&nbsp;Requested</span>
+                        </div>
+                        <div class="tutoring-tag">
+                            <span>You're&nbsp;Tutoring</span>
+                        </div>
+                        <div class="cancelled-tag">
+                            <span>Cancelled</span>
+                        </div>
+                        <div class="pending-tag">
+                            <span>Pending</span>
+                        </div>
+                        <div class="confirmed-tag">
+                            <span>Confirmed</span>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+            <div class="session-card-details-row">
+                <p style="margin-top: 0;"><b>Date:</b> <span class="session-card-date">Date</span></p>
+                <p><b>Time:</b> <span class="session-card-time">Time</span></p>
+                <p><b class="session-card-user-descriptor">Student:</b> <span class="session-card-user">Name</span></p>
+            </div>
+            <a class="text-link session-card-details-link">View Details</a>
+        </div>
+    </template>
+
     <script src="scripts.js"></script>
     <script>
+        let upcomingSessionsList = document.getElementById("upcoming-sessions-list");
+        let sessionCardTemplate = document.getElementById("session-card-template");
+        let noSessionsMessage;
+
+        // #region Settings Setup
+        let userSettings = null;
+        let newUserSettings = null;
+        const settingsBtn = document.getElementById("settings-btn");
+        const closeSettingsBtn = document.getElementById("close-settings-btn");
+        const settingsPage = document.getElementById("settings-page");
+        const content = document.getElementById("content");
+        settingsBtn.addEventListener("click", () => {
+            settingsPage.classList.add("active");
+            content.classList.remove("active");
+        });
+        closeSettingsBtn.addEventListener("click", () => {
+            settingsPage.classList.remove("active");
+            content.classList.add("active");
+        });
+
+        const marketingActivitiesCheckbox = document.getElementById("marketing-activities-checkbox");
+        const saveSettingsBtn = document.getElementById("save-settings-btn");
+        const discardSettingsBtn = document.getElementById("discard-settings-btn");
+        const settingsChangesPanel = document.getElementById("settings-changes-panel");
+        const tnpCheckboxes = document.getElementById("tnp-checkboxes");
+        let classes = [{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"AP Environmental Science","subject":"Science"},{"name":"Environmental Science","subject":"Science"},{"name":"Marine Biology","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"AP Physics C","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Literature and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"AP Research","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP Government","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"},{"name":"AP Spanish Language and Culture","subject":"Spanish"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"},{"name":"French III","subject":"French"},{"name":"French IV","subject":"French"}];
+        marketingActivitiesCheckbox.addEventListener("input", () => {
+            newUserSettings.marketingActivities = marketingActivitiesCheckbox.checked;
+            updateChangeSettingsDisplay();
+        });
+        
+        saveSettingsBtn.addEventListener("click", () => {
+            saveSettingsBtn.disabled = true;
+            discardSettingsBtn.disabled = true;
+            sendAPIReq({
+                reqType: "updateSettings",
+                settings: newUserSettings
+            }, () => {
+                userSettings = duplicateObject(newUserSettings);
+                after();
+            }, after); // Even if it fails, we want to re-enable the buttons
+            function after() {
+                loadSettingsDisplay();
+                saveSettingsBtn.disabled = false;
+                discardSettingsBtn.disabled = false;
+            }
+        });
+        discardSettingsBtn.addEventListener("click", () => {
+            newUserSettings = duplicateObject(userSettings);
+            loadSettingsDisplay(); // Reset everything and refresh settings
+        });
+        // #endregion
+
         function loadAccountDashboard(account) {
             document.getElementById("first-name").textContent = account.name.split(" ")[0];
             document.getElementById("full-name").textContent = account.name;
             document.getElementById("email").textContent = account.email;
+            document.getElementById("role").textContent = account.role;
+            noSessionsMessage = document.getElementById(account.role == "Student" ? "student-no-sessions" : "tutor-no-sessions");
+            loadUpcomingSessions(account.upcomingSessions, account.email, account.sessionDetailsBaseHref);
+            userSettings = account.settings;
+            newUserSettings = duplicateObject(userSettings);
+            loadSettingsDisplay();
+        }
 
-            let upcomingTutorSessions = account.upcomingTutorSessions;
-            let upcomingSessionsList = document.getElementById("upcoming-sessions-list");
-            upcomingTutorSessions.forEach(session => {
-                upcomingSessionsList.innerHTML += `
-                    <div>
-                        <h2>${session[3]}</h2>
-                        <p><b>Date:</b> ${new Date(session[0]).toDateString()}</p>
-                        <p><b>Start Time:</b> ${new Date(session[1]).toLocaleTimeString()}</p>
-                        <p><b>End Time:</b> ${new Date(session[2]).toLocaleTimeString()}</p>
-                        <p><b>Location:</b> ${session[4]}</p>
-                        <p><b>Subject:</b> ${session[5].subject}</p>
-                        <p><b>Class:</b> ${session[5].className}</p>
-                        <p><b>Details:</b> ${session[6]}</p>
-                        <p><b>Tutor:</b> ${session[10] != "" ? session[10] : "Not assigned"}</p>
-                    </div>
-                `;
+        function loadUpcomingSessions(sessions, userEmail, baseHref) {
+            if (sessions.length == 0) {
+                noSessionsMessage.classList.add("active");
+                return;
+            }
+            sessions.sort((a, b) => new Date(a.start) - new Date(b.start));
+            sessions.forEach(session => {
+                /** @type {HTMLElement} */
+                let card = sessionCardTemplate.content.cloneNode(true);
+                let cardTags = card.querySelector(".session-card-tags");
+
+                card.querySelector(".session-card-class").textContent = session.classData.name;
+                card.querySelector(".session-card-subject").textContent = session.classData.subject;
+                card.querySelector(".session-card-date").textContent = formatDate(session.date);
+                let start = new Date(session.start);
+                let end = new Date(session.end);
+                card.querySelector(".session-card-time").textContent = `${formatTime(start)} - ${formatTime(end)}`;
+                if (userEmail == session.studentEmail) {
+                    cardTags.style.setProperty("--requested", "block");
+                    card.querySelector(".session-card-user").textContent = session.tutorName == "" ? "TBD" : session.tutorName;
+                    card.querySelector(".session-card-user-descriptor").textContent = "Tutor:";
+                    if (session.tutorEmail != "") {
+                        cardTags.style.setProperty("--confirmed", "block");
+                    } else {
+                        cardTags.style.setProperty("--pending", "block");
+                    }
+                } else {
+                    cardTags.style.setProperty("--tutoring", "block");
+                    card.querySelector(".session-card-user").textContent = session.studentName;
+                    card.querySelector(".session-card-user-descriptor").textContent = "Student:";
+                    if (session.tutorEmail != "") {
+                        if (session.tutorEmail == userEmail) cardTags.style.setProperty("--confirmed", "block");
+                        else cardTags.style.setProperty("--cancelled", "block");
+                    } else {
+                        cardTags.style.setProperty("--pending", "block");
+                    }
+                }
+                card.querySelector(".session-card-details-link").href = baseHref + session.metadata.sid;
+                
+                upcomingSessionsList.appendChild(card);
             });
         }
 
-        function showNoAccountModal() {
-            document.getElementById("no-account").classList.add("active");
+        function formatDate(time, formatShort) {
+            let options = { dateStyle: "full" };
+            if (formatShort) options.dateStyle = "medium";
+            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
+
+            return dateFormatter.format(new Date(time));
         }
+
+        function formatTime(time) {
+            let timeFormatter = Intl.DateTimeFormat({ region: "en-us" }, { timeStyle: "short", hour12: false });
+
+            return timeFormatter.format(new Date(time));
+        }
+
+        // #region Settings
+        function setupTNPCheckboxes() {
+            tnpCheckboxes.innerHTML = "";
+            let subjectDivs = {};
+            classes.forEach(cls => {
+                if (!subjectDivs[cls.subject]) {
+                    let subjectDiv = document.createElement("div");
+                    let labelDiv = document.createElement("div");
+                    labelDiv.addEventListener("click", () => {
+                        subjectDiv.classListDiv.classList.toggle("active");
+                        subjectDropdownSpan.classList.toggle("active");
+                    });
+                    let subjectCheckbox = createClassNotificationCheckbox(cls.subject, classes.every(x => x.subject != cls.subject || tnpHasClass(x)), (input, event) => {
+                        // Will fill/unfill all checkboxes in this subject
+                        subjectDiv.classListDiv.querySelectorAll("input[type=checkbox]").forEach(box => {
+                            box.checked = input.checked;
+                            box.dispatchEvent(new Event("input"));
+                        });
+                        event.stopPropagation();
+                    });
+                    let classListDiv = document.createElement("div");
+                    classListDiv.classList.add("tnp-class-list");
+                    subjectDiv.classListDiv = classListDiv;
+                    let subjectDropdownSpan = document.createElement("span");
+                    subjectDropdownSpan.classList.add("caret-span");
+                    subjectDropdownSpan.innerHTML = `<svg viewBox="7 8.5 10 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 14L12 10L16 14" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
+                    labelDiv.appendChild(subjectDropdownSpan);
+                    labelDiv.appendChild(subjectCheckbox);
+
+                    subjectDiv.appendChild(labelDiv);
+                    subjectDiv.appendChild(classListDiv);
+
+
+                    subjectDivs[cls.subject] = subjectDiv;
+                }
+                subjectDivs[cls.subject].classListDiv.appendChild(createClassNotificationCheckbox(cls.name, tnpHasClass(cls), (input) => {
+                    if (input.checked) {
+                        if (!newTnpHasClass(cls)) newUserSettings.tnp.push(cls);
+                        updateChangeSettingsDisplay();
+                    } else {
+                        newUserSettings.tnp = newUserSettings.tnp.filter(x => !(x.subject == cls.subject && x.name == cls.name));
+                        updateChangeSettingsDisplay();
+                    }
+                }));
+            });
+            Object.keys(subjectDivs).sort().forEach(key => tnpCheckboxes.appendChild(subjectDivs[key]));
+
+            function createClassNotificationCheckbox(labelText, isChecked, onInput) {
+                let label = document.createElement("label");
+                label.classList.add("checkbox-label");
+                label.textContent = labelText;
+                let input = document.createElement("input");
+                input.type = "checkbox";
+                input.checked = isChecked;
+                input.addEventListener("input", onInput.bind(this, input));
+                let span = document.createElement("span");
+                span.classList.add("checkmark");
+                label.appendChild(input);
+                label.appendChild(span);
+                return label;
+            }
+        }
+
+        function tnpHasClass(cls) {
+            return userSettings.tnp.some(x => x.subject == cls.subject && x.name == cls.name);
+        }
+
+        function newTnpHasClass(cls) {
+            return newUserSettings.tnp.some(x => x.subject == cls.subject && x.name == cls.name);
+        }
+
+        function loadSettingsDisplay() {
+            marketingActivitiesCheckbox.checked = userSettings.marketingActivities;
+            if (userSettings.tnp) setupTNPCheckboxes();
+            updateChangeSettingsDisplay();
+        }
+
+        function updateChangeSettingsDisplay() {
+            if (!compareObjects(userSettings, newUserSettings)) settingsChangesPanel.classList.add("active");
+            else settingsChangesPanel.classList.remove("active");
+        }
+        // #endregion
+
+        function compareObjects(obj1, obj2) {
+            return JSON.stringify(obj1) == JSON.stringify(obj2);
+        }
+
+        function duplicateObject(obj) {
+            return JSON.parse(JSON.stringify(obj));
+        }
+
+        // #debug
+        loadAccountDashboard({"hasAccount":true,"name":"Brody Smalley","email":"bsma3924@student.dodea.edu","role":"Administrator","upcomingSessions":[{"row":2,"sid":63940,"dataRange":["Fri Sep 19 2025","2025-09-19T11:45:00.000Z","2025-09-19T12:20:00.000Z","September 19, Seminar Session 1",{"subject":"German","name":"German III"},"Perfect und preteretum.","egil4211@student.dodea.edu",{"chat":[]},{"sid":63940},"bsma3924@student.dodea.edu",null],
+            "date":"Fri Sep 19 2025",
+            "start":"2025-09-19T11:45:00.000Z",
+            "end":"2025-09-19T12:20:00.000Z",
+            "name":"September 19, Seminar Session 1",
+            "classData":{"subject":"German","name":"German III"},
+            "requestDetails":"Perfect und preteretum.",
+            "tutorEmail":"bsma3924@student.dodea.edu",
+            "requestChat":{"chat":[]},"metadata":{"sid":63940, "signedUpTutors": [{email: "bsma3924@student.dodea.edu", name: "Brody Smalley"}]},
+            "studentEmail":"expl1234@student.dodea.edu",
+            "tutorName":"Brody Smalley",
+            "studentName":"Example Student"}
+            ],"sessionDetailsBaseHref":"https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPatlXiZzjcSlTi5rxrgjiqEXL_dMjGY1YTIMDMwzG2GA/exec?page=session-request-details&sid=",
+        "settings": {"marketingActivities":true,"tnp":[{"subject":"Math","name":"Algebra I"},{"subject":"Science","name":"Biology"},{"subject":"English","name":"AP Seminar"}]}});
+        // #enddebug
 
         // #debug
         /*
         // #enddebug
         let accountData = <?!= accountData ?>;
-        if (accountData.hasAccount) loadAccountDashboard(accountData);
-        else showNoAccountModal();
+        loadAccountDashboard(accountData);
         // #debug
         */
         // #enddebug

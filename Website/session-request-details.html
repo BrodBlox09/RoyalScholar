@@ -12,6 +12,15 @@
             flex-direction: column;
         }
 
+        .subheading {
+            margin-top: 0;
+            font-weight: 400;
+            color: #555;
+        }
+        p.subheading {
+            font-size: 0.9em;
+        }
+
         #content {
             display: grid;
             /* grid-template-areas: "a c" "b c" "b c"; */
@@ -22,17 +31,10 @@
             flex-grow: 1;
         }
 
-        @media (max-width: 650px) {
-            #content {
-                /* grid-template-areas: "a" "b" "c"; */
-                grid-template-areas: "a" "c";
-                grid-template-columns: 1fr;
-            }
-        }
-
         .content-card {
             border-radius: 20px;
-            box-shadow: 0 0 10px #000000;
+            box-shadow: var(--soft-box-shadow);
+            border: var(--soft-border);
             padding: 20px;
             background: #FFFFFF;
         }
@@ -57,32 +59,63 @@
             flex-wrap: wrap;
         }
 
-        button {
-            border: none;
-            border-radius: 5px;
-            background-color: var(--accent);
-            color: var(--offwhite);
-            font-size: 1rem;
+        /* #region Chat */
+        #chat-header {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            transition: 0.2s background-color, 0.2s color;
+            justify-content: space-between;
+            margin-bottom: 10px;
         }
 
-        button:not(:disabled):hover {
-            background-color: var(--accent-dark);
-            color: var(--offwhite-dark);
+        #chat-header-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        #chat-header-buttons button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        #refresh-chat-button.spinning svg {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #toggle-chat-notifications-button {
+            --on: block;
+            --off: none;
+        }
+
+        #toggle-chat-notifications-button .on {
+            display: var(--on);
+        }
+
+        #toggle-chat-notifications-button .off {
+            display: var(--off);
         }
 
         /* #region Display Messages */
+        #chat-message-list-wrapper {
+            flex-grow: 1;
+            position: relative;
+            overflow: auto;
+            
+        }
+        
         #chat-message-list {
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: end;
-            flex-grow: 1;
-            /* gap: 10px; */
+            position: absolute;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .message {
@@ -149,7 +182,7 @@
 
         .message-time {
             font-weight: 300;
-            color: var(--dark-gray-text);
+            color: var(--dark-gray);
         }
 
         .message-group.message {
@@ -174,7 +207,7 @@
         }
 
         .system-message-body {
-            color: var(--dark-gray-text);
+            color: var(--dark-gray);
             font-size: 1rem;
             margin: 0;
         }
@@ -207,6 +240,10 @@
             scrollbar-width: none;  /* Firefox */
         }
 
+        #send-message-text:focus {
+            border-color: var(--primary);
+        }
+
         #send-message-text:disabled {
             border-color: var(--offwhite);
         }
@@ -234,6 +271,19 @@
             background: var(--light-gray-background);
         }
         /* #endregion */
+        /* #endregion */
+
+        @media (max-width: 650px) {
+            #content {
+                /* grid-template-areas: "a" "b" "c"; */
+                grid-template-areas: "a" "c";
+                grid-template-columns: 1fr;
+            }
+
+            #chat-message-list-wrapper {
+                height: max(fit-content, 500px);
+            }
+        }
     </style>
 </head>
 
@@ -249,9 +299,9 @@
                     <p class="no-margin"><b>Student Name:</b> <span id="request-student-name"></span></p>
                 </div>
                 <div style="min-width: 200px;">
-                    <!-- TEMPORARY -->
-                    <p style="margin-top: 0;">No tutors signed up.</p>
-                    <button id="sign-up-for-session-button">Sign Up</button>
+                    <p style="margin-top: 0;" id="assigned-tutor-text">No one has been assigned to this session.</p>
+                    <p id="sign-up-for-session-text">No tutors have signed up.</p>
+                    <button id="sign-up-for-session-button" class="button">Sign Up</button>
                 </div>
             </div>
         </div>
@@ -259,9 +309,23 @@
             <h2 class="no-margin center-text">Notes</h2>
         </div> -->
         <div id="chat" class="content-card">
-            <h2 class="no-margin center-text">Chat</h2>
-            <div id="chat-message-list">
-
+            <div id="chat-header">
+                <div class="chat-header-text">
+                    <h2 class="no-margin">Chat</h2>
+                    <p class="no-margin subheading">Last updated: <span id="chat-last-updated-text">Just now</span></p>
+                </div>
+                <div id="chat-header-buttons">
+                    <button id="toggle-chat-notifications-button" class="inline-button" title="Toggle chat notifications">
+                        <svg class="on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-icon lucide-bell"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+                        <svg class="off" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-off-icon lucide-bell-off"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M17 17H4a1 1 0 0 1-.74-1.673C4.59 13.956 6 12.499 6 8a6 6 0 0 1 .258-1.742"/><path d="m2 2 20 20"/><path d="M8.668 3.01A6 6 0 0 1 18 8c0 2.687.77 4.653 1.707 6.05"/></svg>
+                    </button>
+                    <button id="refresh-chat-button" class="inline-button" title="Refresh chat">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="chat-message-list-wrapper">
+                <div id="chat-message-list"></div>
             </div>
             <div id="send-message-row">
                 <textarea id="send-message-text" rows="1" placeholder="Message chat" wrap="soft"></textarea>
@@ -324,20 +388,159 @@
         let userSentMessageTemplate = document.getElementById("user-sent-message-template");
         let messageTemplate = document.getElementById("message-template");
         let chatMessageList = document.getElementById("chat-message-list");
+        let refreshChatButton = document.getElementById("refresh-chat-button");
+        let chatLastUpdatedText = document.getElementById("chat-last-updated-text");
+        let toggleChatNotificationsButton = document.getElementById("toggle-chat-notifications-button");
         let sendMessageTextArea = document.getElementById("send-message-text");
         let sendMessageButton = document.getElementById("send-message-button");
         let signUpForSessionButton = document.getElementById("sign-up-for-session-button");
+        let signUpForSessionText = document.getElementById("sign-up-for-session-text");
+        let assignedTutorText = document.getElementById("assigned-tutor-text");
+        let chatNotificationsActive = null;
+        let lastRefreshTime = Date.now();
+        let sessionSignUp = null;
+        let userEmail = null;
+        let assignedTutor = null;
+        let userSignedUp = false;
         let chatMessages = [];
 
         signUpForSessionButton.addEventListener("click", (e) => {
-            signUpForSessionButton.textContent = "Signed Up! (not active)";
-            signUpForSessionButton.disabled = true;
+            if (userSignedUp) {
+                // Withdraw sign up
+                signUpForSessionButton.textContent = "Withdrawing...";
+                signUpForSessionButton.disabled = true;
+                sendAPIReq({
+                    reqType: "tutorChangeSignUpForSession",
+                    sid: SID,
+                    signUpType: "withdraw"
+                }, (res) => {
+                    sessionSignUp = res.signedUpTutors;
+                    assignedTutor = res.assignedTutor;
+                    updateSignUpStatusDisplay();
+                    userSignedUp = false;
+                    chatNotificationsActive = res.notificationsActive;
+                    updateChatNotificationsButton();
+                    signUpForSessionButton.disabled = false;
+                });
+                return;
+            } else {
+                // Sign up
+                signUpForSessionButton.textContent = "Signing up...";
+                signUpForSessionButton.disabled = true;
+                sendAPIReq({
+                    reqType: "tutorChangeSignUpForSession",
+                    sid: SID,
+                    signUpType: "signUp"
+                }, (res) => {
+                    sessionSignUp = res.signedUpTutors;
+                    assignedTutor = res.assignedTutor;
+                    updateSignUpStatusDisplay();
+                    userSignedUp = true;
+                    chatNotificationsActive = res.notificationsActive;
+                    updateChatNotificationsButton();
+                    signUpForSessionButton.disabled = false;
+                });
+            }
         });
 
+        function updateSignUpStatusDisplay() {
+            if (assignedTutor != null) {
+                assignedTutorText.textContent = `${assignedTutor.name} has been assigned to this session.`;
+            } else {
+                assignedTutorText.textContent = "No one has been assigned to this session.";
+            }
+
+            if (sessionSignUp.length == 0) {
+                signUpForSessionText.textContent = "No tutors have signed up.";
+                signUpForSessionButton.textContent = "Sign Up";
+            } else if (sessionSignUp.length == 1) {
+                signUpForSessionText.textContent = `1 tutor has signed up: ${sessionSignUp[0].name}`;
+            } else {
+                let tutorNames = sessionSignUp.map(tutor => tutor.name);
+                signUpForSessionText.textContent = `${sessionSignUp.length} tutors have signed up: ${tutorNames.slice(0, -1).join(", ")} and ${tutorNames.slice(-1)}`;
+            }
+
+            if (sessionSignUp.some(tutor => tutor.email == userEmail)) {
+                signUpForSessionButton.textContent = "Withdraw Sign Up";
+                userSignedUp = true;
+                if (assignedTutor != null && assignedTutor.email == userEmail) {
+                    signUpForSessionButton.disabled = true; // Can't withdraw if assigned
+                    signUpForSessionButton.title = "You cannot withdraw from a session you have been assigned to. Contact an admin if you need to be unassigned.";
+                } else {
+                    signUpForSessionButton.disabled = false;
+                    signUpForSessionButton.title = "";
+                }
+            } else {
+                signUpForSessionButton.textContent = "Sign Up";
+                userSignedUp = false;
+            }
+        }
+
+        // #region Chat
         sendMessageButton.addEventListener("click", sendMessage);
         sendMessageTextArea.addEventListener("input", updateSendMessageRowStyles);
         sendMessageTextArea.addEventListener("keydown", sendMessageTextAreaKeyPressed);
         updateSendMessageRowStyles();
+
+        toggleChatNotificationsButton.addEventListener("click", toggleChatNotifications);
+        function toggleChatNotifications() {
+            toggleChatNotificationsButton.disabled = true;
+            sendAPIReq({
+                reqType: "setSessionDetailsPageChatNotifications",
+                sid: SID,
+                enableNotifications: !chatNotificationsActive
+            }, (res) => {
+                chatNotificationsActive = !chatNotificationsActive;
+                updateChatNotificationsButton();
+                toggleChatNotificationsButton.disabled = false;
+            });
+        }
+
+        function updateChatNotificationsButton() {
+            if (chatNotificationsActive) {
+                // Show "on" state
+                toggleChatNotificationsButton.style.setProperty("--on", "block");
+                toggleChatNotificationsButton.style.setProperty("--off", "none");
+                toggleChatNotificationsButton.title = "Toggle chat notifications (currently on)";
+            } else {
+                // Show "off" state
+                toggleChatNotificationsButton.style.setProperty("--on", "none");
+                toggleChatNotificationsButton.style.setProperty("--off", "block");
+                toggleChatNotificationsButton.title = "Toggle chat notifications (currently off)";
+            }
+        }
+
+        refreshChatButton.addEventListener("click", refreshChat);
+        function refreshChat() {
+            refreshChatButton.disabled = true;
+            refreshChatButton.classList.add("spinning");
+            sendAPIReq({
+                reqType: "getSessionDetailsPageInfo",
+                sid: SID
+            }, (res) => {
+                sessionSignUp = res.signedUpTutors;
+                assignedTutor = res.assignedTutor;
+                updateSignUpStatusDisplay();
+                chatMessages = res.chatMessages;
+                updateChatDisplay();
+                refreshChatButton.disabled = false;
+                refreshChatButton.classList.remove("spinning");
+            });
+        }
+
+        setInterval(updateLastRefreshText, 1000 * 30); // Check every 30 seconds
+        function updateLastRefreshText() {
+            let timeSinceLastRefresh = Date.now() - lastRefreshTime;
+            if (timeSinceLastRefresh < 60000) {
+                chatLastUpdatedText.textContent = "Just now";
+            } else if (timeSinceLastRefresh < 3600000) {
+                let minutes = Math.floor(timeSinceLastRefresh / 60000);
+                chatLastUpdatedText.textContent = `${minutes} minute${minutes == 1 ? "" : "s"} ago`;
+            } else {
+                let hours = Math.floor(timeSinceLastRefresh / 3600000);
+                chatLastUpdatedText.textContent = `${hours} hour${hours == 1 ? "" : "s"} ago`;
+            }
+        }
 
         function sendMessage() {
             let messageText = sendMessageTextArea.value;
@@ -351,8 +554,6 @@
                 "body": messageText,
                 "time": Date.now()
             };
-            chatMessages.push(message);
-            updateChatDisplay();
             sendAPIReq({
                 reqType: "sendTutorASessionDetailsPageMessage",
                 sid: SID,
@@ -361,6 +562,7 @@
                 sendMessageTextArea.disabled = false;
                 sendMessageTextArea.placeholder = "Message chat";
                 chatMessages = res.chatMessages;
+                chatNotificationsActive = res.notificationsActive;
                 updateChatDisplay();
             });
         }
@@ -392,15 +594,6 @@
             let timeFormatter = Intl.DateTimeFormat({ region: "en-us" }, { timeStyle: "short", hour12: false });
 
             return timeFormatter.format(new Date(time));
-        }
-
-        function fillInRequestInfo(requestInfo) {
-            document.getElementById("request-class").textContent = requestInfo.subject;
-            document.getElementById("request-time").textContent = `${formatDate(requestInfo.time.start)} from ${formatTime(requestInfo.time.start)} - ${formatTime(requestInfo.time.end)}`;
-            document.getElementById("request-student-name").textContent = requestInfo.studentName;
-
-            chatMessages = requestInfo.chat;
-            updateChatDisplay();
         }
 
         function updateChatDisplay() {
@@ -444,17 +637,46 @@
                 }
                 lastMessageDisplayed = messageData;
             });
+            let lastMessageObj = chatMessageList.children[chatMessageList.children.length - 1];
+            if (lastMessageObj) lastMessageObj.scrollIntoView();
+            lastRefreshTime = Date.now();
+            updateLastRefreshText();
+            updateChatNotificationsButton();
+        }
+        // #endregion
+
+        function fillInRequestInfo(requestInfo) {
+            document.getElementById("request-class").textContent = requestInfo.className;
+            document.getElementById("request-time").textContent = requestInfo.name == "Custom Session" ? `${formatDate(requestInfo.time.start)} from ${formatTime(requestInfo.time.start)} - ${formatTime(requestInfo.time.end)}` : requestInfo.name;
+            document.getElementById("request-student-name").textContent = requestInfo.student.name;
+
+            // Setup Sign Up Section
+            if (requestInfo.student.email == requestInfo.userEmail) signUpForSessionButton.style.display = "none"; // User made the request
+            else signUpForSessionButton.style.display = "block";
+            sessionSignUp = requestInfo.signedUpTutors;
+            userEmail = requestInfo.userEmail;
+            assignedTutor = requestInfo.assignedTutor;
+            updateSignUpStatusDisplay();
+
+            chatMessages = requestInfo.chat;
+            chatNotificationsActive = requestInfo.notificationsActive;
+            updateChatDisplay();
         }
 
         // #debug
         fillInRequestInfo({
-            studentName: "Brody Smalley",
+            student: { name: "Example Student", email: "exmp1234@student.dodea.edu" },
+            userEmail: "bsma3924@student.dodea.edu",
             time: {
                 text: "Feb. 28 13:15 - 14:30",
                 start: 1740744900000,
                 end: 1740749400000
             },
-            subject: "AP Seminar+",
+            name: "September 28, Seminar Session 1",
+            className: "AP Seminar+",
+            signedUpTutors: [{ name: "Brody Smalley", email: "bsma3924@student.dodea.edu" }],
+            assignedTutor: { name: "Brody Smalley", email: "bsma3924@student.dodea.edu" },
+            notificationsActive: false,
             chat: [
                 {
                     "sender": "SYSTEM",

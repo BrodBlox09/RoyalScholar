@@ -19,6 +19,26 @@ function toggleTopnavDropdown() {
     dropdown.classList.toggle("visible");
 }
 
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        document.querySelectorAll("input:focus, textarea:focus").forEach((el) => {
+            el.blur();
+        });
+    }
+}, true);
+
+document.querySelectorAll(".text-input-wrapper").forEach((tiw) => {
+    let textInput = tiw.querySelector("input, textarea");
+    tiw.onclick = () => {
+        textInput.focus();
+    };
+});
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove("active");
+    document.body.classList.remove("no-scroll");
+}
+
 /**
  * Deletes all the children of the specified element.
  * @param {HTMLElement} element The element to delete the children of.
@@ -35,31 +55,33 @@ function formatTime(dateObject) {
     return timeFormatter.format(dateObject);
 }
 
-function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}) {
-  google.script.run.withSuccessHandler(apiReqResponseHandler.bind(null, thenLambda, errorLambda)).handleWebAppRequest(JSON.stringify(data));
+function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}, finallyLambda = () => {}) {
+  google.script.run.withSuccessHandler(apiReqResponseHandler.bind(null, thenLambda, errorLambda, finallyLambda)).handleWebAppRequest(JSON.stringify(data));
 }
 
-function apiReqResponseHandler(thenLambda, errorLambda, res) {
+function apiReqResponseHandler(thenLambda, errorLambda, finallyLambda, res) {
     res = JSON.parse(res);
     if (res.error) {
       let handled = errorLambda(res);
-      if (!handled) showErrorModal(`Error ${res.errorCode}. Something went wrong, please try again later.`);
+      if (!handled) showErrorModal(`Error ${res.errorCode}. Something went wrong, please try again later.\nDetails: ${res.error}`);
+      finallyLambda(res);
       return;
     }
     thenLambda(res);
+    finallyLambda(res);
 }
 
 function showErrorModal(errorText) {
     console.error(errorText);
+    alert(errorText);
 }
 
 // Past this point is debug only territory
 const API = "https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPatlXiZzjcSlTi5rxrgjiqEXL_dMjGY1YTIMDMwzG2GA/exec";
 const APIKey = "9ayWk9voW6WIWiNwpVK4l7AeN3EEBnYHzZk1XIkDDfYXcA8K3Gioxk2sSgplxR4HpOxzosgKmBDewIwAWAKgbYE4kkPyp80WG5kAbFN28rUMi3cGQqGlsD5qorSry15W";
 
-function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}) {
-    console.info("Sending API request with the following data:");
-    console.log(data);
+function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}, finallyLambda = () => {}) {
+    console.info("Sending API request with the following data:", data);
     data.key = APIKey;
     fetch(API, {
         redirect: "follow",
@@ -70,26 +92,25 @@ function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}) {
         }
     }).then((val) => {
         val.json().then((res) => {
+            console.log("Received the following response:", res);
             if (res.error == "apiKeyInvalid") {
                 showErrorModal("API key invalid.");
+                finallyLambda(res);
                 return;
             }
             if (res.error) {
                 let handled = errorLambda(res);
-                if (!handled) {
-                    showErrorModal("Something went wrong, please try again later.");
-                }
+                if (!handled) showErrorModal(`Error ${res.errorCode}.\nSomething went wrong, please try again later.\n\nDetails:\n${res.error}`);
+                finallyLambda(res);
                 return;
             }
             thenLambda(res);
+            finallyLambda(res);
         });
     }).catch(() => {
-        showErrorModal("Failed to access API. Please try again later.");
+        let handled = errorLambda({errorCode: "no-connection"});
+        if (!handled) showErrorModal("Failed to access server. Please try again later.");
+        finallyLambda(res);
         return;
     });
-}
-
-function showErrorModal(errorText) {
-    console.error(errorText);
-    alert(errorText);
 }
