@@ -279,7 +279,7 @@
             }
             if (pastSessionsCount === 0) {
                 let noSessionsMessage = document.createElement("p");
-                noSessionsMessage.textContent = "There are no past sessions. Note that sessions are automatically archived 2 days after their end date.";
+                noSessionsMessage.textContent = "There are no non-archived past sessions. Note that sessions are automatically archived 2 days after their end date.";
                 pastSessionListContainer.appendChild(noSessionsMessage);
             }
             // Sort sessions by start time (soonest first)
