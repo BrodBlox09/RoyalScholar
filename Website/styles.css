@@ -75,6 +75,7 @@ h6 {
     margin-top: 0;
     font-weight: 400;
     color: #555;
+    font-size: 1.2em;
 }
 
 p.subheading {
@@ -193,6 +194,7 @@ button:not(:disabled) {
 button > svg {
     display: block;
     flex-shrink: 0;
+    stroke: currentColor;
 }
 /* #endregion */
 
@@ -494,6 +496,14 @@ button > svg {
     flex-grow: 1;
 }
 
+.form-input-label {
+    margin-bottom: 6px;
+    display: block;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--dark-gray);
+}
+
 /* #region Select Input */
 select {
     background-color: #ffffff;
@@ -506,7 +516,35 @@ select {
 }
 /* #endregion */
 
-/* #region Text Input */
+/* #region Multiline Textarea Input */
+textarea {
+    width: 100%;
+    height: 5em;
+    resize: none;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 8px 12px;
+    border: var(--soft-border);
+    outline: none;
+    font-family: var(--body-font);
+    background-color: #fff;
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+
+textarea:disabled, textarea:disabled * {
+    background-color: var(--offwhite-dark);
+    border-color: var(--offwhite-dark);
+    color: var(--dark-gray);
+    cursor: text;
+}
+
+textarea:focus {
+    border-color: var(--primary);
+}
+/* #endregion */
+
+/* #region Singleline Text Input */
+/* div.text-input-wrapper>input */
 .text-input-wrapper {
     border: var(--soft-border);
     color: var(--gray);
@@ -517,13 +555,19 @@ select {
     align-items: center;
     padding: 0 8px;
     overflow: hidden;
-    transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
 }
 
-.text-input-wrapper:has(input:disabled), .text-input-wrapper:has(input:disabled) * {
+.text-input-wrapper, .text-input-wrapper * {
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.text-input-wrapper:has(input:disabled) {
     background-color: var(--offwhite-dark);
     border-color: var(--offwhite-dark);
-    color: var(--gray);
+}
+
+.text-input-wrapper:has(input:disabled) * {
+    color: var(--dark-gray);
     cursor: text;
 }
 
@@ -546,6 +590,11 @@ select {
     font-size: 1rem;
     border: none;
     outline: none;
+    background-color: transparent;
+}
+
+.text-input-wrapper input:disabled {
+    color: var(--dark-gray);
 }
 /* #endregion */
 
