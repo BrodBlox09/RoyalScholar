@@ -421,9 +421,7 @@
                 card.querySelector(".session-card-class").textContent = session.classData.name;
                 card.querySelector(".session-card-subject").textContent = session.classData.subject;
                 card.querySelector(".session-card-date").textContent = formatDate(session.date);
-                let start = new Date(session.start);
-                let end = new Date(session.end);
-                card.querySelector(".session-card-time").textContent = `${formatTime(start)} - ${formatTime(end)}`;
+                card.querySelector(".session-card-time").textContent = session.name == "Custom Session" ? `${formatTime(session.start)} - ${formatTime(session.end)}` : session.name;;
                 if (userEmail == session.studentEmail) {
                     cardTags.style.setProperty("--requested", "block");
                     card.querySelector(".session-card-user").textContent = session.tutorName == "" ? "TBD" : session.tutorName;
