@@ -1,0 +1,7 @@
+Since Merriweather is not a web-safe font, we need to ensure that if the font fails to load, the email will still look good.
+Therefore, adding fallback fonts is necessary. The following fonts are commonly used as fallbacks for Merriweather:
+- Georgia
+- Times New Roman
+- serif
+So the font-family should be updated to:
+font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
