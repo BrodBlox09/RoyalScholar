@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #content {
+            background-color: var(--accent-soft);
+            flex-grow: 1;
+            display: grid;
+            place-items: center;
+        }
+
+        #box {
+            width: 75%;
+            min-width: 600px;
+            box-sizing: border-box;
+            position: relative;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        #box > div {
+            padding: 32px;
+            border-radius: 20px;
+            background-color: #ffffff;
+            box-shadow: var(--soft-box-shadow);
+        }
+
+        @media screen and (max-width: 600px) {
+            #box {
+                width: 100%;
+                min-width: 0;
+                min-height: 75%;
+            }
+
+            #box > div {
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="topnav"></div>
+    <div id="content">
+        <div id="box">
+            
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+    <script>
+
+    </script>
+</body>
+
+</html>
