@@ -13,104 +13,148 @@
             color: #333;
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
 
-    .email-container {
-        background-color: #ffffff;
-        max-width: 600px;
-        margin: 10px auto;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        overflow: hidden;
-    }
+        p, span {
+            font-size: 1rem;
+        }
 
-    .hero {
-        background: #004AAC;
-        color: #ffffff;
-        padding: 40px 20px;
-        text-align: center;
-    }
+        a {
+            color: #004AAC !important;
+        }
 
-    .hero img {
-        background-color: #FFFFFF;
-        border-radius: 8px;
-        padding: 1rem;
-        width: 70%;
-        max-width: 350px;
-    }
+        a:hover {
+            color: #002b57 !important;
+        }
+    
+        .email-container {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 10px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+    
+        .hero {
+            background: #004AAC;
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+    
+        .hero img {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            padding: 1rem;
+            width: 70%;
+            max-width: 350px;
+        }
+    
+        .content {
+            padding: 20px;
+            text-align: left;
+        }
+    
+        .content p.intro {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 0;
+            /* color: #004AAC; */
+            text-align: center;
+        }
+    
+        .message-preview {
+            padding: 15px;
+        }
 
-    .content {
-        padding: 20px;
-        text-align: left;
-    }
+        .message-bubble {
+            background-color: #DDDDDD;
+            border-radius: 20px;
+            border-bottom-left-radius: 0;
+            padding: 10px 15px;
+            display: inline-block;
+            max-width: 80%;
+        }
+    
+        .message-preview p {
+            margin: 0;
+        }
+    
+        .message-header {
+            padding-left: 20px;
+            font-size: 0.8rem;
+            color: #555;
+            font-weight: 300;
+        }
 
-    .content p.intro {
-        font-size: 1.5em;
-        font-weight: bold;
-        margin-top: 0;
-        color: #004AAC;
-    }
+        .message-header b {
+            font-weight: 700;
+            color: #333333;
+        }
 
-    .message-preview {
-        background-color: #f9f9f9;
-        border: 1px solid #eee;
-        border-radius: 6px;
-        padding: 15px;
-        margin: 20px 0;
-    }
+        .message-content {
+            margin: 0;
+            font-size: 1rem;
+        }
+    
+        .cta-button {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 20px 0;
+            background-color: #3F51B5;
+            color: #ffffff !important;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 16px;
+            line-height: 1;
+        }
 
-    .message-preview p {
-        margin: 8px 0;
-        font-size: 14px;
-        color: #444;
-    }
+        .cta-button:hover {
+            background-color: #222e72;
+            color: #e0e0e0 !important;
+        }
 
-    .sender {
-        font-weight: bold;
-        color: #3F51B5;
-    }
-
-    .cta-button {
-        display: inline-block;
-        padding: 12px 24px;
-        margin: 20px 0;
-        background-color: #3F51B5;
-        color: #ffffff !important;
-        text-decoration: none;
-        text-align: center;
-        border-radius: 5px;
-        font-size: 16px;
-    }
-
-    .footer {
-        background-color: #f4f4f4;
-        padding: 15px;
-        text-align: center;
-        font-size: 12px;
-        color: #888;
-    }
-</style>
+        .closing * {
+            margin: 0;
+        }
+    
+        .footer {
+            background-color: #f4f4f4;
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
 
 </head>
 
 <body>
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-            <td bgcolor="#f4f4f4">&zwnj;</td>
-            <td align="center" width="600" bgcolor="#f4f4f4">
-                <div class="email-container">
-                    <div class="hero">
+        <td bgcolor="#f4f4f4">&zwnj;</td>
+        <td align="center" width="600" bgcolor="#f4f4f4">
+            <div class="email-container">
+                <div class="hero">
+                    <a href="https://sites.google.com/student.dodea.edu/royalscholar" target="_blank">
+                        <!-- <img src="https://lh3.googleusercontent.com/d/1KuTIdcyJ0aUbuNoKSQA3VwDx1hH1zwdt" alt="RoyalScholar Logo"> -->
                         <img src="../Graphics/Logos/blueGradientPrimary.png" alt="RoyalScholar Logo">
-                    </div>
-                    <div class="content">
-                        <p class="intro">You have a new message!</p>
-                        <p>A person in a tutoring session chat you're following has just sent a new message.</p>
+                    </a>
+                </div>
+                <div class="content">
+                    <p class="intro">You have a new message!</p>
+                    <p>A person in a tutoring session chat you're following has just sent a new message.</p>
                     <div class="message-preview">
-                        <p class="sender">Somebody · 14:30</p>
-                        <p>Hello! Message 22!</p>
+                        <p class="message-header"><b><?!= messageAuthor ?></b> <?!= messageSendTime ?></p>
+                        <div class="message-bubble">
+                            <p class="message-content"><?!= messageContent ?></p>
+                        </div>
                     </div>
 
-                    <a href="#" class="cta-button">View Full Chat</a>
+                    <a href="<?!= sessionRequestDetailsLink ?>" class="cta-button">View Full Chat</a>
 
                     <div class="closing">
                         <h4>Sincerely,</h4>
@@ -118,7 +162,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <p>You are receiving this notification because you are participating in a RoyalScholar tutoring session.</p>
+                    <p>You are receiving this notification because you are following a RoyalScholar tutoring session chat. If you want to no longer recieve these notifications, go to the <a href="<?!= sessionRequestDetailsLink ?>">Session Request Details page</a> and click the bell button.</p>
                 </div>
             </div>
         </td>
