@@ -298,7 +298,7 @@
 
                 card.querySelector(".session-card-class").textContent = session.classData.name;
                 card.querySelector(".session-card-subject").textContent = session.classData.subject;
-                card.querySelector(".session-card-date").textContent = session.date;
+                card.querySelector(".session-card-date").textContent = formatDate(session.date);
                 if (session.name == "Custom Session") {
                     let start = new Date(session.start);
                     let end = new Date(session.end);
@@ -397,6 +397,14 @@
                 addTutorListContainer.appendChild(tutorItem);
             });
             document.body.classList.add("no-scroll");
+        }
+
+        function formatDate(time, formatShort) {
+            let options = { dateStyle: "full" };
+            if (formatShort) options.dateStyle = "medium";
+            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
+
+            return dateFormatter.format(new Date(time));
         }
 
         // #debug
