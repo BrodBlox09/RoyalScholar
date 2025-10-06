@@ -582,20 +582,6 @@
             sendMessageTextArea.style.height = (sendMessageTextArea.scrollHeight + 2) + "px";
         }
 
-        function formatDate(time, formatShort) {
-            let options = { dateStyle: "full" };
-            if (formatShort) options.dateStyle = "medium";
-            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
-
-            return dateFormatter.format(new Date(time));
-        }
-
-        function formatTime(time) {
-            let timeFormatter = Intl.DateTimeFormat({ region: "en-us" }, { timeStyle: "short", hour12: false });
-
-            return timeFormatter.format(new Date(time));
-        }
-
         function updateChatDisplay() {
             chatMessageList.innerHTML = "";
             let lastMessageDisplayed = null;

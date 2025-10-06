@@ -51,9 +51,13 @@ function deleteChildren(element) {
 
 let timeFormatter = new Intl.DateTimeFormat('en-US', {timeStyle:"short"});
 
-function formatTime(dateObject) {
-    return timeFormatter.format(dateObject);
+function formatDate(time, formatShort) {
+    let options = { dateStyle: "full" };
+    if (formatShort) options.dateStyle = "medium";
+    let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
+    return dateFormatter.format(new Date(time));
 }
+function formatTime(time) { return timeFormatter.format(new Date(time)); }
 
 function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}, finallyLambda = () => {}) {
   google.script.run.withSuccessHandler(apiReqResponseHandler.bind(null, thenLambda, errorLambda, finallyLambda)).handleWebAppRequest(JSON.stringify(data));

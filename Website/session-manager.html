@@ -86,7 +86,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            height: 165px;
+            height: 125px;
             overflow-y: auto;
         }
 
@@ -215,8 +215,7 @@
             </div>
             <div class="session-card-details-row">
                 <div>
-                    <p style="margin-top: 0;"><b>Date:</b> <span class="session-card-date">Date</span></p>
-                    <p><b>Time:</b> <span class="session-card-time">Time</span></p>
+                    <p style="margin-top: 0;"><strong>Time:</strong> <span class="session-card-time">Time</span></p>
                     <p><strong>Student:</strong> <span class="session-card-student">Name &lt;Email&gt;</span></p>
                     <p><strong>Tutor:</strong> <span class="session-card-tutor">Name &lt;Email&gt;</span></p>
                 </div>
@@ -298,12 +297,7 @@
 
                 card.querySelector(".session-card-class").textContent = session.classData.name;
                 card.querySelector(".session-card-subject").textContent = session.classData.subject;
-                card.querySelector(".session-card-date").textContent = formatDate(session.date);
-                if (session.name == "Custom Session") {
-                    let start = new Date(session.start);
-                    let end = new Date(session.end);
-                    card.querySelector(".session-card-time").textContent = `${formatTime(start)} - ${formatTime(end)}`;
-                } else card.querySelector(".session-card-time").textContent = session.name;
+                card.querySelector(".session-card-time").textContent = session.name == "Custom Session" ? `${formatDate(session.start)} from ${formatTime(session.start)} - ${formatTime(session.end)}` : session.name;
                 // Follows RFC 5322 guidelines for email display
                 card.querySelector(".session-card-student").textContent = `${session.studentName} <${session.studentEmail}>`;
                 card.querySelector(".session-card-tutor").textContent = session.tutorEmail ? `${session.tutorName} <${session.tutorEmail}>` : "Unassigned";
@@ -397,14 +391,6 @@
                 addTutorListContainer.appendChild(tutorItem);
             });
             document.body.classList.add("no-scroll");
-        }
-
-        function formatDate(time, formatShort) {
-            let options = { dateStyle: "full" };
-            if (formatShort) options.dateStyle = "medium";
-            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
-
-            return dateFormatter.format(new Date(time));
         }
 
         // #debug

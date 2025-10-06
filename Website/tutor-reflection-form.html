@@ -91,7 +91,6 @@
                         </div>
                         <div id="session-details">
                             <h2 class="heading">Session Details</h2>
-                            <p><strong>Date:</strong> <span id="session-date">Date</span></p>
                             <p><strong>Time:</strong> <span id="session-time">Time</span></p>
                             <p><strong>Student:</strong> <span id="session-student">Student</span></p>
                             <p><strong>Class:</strong> <span id="session-class">Class</span></p>
@@ -121,7 +120,6 @@
     </div>
     <script src="scripts.js"></script>
     <script>
-        let sessionDateText = document.getElementById("session-date");
         let sessionTimeText = document.getElementById("session-time");
         let sessionStudentText = document.getElementById("session-student");
         let sessionClassText = document.getElementById("session-class");
@@ -164,25 +162,10 @@
 
         function fillInSessionDetails(sessionDetails) {
             sid = sessionDetails.sid;
-            sessionDateText.textContent = formatDate(sessionDetails.date);
             sessionTimeText.textContent = sessionDetails.name == "Custom Session" ? `${formatTime(sessionDetails.start)} - ${formatTime(sessionDetails.end)}` : sessionDetails.name;
             sessionStudentText.textContent = sessionDetails.studentName;
             sessionClassText.textContent = sessionDetails.className;
             updateSubmitButtonState();
-        }
-
-        function formatDate(time, formatShort) {
-            let options = { dateStyle: "full" };
-            if (formatShort) options.dateStyle = "medium";
-            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
-
-            return dateFormatter.format(new Date(time));
-        }
-
-        function formatTime(time) {
-            let timeFormatter = Intl.DateTimeFormat({ region: "en-us" }, { timeStyle: "short", hour12: false });
-
-            return timeFormatter.format(new Date(time));
         }
 
         // #debug

@@ -91,7 +91,6 @@
                         </div>
                         <div id="session-details">
                             <h2 class="heading">Session Details</h2>
-                            <p><strong>Date:</strong> <span id="session-date">Date</span></p>
                             <p><strong>Time:</strong> <span id="session-time">Time</span></p>
                             <p><strong>Tutor:</strong> <span id="session-tutor">Tutor</span></p>
                             <p><strong>Class:</strong> <span id="session-class">Class</span></p>
@@ -123,7 +122,6 @@
     </div>
     <script src="scripts.js"></script>
     <script>
-        let sessionDateText = document.getElementById("session-date");
         let sessionTimeText = document.getElementById("session-time");
         let sessionTutorText = document.getElementById("session-tutor");
         let sessionClassText = document.getElementById("session-class");
@@ -170,19 +168,10 @@
 
         function fillInSessionDetails(sessionDetails) {
             sid = sessionDetails.sid;
-            sessionDateText.textContent = formatDate(sessionDetails.date);
-            sessionTimeText.textContent = sessionDetails.name == "Custom Session" ? `${formatTime(sessionDetails.start)} - ${formatTime(sessionDetails.end)}` : sessionDetails.name;
+            sessionTimeText.textContent = sessionDetails.name == "Custom Session" ? `${formatDate(sessionDetails.start)} from ${formatTime(sessionDetails.start)} - ${formatTime(sessionDetails.end)}` : sessionDetails.name;
             sessionTutorText.textContent = sessionDetails.tutorName;
             sessionClassText.textContent = sessionDetails.className;
             updateSubmitButtonState();
-        }
-
-        function formatDate(time, formatShort) {
-            let options = { dateStyle: "full" };
-            if (formatShort) options.dateStyle = "medium";
-            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
-
-            return dateFormatter.format(new Date(time));
         }
 
         function formatTime(time) {

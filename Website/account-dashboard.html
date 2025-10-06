@@ -332,9 +332,8 @@
                 </div>
             </div>
             <div class="session-card-details-row">
-                <p style="margin-top: 0;"><b>Date:</b> <span class="session-card-date">Date</span></p>
-                <p><b>Time:</b> <span class="session-card-time">Time</span></p>
-                <p><b class="session-card-user-descriptor">Student:</b> <span class="session-card-user">Name</span></p>
+                <p style="margin-top: 0;"><strong>Time:</strong> <span class="session-card-time">Time</span></p>
+                <p><strong class="session-card-user-descriptor">Student/Tutor:</strong> <span class="session-card-user">Name</span></p>
             </div>
             <a class="text-link session-card-details-link">View Details</a>
         </div>
@@ -421,8 +420,7 @@
 
                 card.querySelector(".session-card-class").textContent = session.classData.name;
                 card.querySelector(".session-card-subject").textContent = session.classData.subject;
-                card.querySelector(".session-card-date").textContent = formatDate(session.date);
-                card.querySelector(".session-card-time").textContent = session.name == "Custom Session" ? `${formatTime(session.start)} - ${formatTime(session.end)}` : session.name;;
+                card.querySelector(".session-card-time").textContent = session.name == "Custom Session" ? `${formatDate(session.start)} from ${formatTime(session.start)} - ${formatTime(session.end)}` : session.name;
                 if (userEmail == session.studentEmail) {
                     cardTags.style.setProperty("--requested", "block");
                     card.querySelector(".session-card-user").textContent = session.tutorName == "" ? "TBD" : session.tutorName;
@@ -447,20 +445,6 @@
                 
                 upcomingSessionsList.appendChild(card);
             });
-        }
-
-        function formatDate(time, formatShort) {
-            let options = { dateStyle: "full" };
-            if (formatShort) options.dateStyle = "medium";
-            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
-
-            return dateFormatter.format(new Date(time));
-        }
-
-        function formatTime(time) {
-            let timeFormatter = Intl.DateTimeFormat({ region: "en-us" }, { timeStyle: "short", hour12: false });
-
-            return timeFormatter.format(new Date(time));
         }
 
         // #region Settings
