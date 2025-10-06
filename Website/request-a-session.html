@@ -5,7 +5,7 @@
     <base target="_blank">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request A Session</title>
+    <title>Request a Session</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
@@ -183,16 +183,8 @@
         }
 
         #details-input {
-            width: 100%;
+            margin-top: 10px;
             height: 10em;
-            resize: none;
-            box-sizing: border-box;
-            border-radius: 10px;
-            padding: 5px;
-            border: 3px solid var(--primary);
-            outline: none;
-            font-family: var(--body-font);
-            margin-bottom: 50px;
         }
         /* #endregion */
 
@@ -405,7 +397,7 @@
                         </div>
                         <div class="flex-grow">
                             <div id="writing-focused-question">
-                                <span>Do you need writing-focused assistance (e.g. writing thesis statements)?</span>
+                                <span>Do you need writing-focused assistance (e.g., writing thesis statements)?</span>
                                 <select id="writing-focused-input">
                                     <option value="" selected>Select one</option>
                                     <option value="no">No</option>
@@ -594,6 +586,7 @@
         let selectedTime = null;
         let ptd = null;
         let currentPage = 1;
+        let sessionTimes = [];
         const numberOfInputPages = 5;
         const pageSlider = document.getElementById("box-page-slider");
         const progressBar = document.getElementById("progress-bar");
@@ -893,17 +886,31 @@
         updateClassSelectionButtons();
         setSessionTimesOptions([]);
 
-        if (!testing) sendAPIReq({
-            reqType: "getSessionTimes"
-        }, (res) => {
-            setSessionTimesOptions(res.times.map(time => {
-                return {
-                    name: time.name,
-                    timeStart: new Date(time.timeStart),
-                    timeEnd: new Date(time.timeEnd)
-                };
-            }));
-        });
+        // #debug
+        sessionTimes = [
+            { name: "Monday, October 14, 3:00 PM - 4:00 PM", date: "2024-10-14", timeStart: "2024-10-14T15:00:00", timeEnd: "2024-10-14T16:00:00" },
+            { name: "Tuesday, October 15, 1:00 PM - 2:30 PM", date: "2024-10-15", timeStart: "2024-10-15T13:00:00", timeEnd: "2024-10-15T14:30:00" },
+            { name: "Wednesday, October 16, 5:00 PM - 6:00 PM", date: "2024-10-16", timeStart: "2024-10-16T17:00:00", timeEnd: "2024-10-16T18:00:00" },
+            { name: "Thursday, October 17, 3:30 PM - 4:30 PM", date: "2024-10-17", timeStart: "2024-10-17T15:30:00", timeEnd: "2024-10-17T16:30:00" },
+            { name: "Friday, October 18, 2:00 PM - 3:00 PM", date: "2024-10-18", timeStart: "2024-10-18T14:00:00", timeEnd: "2024-10-18T15:00:00" }
+        ];
+        // #enddebug
+
+        // #debug
+        /*
+        // #enddebug
+        sessionTimes = <?!= sessionTimes ?>;
+        // #debug
+        */
+        // #enddebug
+
+        setSessionTimesOptions(sessionTimes.map(time => {
+            return {
+                name: time.name,
+                timeStart: new Date(time.timeStart),
+                timeEnd: new Date(time.timeEnd)
+            };
+        }));
 
         // #debug
         /*
