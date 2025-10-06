@@ -86,8 +86,8 @@
                 <div id="box-page-slider" style="--pages: 2;">
                     <div class="box-page">
                         <div id="form-title">
-                            <h1 class="heading">Client Reflection Form</h1>
-                            <h2 class="subheading">Let us know how we did! Your tutor cannot view your response.</h2>
+                            <h1 class="heading">Client Session Reflection Form</h1>
+                            <h2 class="subheading">Your feedback helps us improve future sessions. Please answer a few quick questions about your experience.</h2>
                         </div>
                         <div id="session-details">
                             <h2 class="heading">Session Details</h2>
@@ -145,6 +145,7 @@
             setPage(2);
             sendAPIReq({
                 reqType: "submitSessionReflectionForm",
+                sid: sid,
                 type: "client",
                 workedOn: workedOn,
                 liked: liked,
@@ -155,7 +156,7 @@
             }, (err) => {
                 submitFormPageTitle.textContent = `Error ${err.errorCode}`;
                 submitFormPageText.textContent = err.error;
-                return false;
+                return true;
             });
         });
 

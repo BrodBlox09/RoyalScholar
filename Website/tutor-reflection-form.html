@@ -86,7 +86,7 @@
                 <div id="box-page-slider" style="--pages: 2;">
                     <div class="box-page">
                         <div id="form-title">
-                            <h1 class="heading">Tutor Reflection Form</h1>
+                            <h1 class="heading">Tutor Session Reflection Form</h1>
                             <h2 class="subheading">Your hours will only be counted after this form is submitted.</h2>
                         </div>
                         <div id="session-details">
@@ -141,8 +141,8 @@
             setPage(2);
             sendAPIReq({
                 reqType: "submitSessionReflectionForm",
-                type: "tutor",
                 sid: sid,
+                type: "tutor",
                 workedOn: workedOn,
                 concerns: concerns
             }, (res) => {
@@ -151,7 +151,7 @@
             }, (err) => {
                 submitFormPageTitle.textContent = `Error ${err.errorCode}`;
                 submitFormPageText.textContent = err.error;
-                return false;
+                return true;
             });
         });
 
