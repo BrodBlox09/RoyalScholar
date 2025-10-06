@@ -137,7 +137,7 @@ a:not(.button).text-link:hover::after {
     color: #dddddd;
 }
 
-.button:disabled {
+.button:disabled, .button.disabled {
     background-color: var(--accent-soft);
     color: #ffffff;
 }
@@ -157,7 +157,7 @@ a:not(.button).text-link:hover::after {
     color: #dddddd;
 }
 
-.accent-button:disabled {
+.accent-button:disabled, .accent-button.disabled {
     background-color: var(--offwhite-dark);
     color: #ffffff;
 }
@@ -171,27 +171,28 @@ a:not(.button).text-link:hover::after {
     transition: background 0.2s;
 }
 
-.inline-button:hover:not(:disabled) {
+.inline-button:hover:not(:disabled, .disabled) {
     background: var(--hover-overlay-color);
 }
 
-.inline-button:disabled, .inline-button:disabled * {
+.inline-button:disabled, .inline-button:disabled *, .inline-button.disabled, .inline-button.disabled * {
     color: var(--gray);
     stroke: var(--gray);
 }
 
-button {
+.button {
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
     gap: 6px;
 }
 
-button:not(:disabled) {
+.button:not(:disabled, .disabled) {
     cursor: pointer;
 }
 
-button > svg {
+.button > svg {
     display: block;
     flex-shrink: 0;
     stroke: currentColor;
