@@ -15,14 +15,13 @@
 
         .lead-section {
             display: flex;
-            margin-block: 20px;
+            margin-top: 20px;
             gap: 20px;
         }
 
         #settings-btn, #close-settings-btn {
             font-weight: 700;
             font-size: 1.1em;
-            margin-top: 10px;
             display: flex;
             gap: 5px;
             align-items: center;
@@ -34,7 +33,7 @@
 
         #dashboard-content {
             display: grid;
-            grid-template-columns: 0fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
@@ -64,6 +63,63 @@
 
         .content-page.active {
             display: flex;
+        }
+
+        #profile-summary-panel {
+            grid-column: span 2;
+            display: grid;
+            gap: 20px;
+            grid-template-areas:
+                'profile-icon name-role'
+                'profile-icon descriptors';
+            grid-template-columns: auto 1fr;
+        }
+
+        #profile-icon-wrapper {
+            display: grid;
+            place-items: center;
+            padding-block: 10px;
+            grid-area: profile-icon;
+        }
+
+        #profile-icon {
+            display: grid;
+            place-items: center;
+            border-radius: 100%;
+            background: var(--accent-soft);
+            color: var(--accent);
+            height: 100px;
+            aspect-ratio: 1 / 1;
+        }
+
+        #profile-icon svg {
+            height: 70%;
+            width: fit-content;
+        }
+
+        #profile-name-role {
+            grid-area: name-role;
+        }
+
+        #descriptors-row {
+            display: flex;
+            gap: 10px;
+            line-height: 1;
+            grid-area: descriptors;
+        }
+
+        #descriptors-row .descriptor-icon {
+            display: grid;
+            place-items: center;
+            border-radius: 5px;
+            padding: 5px;
+            background-color: var(--accent-soft);
+            color: var(--accent);
+            aspect-ratio: 1 / 1;
+        }
+
+        #descriptors-row p {
+            margin: 0;
         }
 
         /* #region Settings Page */
@@ -137,6 +193,18 @@
         @media (max-width: 1050px) {
             #dashboard-content {
                 grid-template-columns: 1fr;
+            }
+
+            #profile-summary-panel {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            #profile-summary-panel {
+                grid-template-areas:
+                    'profile-icon name-role'
+                    'descriptors descriptors';
             }
         }
 
@@ -223,7 +291,6 @@
             <div class="lead-section">
                 <div class="flex-grow">
                     <h1 class="heading">Welcome back, <span id="first-name"></span>!</h1>
-                    <h3 class="subheading">Ready to make the most of your learning journey today?</h3>
                 </div>
                 <div>
                     <button id="settings-btn" class="button">
@@ -232,14 +299,35 @@
                     </button>
                 </div>
             </div>
+            <h3 class="subheading">Ready to make the most of your learning journey today?</h3>
             <div id="dashboard-content">
-                <div>
-                    <div class="dashboard-panel">
-                        <h2>Profile Summary</h2>
-                        <p><b>Name:</b> <span id="full-name"></span></p>
-                        <p><b>Email:</b> <span id="email"></span></p>
-                        <p><b>Role:</b> <span id="role"></span></p>
+                <div class="dashboard-panel" id="profile-summary-panel">
+                    <div id="profile-icon-wrapper">
+                        <div id="profile-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </div>
                     </div>
+                    <div id="profile-name-role">
+                        <h2 class="heading" id="full-name">Name</h2>
+                        <p class="subheading" id="role" style="margin-bottom: 0;">Role</p>
+                    </div>
+                    <div id="descriptors-row">
+                        <div>
+                            <div class="descriptor-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail-icon lucide-mail"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="subheading">Email</p>
+                            <p id="email">Email</p>
+                        </div>
+                    </div>
+                    <!-- <h2 style="text-align: center;">Profile Summary</h2>
+                    <div style="display: flex; gap: 8px; justify-content: space-evenly;">
+                        <p><strong>Name:</strong> <span id="full-name"></span></p>
+                        <p><strong>Email:</strong> <span id="email"></span></p>
+                        <p><strong>Role:</strong> <span id="role"></span></p>
+                    </div> -->
                 </div>
                 <div class="dashboard-panel">
                     <h2>Upcoming Sessions</h2>
@@ -252,6 +340,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="dashboard-panel">
+                    <h2>Recently Completed Sessions</h2>
+                    <div id="past-sessions-list">
+                        <div id="past-sessions-no-sessions" class="no-sessions-message">
+                            <p>You have no recently completed sessions.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -260,7 +356,6 @@
             <div class="lead-section">
                 <div class="flex-grow">
                     <h1 class="heading">Account Settings</h1>
-                    <h3 class="subheading">Update your account settings here.</h3>
                 </div>
                 <div>
                     <button id="close-settings-btn" class="button">
@@ -269,6 +364,7 @@
                     </button>
                 </div>
             </div>
+            <h3 class="subheading">Update your account settings here.</h3>
             
             <div id="settings-dashboard">
                 <div class="dashboard-panel">
@@ -338,12 +434,46 @@
             <a class="text-link session-card-details-link">View Details</a>
         </div>
     </template>
+    <template id="past-session-card-template">
+        <div class="session-card">
+            <div class="session-card-heading-row">
+                <div class="flex-grow">
+                    <h3 class="heading session-card-class">Class</h3>
+                    <p class="subheading session-card-subject" style="margin-bottom: 0;">Subject</p>
+                </div>
+                <div>
+                    <div class="session-card-tags">
+                        <div class="requested-tag">
+                            <span>You&nbsp;Requested</span>
+                        </div>
+                        <div class="tutoring-tag">
+                            <span>You're&nbsp;Tutoring</span>
+                        </div>
+                        <div class="cancelled-tag">
+                            <span>Cancelled</span>
+                        </div>
+                        <div class="confirmed-tag">
+                            <span>Confirmed</span>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+            <div class="session-card-details-row">
+                <p style="margin-top: 0;"><strong>Time:</strong> <span class="session-card-time">Time</span></p>
+                <p><strong class="session-card-user-descriptor">Student/Tutor:</strong> <span class="session-card-user">Name</span></p>
+            </div>
+            <!-- <a class="text-link session-card-details-link">View Details</a> -->
+        </div>
+    </template>
 
     <script src="scripts.js"></script>
     <script>
         let upcomingSessionsList = document.getElementById("upcoming-sessions-list");
+        let pastSessionsList = document.getElementById("past-sessions-list");
         let sessionCardTemplate = document.getElementById("session-card-template");
-        let noSessionsMessage;
+        let pastSessionCardTemplate = document.getElementById("past-session-card-template");
+        let noPastSessionsMessage = document.getElementById("past-sessions-no-sessions");
+        let noUpcomingSessionsMessage;
         const classes = [{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"AP Environmental Science","subject":"Science"},{"name":"Environmental Science","subject":"Science"},{"name":"Marine Biology","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"AP Physics C","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Literature and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"AP Research","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP Government","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"},{"name":"AP Spanish Language and Culture","subject":"Spanish"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"},{"name":"French III","subject":"French"},{"name":"French IV","subject":"French"}];
         
         // #region Settings Setup
@@ -398,9 +528,11 @@
             document.getElementById("first-name").textContent = account.name.split(" ")[0];
             document.getElementById("full-name").textContent = account.name;
             document.getElementById("email").textContent = account.email;
+            document.getElementById("email").innerHTML = document.getElementById("email").textContent.replaceAll("@", "&#8203;@").replaceAll(".", "&#8203;.");
             document.getElementById("role").textContent = account.role;
-            noSessionsMessage = document.getElementById(account.role == "Student" ? "student-no-sessions" : "tutor-no-sessions");
+            noUpcomingSessionsMessage = document.getElementById(account.role == "Student" ? "student-no-sessions" : "tutor-no-sessions");
             loadUpcomingSessions(account.upcomingSessions, account.email, account.sessionDetailsBaseHref);
+            loadPastSessions(account.pastSessions, account.email, account.clientSessionReflectionFormBaseHref, account.tutorSessionReflectionFormBaseHref);
             userSettings = account.settings;
             newUserSettings = duplicateObject(userSettings);
             loadSettingsDisplay();
@@ -408,10 +540,10 @@
 
         function loadUpcomingSessions(sessions, userEmail, baseHref) {
             if (sessions.length == 0) {
-                noSessionsMessage.classList.add("active");
+                noUpcomingSessionsMessage.classList.add("active");
                 return;
             }
-            // Sort by start time, then by end time
+            // Sort by start time, then by end time (newest first)
             sessions.sort((a, b) => new Date(a.start) - new Date(b.start) || new Date(b.end) - new Date(a.end));
             sessions.forEach(session => {
                 /** @type {HTMLElement} */
@@ -441,9 +573,50 @@
                         cardTags.style.setProperty("--pending", "block");
                     }
                 }
-                card.querySelector(".session-card-details-link").href = baseHref + session.metadata.sid;
+                card.querySelector(".session-card-details-link").href = baseHref + session.sid;
                 
                 upcomingSessionsList.appendChild(card);
+            });
+        }
+
+        function loadPastSessions(sessions, userEmail, baseClientHref, baseTutorHref) {
+            if (sessions.length == 0) {
+                noPastSessionsMessage.classList.add("active");
+                return;
+            }
+            // Sort by start time, then by end time (most recent first)
+            sessions.sort((a, b) => new Date(b.start) - new Date(a.start) || new Date(b.end) - new Date(a.end));
+            sessions.forEach(session => {
+                /** @type {HTMLElement} */
+                let card = pastSessionCardTemplate.content.cloneNode(true);
+                let cardTags = card.querySelector(".session-card-tags");
+
+                card.querySelector(".session-card-class").textContent = session.classData.name;
+                card.querySelector(".session-card-subject").textContent = session.classData.subject;
+                card.querySelector(".session-card-time").textContent = session.name == "Custom Session" ? `${formatDate(session.start)} from ${formatTime(session.start)} - ${formatTime(session.end)}` : session.name;
+                if (userEmail == session.studentEmail) {
+                    cardTags.style.setProperty("--requested", "block");
+                    card.querySelector(".session-card-user").textContent = session.tutorName == "" ? "None" : session.tutorName;
+                    card.querySelector(".session-card-user-descriptor").textContent = "Tutor:";
+                    if (session.tutorEmail != "") {
+                        cardTags.style.setProperty("--confirmed", "block");
+                    } else {
+                        cardTags.style.setProperty("--cancelled", "block");
+                    }
+                } else {
+                    cardTags.style.setProperty("--tutoring", "block");
+                    card.querySelector(".session-card-user").textContent = session.studentName;
+                    card.querySelector(".session-card-user-descriptor").textContent = "Student:";
+                    if (session.tutorEmail != "") {
+                        if (session.tutorEmail == userEmail) cardTags.style.setProperty("--confirmed", "block");
+                        else cardTags.style.setProperty("--cancelled", "block");
+                    } else {
+                        cardTags.style.setProperty("--cancelled", "block");
+                    }
+                }
+                // card.querySelector(".session-card-details-link").href = baseHref + session.sid;
+                
+                pastSessionsList.appendChild(card);
             });
         }
 
@@ -539,20 +712,10 @@
         }
 
         // #debug
-        loadAccountDashboard({"hasAccount":true,"name":"Brody Smalley","email":"bsma3924@student.dodea.edu","role":"Administrator","upcomingSessions":[{"row":2,"sid":63940,"dataRange":["Fri Sep 19 2025","2025-09-19T11:45:00.000Z","2025-09-19T12:20:00.000Z","September 19, Seminar Session 1",{"subject":"German","name":"German III"},"Perfect und preteretum.","egil4211@student.dodea.edu",{"chat":[]},{"sid":63940},"bsma3924@student.dodea.edu",null],
-            "date":"Fri Sep 19 2025",
-            "start":"2025-09-19T11:45:00.000Z",
-            "end":"2025-09-19T12:20:00.000Z",
-            "name":"September 19, Seminar Session 1",
-            "classData":{"subject":"German","name":"German III"},
-            "requestDetails":"Perfect und preteretum.",
-            "tutorEmail":"bsma3924@student.dodea.edu",
-            "requestChat":{"chat":[]},"metadata":{"sid":63940, "signedUpTutors": [{email: "bsma3924@student.dodea.edu", name: "Brody Smalley"}]},
-            "studentEmail":"expl1234@student.dodea.edu",
-            "tutorName":"Brody Smalley",
-            "studentName":"Example Student"}
-            ],"sessionDetailsBaseHref":"https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPatlXiZzjcSlTi5rxrgjiqEXL_dMjGY1YTIMDMwzG2GA/exec?page=session-request-details&sid=",
-        "settings": {"marketingActivities":true,"tnp":[{"subject":"Math","name":"Algebra I"},{"subject":"Science","name":"Biology"},{"subject":"English","name":"AP Seminar"}]}});
+        loadAccountDashboard({"hasAccount":true,"name":"Brody Smalley","email":"bsma3924@student.dodea.edu","role":"Administrator",
+        "upcomingSessions":[{"start":"2025-10-08T11:45:00.000Z","end":"2025-10-08T12:20:00.000Z","name":"October 8, Seminar Session 1","classData":{"subject":"Math","name":"Algebra II"},"studentEmail":"bsma3924@student.dodea.edu","studentName":"Brody Smalley","tutorEmail":"","tutorName":"","sid":96091}],
+        "pastSessions":[{"start":"2025-10-06T11:45:00.000Z","end":"2025-10-06T12:20:00.000Z","name":"October 6, Seminar Session 1","classData":{"subject":"Math","name":"Algebra II"},"studentEmail":"bsma3924@student.dodea.edu","studentName":"Brody Smalley","tutorEmail":"","tutorName":"","sid":96091}],
+        "sessionDetailsBaseHref":"https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPatlXiZzjcSlTi5rxrgjiqEXL_dMjGY1YTIMDMwzG2GA/exec?page=session-request-details&sid=","tutorSessionReflectionFormBaseHref":"https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPatlXiZzjcSlTi5rxrgjiqEXL_dMjGY1YTIMDMwzG2GA/exec?page=tutor-session-reflection-form&sid=","clientSessionReflectionFormBaseHref":"https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPatlXiZzjcSlTi5rxrgjiqEXL_dMjGY1YTIMDMwzG2GA/exec?page=client-session-reflection-form&sid=","settings":{"marketingActivities":true,"tnp":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"Precalculus","subject":"Math"},{"name":"AP Precalculus","subject":"Math"}]}});
         // #enddebug
 
         // #debug
