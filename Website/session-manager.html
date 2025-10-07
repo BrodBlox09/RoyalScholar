@@ -123,7 +123,7 @@
             }
         }
 
-        /* #region Tutor Modal */
+        /* #region Add Tutor Modal */
         #search-icon svg {
             display: block;
         }
@@ -155,6 +155,25 @@
 
         .tutor-add-button {
             padding: 6px 12px;
+        }
+        /* #endregion */
+        
+        /* #region Cancel Session Modal */
+        #cancel-session-selected-session-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        #cancel-session-selected-session-details p {
+            margin: 0;
+        }
+
+        #cancel-session-custom-cancellation-reason {
+            display: none;
+        }
+
+        #cancel-session-custom-cancellation-reason.active {
+            display: block;
         }
         /* #endregion */
     </style>
@@ -197,6 +216,47 @@
         </div>
     </div>
 
+    <div class="modal-container" id="cancel-session-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="heading">Cancel Session</h2>
+                <button class="inline-button" onclick="closeModal('cancel-session-modal')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div>
+                <div style="display: grid; gap: 10px;">
+                    <div id="cancel-session-selected-session-details">
+                        <!-- Description of selected session -->
+                        <p><strong>Time:</strong> <span class="time">Time</span></p>
+                        <p><strong>Class:</strong> <span class="class">Class</span></p>
+                        <p><strong>Student:</strong> <span class="student">Student</span></p>
+                        <p><strong>Tutor:</strong> <span class="tutor">Tutor</span></p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 0fr 1fr; gap: 10px;">
+                        <div>
+                            <label class="form-input-label">Cancellation Reason</label>
+                            <select id="cancellation-reason-input">
+                                <option value="NONE">Select one</option>
+                                <option value="Client absent">Client absent</option>
+                                <option value="Tutor absent">Tutor absent</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                        <div id="cancel-session-custom-cancellation-reason">
+                            <label for="custom-cancellation-reason-input" class="form-input-label">Custom Cancellation Reason</label>
+                            <div class="text-input-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
+                                <input id="custom-cancellation-reason-input" placeholder="Custom cancellation reason">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="button" id="cancel-session-submit-button">Cancel Session</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <template id="session-card-template">
         <div class="session-card">
             <div class="session-card-heading-row">
@@ -228,7 +288,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                         Add Tutor
                     </button>
-                    <button class="inline-button cancel-session-button" disabled title="This feature is currently not ready for production use.">
+                    <button class="inline-button cancel-session-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                         Cancel Session
                     </button>
@@ -255,8 +315,63 @@
         let sessionCardTemplate = document.getElementById("session-card-template");
         let addTutorModal = document.getElementById("add-tutor-modal");
         let tutorSearchInput = document.getElementById("tutor-search");
+        let cancelSessionModal = document.getElementById("cancel-session-modal");
+        let cancelSessionSelectedSessionDetails = document.getElementById("cancel-session-selected-session-details");
+        let cancelSessionCancellationReasonInput = document.getElementById("cancellation-reason-input");
+        let cancelSessionCustomCancellationReason = document.getElementById("cancel-session-custom-cancellation-reason");
+        let cancelSessionCustomCancellationReasonInput = document.getElementById("custom-cancellation-reason-input");
+        let cancelSessionSubmitButton = document.getElementById("cancel-session-submit-button");
+        let sidOfSessionToCancel;
         let tutorList = null;
         let sessions = null;
+
+        cancelSessionCancellationReasonInput.addEventListener("input", updateCancelSessionDisplayState);
+        cancelSessionCustomCancellationReasonInput.addEventListener("input", updateCancelSessionDisplayState);
+        cancelSessionSubmitButton.addEventListener("click", () => {
+            cancelSessionCancellationReasonInput.disabled = true;
+            cancelSessionCustomCancellationReasonInput.disabled = true;
+            cancelSessionSubmitButton.disabled = true;
+            let cancellationReason = cancelSessionCancellationReasonInput.value;
+            if (cancellationReason == "OTHER") cancellationReason = cancelSessionCustomCancellationReasonInput.value;
+            sendAPIReq({
+                reqType: "sessionManagerCancelSession",
+                sid: sidOfSessionToCancel,
+                cancellationReason: cancellationReason
+            }, (res) => {
+                closeModal('cancel-session-modal');
+                sessions = sessions.filter(x => x.sid != sidOfSessionToCancel);
+                updateSessionsDisplay();
+            }, () => {}, () => {
+                cancelSessionCancellationReasonInput.disabled = false;
+                cancelSessionCustomCancellationReasonInput.disabled = false;
+                cancelSessionSubmitButton.disabled = false;
+            });
+        });
+
+        function updateCancelSessionDisplayState() {
+            if (cancelSessionCancellationReasonInput.value == "NONE") {
+                cancelSessionCustomCancellationReason.classList.remove("active");
+                cancelSessionSubmitButton.disabled = true;
+            } else if (cancelSessionCancellationReasonInput.value == "OTHER") {
+                cancelSessionCustomCancellationReason.classList.add("active");
+                cancelSessionSubmitButton.disabled = !(cancelSessionCustomCancellationReasonInput.value.length > 0);
+            } else {
+                cancelSessionCustomCancellationReason.classList.remove("active");
+                cancelSessionSubmitButton.disabled = false;
+            }
+        }
+
+        function openCancelSessionModal(session) {
+            sidOfSessionToCancel = session.sid;
+            cancelSessionSelectedSessionDetails.querySelector(".time").textContent = session.name == "Custom Session" ? `${formatDate(session.start)} from ${formatTime(session.start)} - ${formatTime(session.end)}` : session.name;
+            cancelSessionSelectedSessionDetails.querySelector(".class").textContent = session.classData.name;
+            cancelSessionSelectedSessionDetails.querySelector(".student").textContent = `${session.studentName} <${session.studentEmail}>`;
+            cancelSessionSelectedSessionDetails.querySelector(".tutor").textContent = session.tutorEmail ? `${session.tutorName} <${session.tutorEmail}>` : "Unassigned";
+            cancelSessionCancellationReasonInput.value = "NONE";
+            cancelSessionModal.classList.add("active");
+            document.body.classList.add("no-scroll");
+            updateCancelSessionDisplayState();
+        }
 
         tutorSearchInput.addEventListener("input", () => {
             let query = tutorSearchInput.value.toLowerCase();
@@ -343,6 +458,9 @@
 
                 card.querySelector(".add-tutor-button").onclick = () => {
                     openAddTutorModal(session);
+                };
+                card.querySelector(".cancel-session-button").onclick = () => {
+                    openCancelSessionModal(session);
                 };
                 
                 // #debug
