@@ -180,7 +180,7 @@ a:not(.button).text-link:hover::after {
     stroke: var(--gray);
 }
 
-.button {
+:is(.button, .-accent-button, .inline-button) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -188,11 +188,11 @@ a:not(.button).text-link:hover::after {
     gap: 6px;
 }
 
-.button:not(:disabled, .disabled) {
+:is(.button, .-accent-button, .inline-button):not(:disabled, .disabled) {
     cursor: pointer;
 }
 
-.button > svg {
+:is(.button, .-accent-button, .inline-button) > svg {
     display: block;
     flex-shrink: 0;
     stroke: currentColor;
