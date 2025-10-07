@@ -511,9 +511,20 @@ select {
     font-family: var(--body-font);
     font-size: 1rem;
     border-radius: 10px;
-    padding: 5px;
-    border: 1px solid var(--primary);
+    padding: 8px 12px;
+    border: var(--soft-border);
     outline: none;
+    transition: border-color 0.2s;
+}
+
+select:focus {
+    border: 1px solid var(--primary);
+}
+
+select:disabled {
+    background-color: var(--offwhite-dark);
+    border-color: var(--offwhite-dark);
+    color: var(--dark-gray);
 }
 /* #endregion */
 
