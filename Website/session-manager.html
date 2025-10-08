@@ -388,6 +388,7 @@
 
         function updateSessionsDisplay() {
             activeSessionListContainer.innerHTML = "";
+            pastSessionListContainer.innerHTML = "";
             let activeSessionsCount = sessions.filter(s => Date.parse(s.end) >= Date.now()).length;
             let pastSessionsCount = sessions.length - activeSessionsCount;
             if (activeSessionsCount === 0) {
