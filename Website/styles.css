@@ -31,6 +31,11 @@
     --soft-border-color: rgb(212, 212, 212);
     --soft-border: 1px solid var(--soft-border-color);
 
+    /* warning colors */
+    --warning-background-color: #ffe785;
+    --dark-warning-background-color: #cca300;
+    --warning-color: #665200;
+
     --light-gray-background: #DDDDDD;
     --light-gray-background-dark: #CCCCCC;
     --hover-overlay-color: #00000011;
@@ -475,6 +480,18 @@ a:not(.button).text-link:hover::after {
 .section-title-left {
     margin-top: 0;
     font-size: 3rem;
+}
+
+.warning-text {
+    background-color: var(--warning-background-color);
+    border-left: 6px solid var(--dark-warning-background-color);
+    color: var(--warning-color);
+    padding: 10px 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
 }
 
 .section-transition-gradient {
