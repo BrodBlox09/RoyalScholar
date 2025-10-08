@@ -234,6 +234,10 @@
         .session-card-details-row {
             margin-top: 10px;
         }
+        
+        .session-card-reflection-form-buttons {
+            margin-top: 16px;
+        }
 
         /* #region Session Card Tags */
         .session-card-tags {
@@ -460,16 +464,18 @@
             </div>
             <div class="session-card-details-row">
                 <p style="margin-top: 0;"><strong>Time:</strong> <span class="session-card-time">Time</span></p>
-                <p><strong class="session-card-user-descriptor">Student/Tutor:</strong> <span class="session-card-user">Name</span></p>
+                <p style="margin-bottom: 0;"><strong class="session-card-user-descriptor">Student/Tutor:</strong> <span class="session-card-user">Name</span></p>
             </div>
-            <a class="button session-card-reflection-form">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text-icon lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
-                Fill Out Session Reflection Form
-            </a>
-            <a class="button disabled session-card-reflection-form-completed">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big-icon lucide-circle-check-big"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
-                Session Form Completed
-            </a>
+            <div class="session-card-reflection-form-buttons">
+                <a class="button session-card-reflection-form">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text-icon lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                    Fill Out Session Reflection Form
+                </a>
+                <a class="button disabled session-card-reflection-form-completed">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big-icon lucide-circle-check-big"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
+                    Session Form Completed
+                </a>
+            </div>
         </div>
     </template>
 
@@ -564,7 +570,8 @@
                     cardTags.style.setProperty("--requested", "block");
                     card.querySelector(".session-card-user").textContent = session.tutorName == "" ? "TBD" : session.tutorName;
                     card.querySelector(".session-card-user-descriptor").textContent = "Tutor:";
-                    if (session.tutorEmail != "") {
+                    if (session.cancelled) cardTags.style.setProperty("--cancelled", "block");
+                    else if (session.tutorEmail != "") {
                         cardTags.style.setProperty("--confirmed", "block");
                     } else {
                         cardTags.style.setProperty("--pending", "block");
@@ -573,7 +580,8 @@
                     cardTags.style.setProperty("--tutoring", "block");
                     card.querySelector(".session-card-user").textContent = session.studentName;
                     card.querySelector(".session-card-user-descriptor").textContent = "Student:";
-                    if (session.tutorEmail != "") {
+                    if (session.cancelled) cardTags.style.setProperty("--cancelled", "block");
+                    else if (session.tutorEmail != "") {
                         if (session.tutorEmail == userEmail) cardTags.style.setProperty("--confirmed", "block");
                         else cardTags.style.setProperty("--cancelled", "block");
                     } else {
@@ -599,6 +607,7 @@
                 let cardTags = card.querySelector(".session-card-tags");
                 let baseReflectionRef;
                 let reflectionCompleted;
+                let sessionCancelled = false;
 
                 card.querySelector(".session-card-class").textContent = session.classData.name;
                 card.querySelector(".session-card-subject").textContent = session.classData.subject;
@@ -607,34 +616,33 @@
                     cardTags.style.setProperty("--requested", "block");
                     card.querySelector(".session-card-user").textContent = session.tutorName == "" ? "None" : session.tutorName;
                     card.querySelector(".session-card-user-descriptor").textContent = "Tutor:";
-                    if (session.tutorEmail != "") {
-                        cardTags.style.setProperty("--confirmed", "block");
-                    } else {
-                        cardTags.style.setProperty("--cancelled", "block");
-                    }
+                    if (session.cancelled) sessionCancelled = true;
+                    else if (session.tutorEmail == "") sessionCancelled = true;
                     baseReflectionRef = baseClientHref;
                     reflectionCompleted = session.clientReflection;
                 } else {
                     cardTags.style.setProperty("--tutoring", "block");
                     card.querySelector(".session-card-user").textContent = session.studentName;
                     card.querySelector(".session-card-user-descriptor").textContent = "Student:";
-                    if (session.tutorEmail != "") {
-                        if (session.tutorEmail == userEmail) cardTags.style.setProperty("--confirmed", "block");
-                        else cardTags.style.setProperty("--cancelled", "block");
-                    } else {
-                        cardTags.style.setProperty("--cancelled", "block");
-                    }
+                    if (session.cancelled) sessionCancelled = true;
+                    else if (session.tutorEmail != userEmail) sessionCancelled = true;
                     baseReflectionRef = baseTutorHref;
                     reflectionCompleted = session.tutorReflection;
                 }
                 
-                if (reflectionCompleted) {
-                    card.querySelector(".session-card-reflection-form").remove();
-                    let completedBtn = card.querySelector(".session-card-reflection-form-completed");
+                if (sessionCancelled) {
+                    cardTags.style.setProperty("--cancelled", "block");
+                    card.querySelector(".session-card-reflection-form-buttons").remove();
                 } else {
-                    card.querySelector(".session-card-reflection-form-completed").remove();
-                    let reflectionLink = card.querySelector(".session-card-reflection-form");
-                    reflectionLink.href = baseReflectionRef + session.sid;
+                    cardTags.style.setProperty("--confirmed", "block");
+                    if (reflectionCompleted) {
+                        card.querySelector(".session-card-reflection-form").remove();
+                        let completedBtn = card.querySelector(".session-card-reflection-form-completed");
+                    } else {
+                        card.querySelector(".session-card-reflection-form-completed").remove();
+                        let reflectionLink = card.querySelector(".session-card-reflection-form");
+                        reflectionLink.href = baseReflectionRef + session.sid;
+                    }
                 }
                 
                 pastSessionsList.appendChild(card);
@@ -734,8 +742,16 @@
 
         // #debug
         loadAccountDashboard({"hasAccount":true,"name":"Brody Smalley","email":"bsma3924@student.dodea.edu","role":"Administrator",
-        "upcomingSessions":[{"start":"2025-10-08T11:45:00.000Z","end":"2025-10-08T12:20:00.000Z","name":"October 8, Seminar Session 1","classData":{"subject":"Math","name":"Algebra II"},"studentEmail":"bsma3924@student.dodea.edu","studentName":"Brody Smalley","tutorEmail":"","tutorName":"","sid":96091}],
-        "pastSessions":[{"tutorReflection": false, "clientReflection": true, "start":"2025-10-06T11:45:00.000Z","end":"2025-10-06T12:20:00.000Z","name":"October 6, Seminar Session 1","classData":{"subject":"Math","name":"Algebra II"},"studentEmail":"bsma3924@student.dodea.edu","studentName":"Brody Smalley","tutorEmail":"","tutorName":"","sid":96091}],
+        "upcomingSessions":[{"start":"2025-10-08T11:45:00.000Z","end":"2025-10-08T12:20:00.000Z","name":"October 8, Seminar Session 1",
+        "classData":{"subject":"Math","name":"Algebra II"},
+        "studentEmail":"bsma3924@student.dodea.edu","studentName":"Brody Smalley",
+        "tutorEmail":"","tutorName":"","sid":96091}],
+        "pastSessions":[
+            {"tutorReflection": false, "clientReflection": true,
+            "start":"2025-10-06T11:45:00.000Z","end":"2025-10-06T12:20:00.000Z","name":"October 6, Seminar Session 1",
+            "classData":{"subject":"Math","name":"Algebra II"},
+            "studentEmail":"bsma3924@student.dodea.edu","studentName":"Brody Smalley",
+            "tutorEmail":"asd","tutorName":"asdf","sid":96091,"cancelled": true}],
         "sessionDetailsBaseHref":"https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPatlXiZzjcSlTi5rxrgjiqEXL_dMjGY1YTIMDMwzG2GA/exec?page=session-request-details&sid=","tutorSessionReflectionFormBaseHref":"https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPatlXiZzjcSlTi5rxrgjiqEXL_dMjGY1YTIMDMwzG2GA/exec?page=tutor-session-reflection-form&sid=","clientSessionReflectionFormBaseHref":"https://script.google.com/macros/s/AKfycbzH2I8MzlMi4M8a3GN2bWbl6kPatlXiZzjcSlTi5rxrgjiqEXL_dMjGY1YTIMDMwzG2GA/exec?page=client-session-reflection-form&sid=","settings":{"marketingActivities":true,"tnp":[{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"Precalculus","subject":"Math"},{"name":"AP Precalculus","subject":"Math"}]}});
         // #enddebug
 
