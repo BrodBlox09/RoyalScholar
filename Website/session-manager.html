@@ -502,7 +502,7 @@
                         tutorEmail: tutor.email
                     }, (res) => {
                         session.metadata.signedUpTutors = res.signedUpTutors;
-                        closeAddTutorModal();
+                        closeModal('add-tutor-modal');
                         updateSessionsDisplay(sessions); // Reload to update UI
                     });
                 };
