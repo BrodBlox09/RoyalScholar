@@ -51,9 +51,13 @@ function deleteChildren(element) {
 
 let timeFormatter = new Intl.DateTimeFormat('en-US', {timeStyle:"short"});
 
-function formatTime(dateObject) {
-    return timeFormatter.format(dateObject);
+function formatDate(time, formatShort) {
+    let options = { dateStyle: "full" };
+    if (formatShort) options.dateStyle = "medium";
+    let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
+    return dateFormatter.format(new Date(time));
 }
+function formatTime(time) { return timeFormatter.format(new Date(time)); }
 
 function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}, finallyLambda = () => {}) {
   google.script.run.withSuccessHandler(apiReqResponseHandler.bind(null, thenLambda, errorLambda, finallyLambda)).handleWebAppRequest(JSON.stringify(data));
@@ -64,11 +68,11 @@ function apiReqResponseHandler(thenLambda, errorLambda, finallyLambda, res) {
     if (res.error) {
       let handled = errorLambda(res);
       if (!handled) showErrorModal(`Error ${res.errorCode}. Something went wrong, please try again later.\nDetails: ${res.error}`);
-      finallyLambda(res);
+      finallyLambda();
       return;
     }
     thenLambda(res);
-    finallyLambda(res);
+    finallyLambda();
 }
 
 function showErrorModal(errorText) {
@@ -95,22 +99,22 @@ function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}, finally
             console.log("Received the following response:", res);
             if (res.error == "apiKeyInvalid") {
                 showErrorModal("API key invalid.");
-                finallyLambda(res);
+                finallyLambda();
                 return;
             }
             if (res.error) {
                 let handled = errorLambda(res);
                 if (!handled) showErrorModal(`Error ${res.errorCode}.\nSomething went wrong, please try again later.\n\nDetails:\n${res.error}`);
-                finallyLambda(res);
+                finallyLambda();
                 return;
             }
             thenLambda(res);
-            finallyLambda(res);
+            finallyLambda();
         });
     }).catch(() => {
         let handled = errorLambda({errorCode: "no-connection"});
         if (!handled) showErrorModal("Failed to access server. Please try again later.");
-        finallyLambda(res);
+        finallyLambda();
         return;
     });
 }

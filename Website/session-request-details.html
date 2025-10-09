@@ -280,8 +280,12 @@
                 grid-template-columns: 1fr;
             }
 
-            #chat-message-list-wrapper {
-                height: max(fit-content, 500px);
+            #chat {
+                height: 40vh;
+            }
+
+            body {
+                display: block;
             }
         }
     </style>
@@ -298,7 +302,7 @@
                     <p><b>Time:</b> <span id="request-time"></span></p>
                     <p class="no-margin"><b>Student Name:</b> <span id="request-student-name"></span></p>
                 </div>
-                <div style="min-width: 200px;">
+                <div>
                     <p style="margin-top: 0;" id="assigned-tutor-text">No one has been assigned to this session.</p>
                     <p id="sign-up-for-session-text">No tutors have signed up.</p>
                     <button id="sign-up-for-session-button" class="button">Sign Up</button>
@@ -396,6 +400,7 @@
         let signUpForSessionButton = document.getElementById("sign-up-for-session-button");
         let signUpForSessionText = document.getElementById("sign-up-for-session-text");
         let assignedTutorText = document.getElementById("assigned-tutor-text");
+        let sessionCancelled;
         let chatNotificationsActive = null;
         let lastRefreshTime = Date.now();
         let sessionSignUp = null;
@@ -444,8 +449,18 @@
         });
 
         function updateSignUpStatusDisplay() {
+            if (sessionCancelled) {
+                signUpForSessionButton.style.display = "none";
+                signUpForSessionText.textContent = "This session has been cancelled.";
+                assignedTutorText.textContent = "";
+                sendMessageTextArea.disabled = true;
+                sendMessageTextArea.placeholder = "Messages cannot be sent in a cancelled session.";
+                return;
+            }
+
             if (assignedTutor != null) {
-                assignedTutorText.textContent = `${assignedTutor.name} has been assigned to this session.`;
+                if (assignedTutor.email != userEmail) assignedTutorText.textContent = `${assignedTutor.name} has been assigned to this session.`;
+                else assignedTutorText.textContent = "You have been assigned to this session.";
             } else {
                 assignedTutorText.textContent = "No one has been assigned to this session.";
             }
@@ -582,20 +597,6 @@
             sendMessageTextArea.style.height = (sendMessageTextArea.scrollHeight + 2) + "px";
         }
 
-        function formatDate(time, formatShort) {
-            let options = { dateStyle: "full" };
-            if (formatShort) options.dateStyle = "medium";
-            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
-
-            return dateFormatter.format(new Date(time));
-        }
-
-        function formatTime(time) {
-            let timeFormatter = Intl.DateTimeFormat({ region: "en-us" }, { timeStyle: "short", hour12: false });
-
-            return timeFormatter.format(new Date(time));
-        }
-
         function updateChatDisplay() {
             chatMessageList.innerHTML = "";
             let lastMessageDisplayed = null;
@@ -653,6 +654,7 @@
             // Setup Sign Up Section
             if (requestInfo.student.email == requestInfo.userEmail) signUpForSessionButton.style.display = "none"; // User made the request
             else signUpForSessionButton.style.display = "block";
+            sessionCancelled = requestInfo.cancelled;
             sessionSignUp = requestInfo.signedUpTutors;
             userEmail = requestInfo.userEmail;
             assignedTutor = requestInfo.assignedTutor;
@@ -672,6 +674,7 @@
                 start: 1740744900000,
                 end: 1740749400000
             },
+            cancelled: false,
             name: "September 28, Seminar Session 1",
             className: "AP Seminar+",
             signedUpTutors: [{ name: "Brody Smalley", email: "bsma3924@student.dodea.edu" }],

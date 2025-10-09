@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Reflection Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #content {
+            background-color: var(--accent-soft);
+            flex-grow: 1;
+            display: grid;
+            place-items: center;
+        }
+
+        #box {
+            width: 75%;
+            min-width: 600px;
+            box-sizing: border-box;
+            position: relative;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 32px;
+            border-radius: 20px;
+            background-color: #ffffff;
+            box-shadow: var(--soft-box-shadow);
+        }
+
+        #box-pages {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #box-page-slider {
+            --currentPageIndex: 0;
+            translate: calc(var(--currentPageIndex) * -1 * (100% + 100px) / var(--pages));
+            transition: 1s translate;
+            display: flex;
+            gap: 100px;
+            width: calc(var(--pages) * 100% + (var(--pages) - 1) * 100px);
+        }
+
+        .box-page {
+            padding-right: 1px;
+            /* Fix floating point precission error */
+            width: 100%;
+        }
+        #session-details {
+            margin-bottom: 16px;
+        }
+
+        #session-details p {
+            margin: 0;
+        }
+
+        .bottom-button {
+            display: flex;
+            justify-content: end;
+            margin-top: 10px;
+        }
+
+        @media screen and (max-width: 600px) {
+            #box {
+                width: 100%;
+                min-width: 0;
+                min-height: 75%;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="topnav"></div>
+    <div id="content">
+        <div id="box">
+            <div id="box-pages">
+                <div id="box-page-slider" style="--pages: 2;">
+                    <div class="box-page">
+                        <div id="form-title">
+                            <h1 class="heading">Tutor Session Reflection Form</h1>
+                            <h2 class="subheading">Your hours will only be counted after this form is submitted.</h2>
+                        </div>
+                        <div id="session-details">
+                            <h2 class="heading">Session Details</h2>
+                            <p><strong>Time:</strong> <span id="session-time">Time</span></p>
+                            <p><strong>Student:</strong> <span id="session-student">Student</span></p>
+                            <p><strong>Class:</strong> <span id="session-class">Class</span></p>
+                        </div>
+                        <div id="input-section">
+                            <label for="worked-on-input">What was worked on?</label>
+                            <textarea class="textarea-input" id="worked-on-input" placeholder="We worked on reviewing the Pythagorean Theorem."></textarea>
+                            <label for="concerns-input">Are there any concerns?</label>
+                            <textarea class="textarea-input" id="concerns-input" placeholder="The student might be struggling with base algebraic functions like addition."></textarea>
+                        </div>
+                        <div class="bottom-button">
+                            <button class="button" id="submit-button" disabled>
+                                Submit
+                                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="matrix(-2, 0, 0, -2, 0, 0)rotate(0)"><path id="Vector" d="M13 15L10 12L13 9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-page center-vert">
+                        <div class="title-section">
+                            <h1 class="heading" id="submit-form-page-title">Submitting...</h1>
+                            <p id="submit-form-page-text">Once we've recieved your Tutor Reflection Form, your hours will be counted for this session.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+    <script>
+        let sessionTimeText = document.getElementById("session-time");
+        let sessionStudentText = document.getElementById("session-student");
+        let sessionClassText = document.getElementById("session-class");
+        let workedOnInput = document.getElementById("worked-on-input");
+        let concernsInput = document.getElementById("concerns-input");
+        let submitButton = document.getElementById("submit-button");
+        let submitFormPageTitle = document.getElementById("submit-form-page-title");
+        let submitFormPageText = document.getElementById("submit-form-page-text");
+        const pageSlider = document.getElementById("box-page-slider");
+        let sid;
+
+        function setPage(pageNumber) { pageSlider.style.setProperty("--currentPageIndex", pageNumber - 1); }
+
+        submitButton.addEventListener("click", () => {
+            let workedOn = workedOnInput.value.trim();
+            let concerns = concernsInput.value.trim();
+            setPage(2);
+            sendAPIReq({
+                reqType: "submitSessionReflectionForm",
+                sid: sid,
+                type: "tutor",
+                workedOn: workedOn,
+                concerns: concerns
+            }, (res) => {
+                submitFormPageTitle.textContent = "Form submitted!";
+                submitFormPageText.textContent = "Your hours have been counted.";
+            }, (err) => {
+                submitFormPageTitle.textContent = `Error ${err.errorCode}`;
+                submitFormPageText.textContent = err.error;
+                return true;
+            });
+        });
+
+        workedOnInput.addEventListener("input", updateSubmitButtonState);
+        concernsInput.addEventListener("input", updateSubmitButtonState);
+
+        function updateSubmitButtonState() {
+            submitButton.disabled = !(workedOnInput.value.length > 0 && concernsInput.value.length > 0);
+        }
+
+        function fillInSessionDetails(sessionDetails) {
+            sid = sessionDetails.sid;
+            sessionTimeText.textContent = sessionDetails.name == "Custom Session" ? `${formatTime(sessionDetails.start)} - ${formatTime(sessionDetails.end)}` : sessionDetails.name;
+            sessionStudentText.textContent = sessionDetails.studentName;
+            sessionClassText.textContent = sessionDetails.className;
+            updateSubmitButtonState();
+        }
+
+        // #debug
+        fillInSessionDetails({
+            studentName: "Example Student",
+            date: "Sep 28 2025",
+            start: 1740744900000,
+            end: 1740749400000,
+            name: "September 28, Seminar Session 1",
+            className: "AP Seminar+",
+            sid: 40444
+        });
+        // #enddebug
+
+        // #debug
+        /*
+        // #enddebug
+        fillInSessionDetails(<?!= sessionDetails ?>);
+        // #debug
+        */
+        // #enddebug
+    </script>
+</body>
+
+</html>

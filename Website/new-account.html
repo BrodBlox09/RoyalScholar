@@ -296,17 +296,19 @@
         /*
         // #enddebug
         let userEmail = "<?!= userEmail ?>";
-        document.getElementById("user-email").textContent = userEmail;
-        if (!userEmail.endsWith("@student.dodea.edu")) document.getElementById("bad-email").classList.add("active");
         // #debug
         */
         // #enddebug
 
         // #debug
-        let userEmail = "bsma3924@student.dodea.edu";
-        document.getElementById("user-email").textContent = userEmail;
-        if (!userEmail.endsWith("@student.dodea.edu")) document.getElementById("bad-email").classList.add("active");
+        let userEmail = "bsma3924@not-school.com";
         // #enddebug
+
+        document.getElementById("user-email").textContent = userEmail;
+        if (!userEmail.endsWith("@student.dodea.edu")) {
+            document.getElementById("bad-email").classList.add("active");
+            document.body.classList.add("no-scroll");
+        }
     </script>
 </body>
 

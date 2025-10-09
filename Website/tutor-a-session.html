@@ -268,8 +268,8 @@
 
         function updateSessionCards() {
             let visibleSessions = sessions;
-            // Sort sessions by start time (soonest first)
-            visibleSessions = visibleSessions.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+            // Sort sessions by start time (soonest starting first), then by end time (latest ending first)
+            visibleSessions = visibleSessions.sort((a, b) => new Date(a.start) - new Date(b.start) || new Date(b.end) - new Date(a.end));
             // Filter sessions by search
             let searchQuery = searchBar.value;
             visibleSessions = visibleSessions.filter((/** @type {{subject: string, href: string, time: string, studentName: string}} */ session) => {
@@ -333,16 +333,18 @@
             {
                 "classData": {name: "AP Calculus AB", subject: "Math"},
                 "href": "https://www.youtube.com/watch?v=iadofnvo4",
-                "formattedTime": "September 30, Seminar Session 1",
-                "startTime": "2025-02-13T22:31:00",
+                "formattedTime": "April 13, Seminar Session 1",
+                "start": "2025-02-13T22:31:00",
+                "end": "2025-02-13T22:31:00",
                 "studentName": "Brody Smalley",
                 "signedUpTutorsCount": 0
             },
             {
                 "classData": {name: "AP English Composition", subject: "English"},
                 "href": "https://www.youtube.com/watch?v=iadofnvo4",
-                "formattedTime": "September 30, Seminar Session 1",
-                "startTime": "2025-02-13T22:31:00",
+                "formattedTime": "January 13, Seminar Session 1",
+                "start": "2025-01-13T22:31:00",
+                "end": "2025-01-13T22:31:00",
                 "studentName": "Maya Gilhooly",
                 "signedUpTutorsCount": 1
             }
