@@ -56,7 +56,7 @@
         <div id="box">
             <h1 class="center-text heading">Enter SRID:</h1>
             <div class="text-input-wrapper">
-                <label>SRID-</label>
+                <span class="no-user-select">SRID-</span>
                 <input id="srid-input" inputmode="numeric" maxlength="6" value="" autofocus>
             </div>
             <button id="view-service-report-button" class="button">Go!</button>
@@ -66,12 +66,22 @@
     <script>
         let sridInput = document.getElementById("srid-input");
         let viewServiceReportBtn = document.getElementById("view-service-report-button");
+
+        updateViewServiceReportBtnState();
+        
+        sridInput.addEventListener("input", updateViewServiceReportBtnState);
         sridInput.addEventListener("keydown", (e) => {
-            if (e.key == "Enter" && sridInput.value.length > 3) {
+            console.log(e.key == "Enter" && !viewServiceReportBtn.disabled);
+            if (e.key == "Enter" && !viewServiceReportBtn.disabled) {
                 sridInput.blur();
                 viewServiceReportBtn.click();
             }
-        })
+        });
+
+        function updateViewServiceReportBtnState() {
+            viewServiceReportBtn.disabled = sridInput.value.length < 4;
+        }
+
         viewServiceReportBtn.addEventListener("click", (e) => {
             console.log(`VIEWING SRID-${sridInput.value}!`);
             let a = document.createElement('a');
