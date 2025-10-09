@@ -188,7 +188,7 @@
                         <div id="metadata-block">
                             <p><b>Date Range:</b> <span id="date-range">XX/XX/XXXX - XX/XX/XXXX</span></p>
                             <p><b>Date Range Type:</b> <span id="date-range-type">TYPE</span></p>
-                            <p><b>Date of Generation:</b> <span id="date-generated">XX/XX/XXXX</span></p>
+                            <p><b>Time of Generation:</b> <span id="time-generated">XX/XX/XXXX</span></p>
                             <p><b>Session Count:</b> <span id="session-count">XX</span></p>
                             <p style="grid-column: span 2;"><b>Student:</b> <span id="student-name">-----</span></p>
                         </div>
@@ -223,7 +223,7 @@
                                     <h2 id="verify-header">Verify this Report</h2>
                                     <p>To verify this RoyalScholar Service Report, go to
                                         <a
-                                            href="https://sites.google.com/student.dodea.edu/royalscholar/verify-service-report">https://sites.google.com/student.dodea.edu/royalscholar/verify-service-report</a>
+                                            href="https://sites.google.com/student.dodea.edu/royalscholar/view-service-report">https://sites.google.com/student.dodea.edu/royalscholar/view-service-report</a>
                                         or scan the QR code on the left. Then enter SRID-<span class="srid">XXXXX</span> to
                                         view this report.
                                     </p>
@@ -238,24 +238,22 @@
     <script>
         try {
         const HOUR = 1000 * 60 * 60;
-        let dateFormatter = new Intl.DateTimeFormat('en-GB', {dateStyle:"long"});
-        function formatDate(timeStr) {
-            let time = new Date(timeStr);
-            return dateFormatter.format(time);
-        }
+        let timeFormatter = new Intl.DateTimeFormat('en-US', {timeStyle:"short"});
 
-        let timeFormatter = new Intl.DateTimeFormat('en-GB', {timeStyle:"medium"});
-        function formatTime(timeStr) {
-            let time = new Date(timeStr);
-            return timeFormatter.format(time);
+        function formatDate(time, formatShort) {
+            let options = { dateStyle: "full" };
+            if (formatShort) options.dateStyle = "medium";
+            let dateFormatter = Intl.DateTimeFormat({ region: "en-us" }, options);
+            return dateFormatter.format(new Date(time));
         }
+        function formatTime(time) { return timeFormatter.format(new Date(time)); }
 
         function formatNumber(num) {
             return num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
         
         let serviceReportId = 39573;
-        let serviceReportData = {"student":"Brody Smalley <bsma3924@student.dodea.edu>","dateRangeInfo":{"name":"SY 24-25 S1","start":"August 19, 2024","end":"January 16, 2025"},"sessionData":[{"sid":87436,"name":"June 6, Seminar Session 1","start":"2025-06-06T11:45:00.000Z","end":"2025-06-06T12:20:00.000Z"}],"generated":"2025-07-06T12:20:00.000Z"};
+        let serviceReportData = {"student":"Brody Smalley <bsma3924@student.dodea.edu>","dateRangeInfo":{"name":"SY 24-25 S1","start":"August 19, 2024","end":"January 16, 2025"},"sessionData":[{"sid":87436,"name":"October 6, Seminar Session 1","start":"2025-06-06T11:45:00.000Z","end":"2025-06-06T12:20:00.000Z"}],"generated":"2025-07-06T12:20:00.000Z"};
         let sessionData = serviceReportData.sessionData;
         // For testing, inject false data
         sessionData = new Array(40).fill(sessionData[0]);
@@ -267,7 +265,7 @@
         let serviceReportRange = serviceReportData.dateRangeInfo;
         document.getElementById("date-range").textContent = `${formatDate(serviceReportRange.start)} - ${formatDate(serviceReportRange.end)}`;
         document.getElementById("date-range-type").textContent = serviceReportRange.name;
-        document.getElementById("date-generated").textContent = `${formatDate(serviceReportData.generated)} ${formatTime(serviceReportData.generated)}`;
+        document.getElementById("time-generated").textContent = `${formatDate(serviceReportData.generated)} ${formatTime(serviceReportData.generated)}`;
         document.getElementById("session-count").textContent = sessionData.length;
         document.getElementById("student-name").textContent = serviceReportData.student; // Follow RFC5322 guidelines 'Name <email>'
 
@@ -275,7 +273,7 @@
         let totalHours = 0;
 
         sessionData.forEach(session => {
-            let fdate = formatDate(session.start);
+            let fdate = formatDate(session.start, true);
             let fstart = formatTime(session.start);
             let fend = formatTime(session.end);
             let elapsed = (Date.parse(session.end) - Date.parse(session.start)) / HOUR;
