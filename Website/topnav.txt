@@ -27,12 +27,18 @@
                     <p>Tutor a Session</p>
                 </a>
                 <div class="admin-vis-only topnav-dropdown">
-                    <p>Admin Tools</p>
+                    <p class="no-user-select">Admin Tools</p>
                     <span><svg class="caret" viewBox="7 8.5 10 7" width="3em" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 14L12 10L16 14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg></span>
                     <div>
                         <div>
+                            <a href="session-manager.html">
+                                Session Manager
+                            </a>
+                            <a href="account-manager.html">
+                                Account Manager
+                            </a>
                             <a href="view-logs.html">
                                 View Logs
                             </a>
@@ -78,6 +84,12 @@
                     <a class="tutor-vis-only" href="tutor-a-session.html">Tutor a Session</a>
                     <div class="admin-vis-only">
                         <p>Admin Tools</p>
+                        <div>
+                            <a href="session-manager.html">Session Manager</a>
+                        </div>
+                        <div>
+                            <a href="account-manager.html">Account Manager</a>
+                        </div>
                         <div>
                             <a href="view-logs.html">View Logs</a>
                         </div>

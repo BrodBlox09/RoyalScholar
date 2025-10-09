@@ -5,7 +5,7 @@
     <base target="_blank">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request A Session</title>
+    <title>Request a Session</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
@@ -31,19 +31,9 @@
             min-width: 600px;
             box-sizing: border-box;
             border-radius: 20px;
-            box-shadow: 0px 0px 40px -10px #000000;
+            box-shadow: var(--soft-box-shadow);
             margin-top: 20px;
             margin-bottom: 20px;
-        }
-
-        @media screen and (max-width: 600px) {
-            #box {
-                width: 100%;
-                min-width: 0;
-                min-height: 75%;
-                justify-content: space-evenly;
-                border-radius: 0;
-            }
         }
 
         #progress-bar-wrapper {
@@ -90,27 +80,15 @@
             width: 100%;
         }
 
+        .box-page .flex-grow {
+            max-height: 40vh;
+            overflow: auto;
+        }
+
         .bottom-buttons button {
-            border: none;
-            border-radius: 5px;
-            background-color: var(--accent);
-            color: var(--offwhite);
-            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
-            transition: 0.2s background-color, 0.2s color;
-        }
-
-        .bottom-buttons button:disabled {
-            background-color: var(--offwhite-dark);
-            color: #ffffff;
-        }
-
-        .bottom-buttons button:not(:disabled):hover {
-            background-color: var(--accent-dark);
-            color: var(--offwhite-dark);
         }
 
         .page-title {
@@ -135,10 +113,8 @@
 
         #subject-picker {
             font-family: var(--body-font);
-            font-size: 1.25em;
             padding: 10px;
             border-radius: 10px;
-            color: #333333;
             outline: none;
             border: none;
             width: 100%;
@@ -150,14 +126,15 @@
             border-radius: 10px;
             border: 2px solid var(--primary-soft);
             height: 13rem;
+            font-size: 1.0625em;
             overflow: auto;
         }
 
         #subject-search-list p {
             margin: 0;
             padding: 10px;
+            padding-block: 7px;
             user-select: none;
-            font-size: 1.25em;
         }
 
         #subject-search-list p:hover {
@@ -191,32 +168,27 @@
         }
         /* #endregion */
 
+        /* #region Details */
+        #writing-focused-question {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #writing-focused-question.hidden {
+            opacity: 0;
+            user-select: none;
+            pointer-events: none;
+        }
+
         #details-input {
-            width: 100%;
+            margin-top: 10px;
             height: 10em;
-            resize: none;
-            box-sizing: border-box;
-            border-radius: 10px;
-            padding: 5px;
-            border: 3px solid var(--primary);
-            outline: none;
-            font-family: var(--body-font);
-            margin-bottom: 50px;
-            font-size: 1.1em;
         }
+        /* #endregion */
 
-        .dropdown-field {
-            background-color: #ffffff;
-            font-family: var(--body-font);
-            font-size: 1rem;
-            border-radius: 10px;
-            padding: 5px;
-            border: 2px solid var(--primary);
-            margin-top: 5px;
-            margin-bottom: 5px;
-            outline: none;
-        }
-
+        /* #region Date and Time Selection */
         .custom-time-input {
             margin-left: 5px;
             padding: 5px;
@@ -243,6 +215,13 @@
 
         .time-input-error:not(.active) {
             display: none;
+        }
+        /* #endregion */
+
+        #review-summary-top-grid {
+            display: grid;
+            grid-template-areas: "class class date time";
+            gap: 10px;
         }
 
         #no-account {
@@ -275,7 +254,6 @@
 
         #ptoc {
             margin-top: 2rem;
-            opacity: 0;
             pointer-events: none;
             position: relative;
             padding-left: 35px;
@@ -286,12 +264,12 @@
             -ms-user-select: none;
             user-select: none;
             width: fit-content;
-            display: flex;
+            display: none;
             align-items: center;
         }
 
         #ptoc.visible {
-            opacity: 1;
+            display: flex;
             pointer-events: auto;
         }
 
@@ -343,6 +321,19 @@
             transform: rotate(45deg);
         }
         /* #endregion */
+        
+        @media screen and (max-width: 600px) {
+            #box {
+                width: 100%;
+                min-width: 0;
+                min-height: 75%;
+                justify-content: space-evenly;
+                border-radius: 0;
+            }
+            #review-summary-top-grid {
+                grid-template-areas: "class class date" "class class time";
+            }
+        }
     </style>
 </head>
 
@@ -354,7 +345,7 @@
                 <div id="progress-bar"></div>
             </div>
             <div id="box-pages">
-                <div id="box-page-slider" style="--pages: 5;">
+                <div id="box-page-slider" style="--pages: 6;">
                     <div class="box-page">
                         <h2 class="page-title">Which subject would you like help with?</h2>
                         <div>
@@ -382,7 +373,7 @@
                             </div>
                         </div>
                         <div class="bottom-buttons">
-                            <button onclick="previousPage()">
+                            <button onclick="previousPage()" class="button">
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(2, 0, 0, 2, 0, 0)rotate(0)">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -402,13 +393,21 @@
                     <div class="box-page">
                         <div>
                             <h2 class="page-title">Any specifics?</h2>
-                            <p>Feel free to add many details. The more we know beforehand, the better we can help. If you have any special requests, you can put them here.</p>
+                            <p>The more we know beforehand, the better we can help. If you have any special requests, you can put them here.</p>
                         </div>
                         <div class="flex-grow">
-                            <textarea id="details-input" placeholder="Details..."></textarea>
+                            <div id="writing-focused-question">
+                                <span>Do you need writing-focused assistance (e.g., writing thesis statements)?</span>
+                                <select id="writing-focused-input">
+                                    <option value="" selected>Select one</option>
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
+                            <textarea id="details-input" placeholder="What's the specific assignment or topic? What are you struggling with most?"></textarea>
                         </div>
                         <div class="bottom-buttons horiz-spaced">
-                            <button onclick="previousPage()">
+                            <button onclick="previousPage()" class="button">
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(2, 0, 0, 2, 0, 0)rotate(0)">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -423,7 +422,7 @@
                                 </svg>
                                 Back
                             </button>
-                            <button onclick="nextPage()">
+                            <button onclick="nextPage()" class="button" id="details-page-next-button">
                                 Next
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(-2, 0, 0, -2, 0, 0)rotate(0)">
@@ -445,8 +444,7 @@
                         <div class="flex-grow">
                             <p>
                                 I want to have the session on
-                                <select class="dropdown-field" id="time-input"></select>
-                                in the B3 neighborhood.
+                                <select id="time-input"></select>.
                             </p>
                             <div id="time-display-prefilled" class="active">
                                 <p><b>Date:</b> <span id="time-input-displayDate"></span></p>
@@ -479,13 +477,14 @@
                                     <input class="custom-time-input" type="time" id="time-input-customEnd">
                                 </div>
                             </div>
-                            <label id="ptoc">I would prefer<span id="tn"></span>as my tutor (I understand this is not guaranteed)
+                            <label id="ptoc" class="checkbox-label">
+                                <p>I would prefer<span id="tn"></span>as my tutor (I understand this is not guaranteed)</p>
                                 <input type="checkbox" id="ptoci">
                                 <span class="checkmark"></span>
                             </label>
                         </div>
                         <div class="bottom-buttons horiz-spaced">
-                            <button onclick="previousPage()">
+                            <button onclick="previousPage()" class="button">
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(2, 0, 0, 2, 0, 0)rotate(0)">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -500,7 +499,55 @@
                                 </svg>
                                 Back
                             </button>
-                            <button onclick="nextPage()" id="timePageNextButton">
+                            <button onclick="nextPage()" id="timePageNextButton" class="button" disabled>
+                                Next
+                                <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" transform="matrix(-2, 0, 0, -2, 0, 0)rotate(0)">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="0.288"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <g id="Arrow / Caret_Left_SM">
+                                            <path id="Vector" d="M13 15L10 12L13 9" stroke-width="1.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Review session request before sending -->
+                    <div class="box-page">
+                        <div>
+                            <h2 class="page-title">Review your request</h2>
+                            <p>Please verify all information below is correct before submitting your request.</p>
+                        </div>
+                        <div class="flex-grow">
+                            <div id="review-summary-top-grid">
+                                <p style="grid-area: class;"><b>Class:</b> <span id="review-class"></span></p>
+                                <p style="grid-area: date;"><b>Date:</b> <span id="review-date"></span></p>
+                                <p style="grid-area: time;"><b>Time:</b> <span id="review-start"></span> - <span id="review-end"></span></p>
+                            </div>
+                            <p style="margin-top: 0;"><b>Tutor Preference:</b> <span id="review-tutorPref"></span></p>
+                            <p><b>Session Details:</b><br><span id="review-details"></span></p>
+                        </div>
+                        <div class="bottom-buttons horiz-spaced">
+                            <button onclick="previousPage()" class="button">
+                                <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" transform="matrix(2, 0, 0, 2, 0, 0)rotate(0)">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="0.288"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <g id="Arrow / Caret_Left_SM">
+                                            <path id="Vector" d="M13 15L10 12L13 9" stroke-width="1.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                                Back
+                            </button>
+                            <button onclick="nextPage()" class="button">
                                 Request Session
                                 <svg stroke="var(--offwhite)" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(-2, 0, 0, -2, 0, 0)rotate(0)">
@@ -526,26 +573,21 @@
             </div>
         </div>
     </div>
-    <div class="modal-bg" id="no-account">
-        <div class="modal">
-            <h2 style="margin-bottom: 5px; margin-top: -10px;">Uh oh, it looks like you don't have an account yet!</h2>
-            <p>To access this feature, you need to create a RoyalScholar account. Don't worry—it's quick and easy!</p>
-            <a href="new-account.html" title="Click here to join the RoyalScholar community!" class="button"
-                style="font-size: 1.5rem; font-weight: 600; text-align: center;">Create&nbsp;my&nbsp;Account</a>
-        </div>
-    </div>
     <script src="scripts.js"></script>
     <script>
-        let subjects = ["Math", "Science", "English", "Social Studies", "Spanish", "German", "French"];
-        let classes = [{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"AP Environmental Science","subject":"Science"},{"name":"Environmental Science","subject":"Science"},{"name":"Marine Biology","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"AP Physics C","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"AP Research","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP Psychology","subject":"Social Studies"},{"name":"AP Government","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"},{"name":"AP Spanish Language and Culture","subject":"Spanish"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"},{"name":"French III","subject":"French"},{"name":"French IV","subject":"French"}];
+        let subjects = ["Math","Science","English","Social Studies","Spanish","German","French"];
+        let classes = [{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"AP Environmental Science","subject":"Science"},{"name":"Environmental Science","subject":"Science"},{"name":"Marine Biology","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"AP Physics C","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Literature and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"AP Research","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP Government","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"},{"name":"AP Spanish Language and Culture","subject":"Spanish"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"},{"name":"French III","subject":"French"},{"name":"French IV","subject":"French"}];
+        let assumeWritingFocusedSubjects = ["English"];
         let validSessionTimes = [];
         let selectedSubject = null;
         let classesToView = [];
         let selectedClass = null;
+        let writingFocused = null;
         let selectedTime = null;
         let ptd = null;
         let currentPage = 1;
-        const numberOfInputPages = 4;
+        let sessionTimes = [];
+        const numberOfInputPages = 5;
         const pageSlider = document.getElementById("box-page-slider");
         const progressBar = document.getElementById("progress-bar");
 
@@ -553,7 +595,8 @@
             progressBar.style.setProperty("width", `${(pageNumber - 1) / numberOfInputPages * 100}%`);
             pageSlider.style.setProperty("translate", `calc(${pageNumber - 1} * -1 * (100% + 100px) / ${numberOfInputPages + 1})`);
             currentPage = pageNumber;
-            if (pageNumber == 5) sendSessionRequest();
+            if (pageNumber == numberOfInputPages) updateReviewPage();
+            if (pageNumber == numberOfInputPages + 1) sendSessionRequest();
         }
         function previousPage() {
             if (selectedSubject == "Other (Not Listed)" && currentPage == 3) {
@@ -623,14 +666,40 @@
             else {
                 document.getElementById("ptoci").checked = false;
                 document.getElementById("ptoc").classList.remove("visible");
-            } 
+            }
+            updateDetailsPage();
             setPage(3);
         }
         // #endregion
 
         // #region Detail Input Logic
+        const writingFocusedQuestion = document.getElementById("writing-focused-question");
+        const writingFocusedInput = document.getElementById("writing-focused-input");
         const detailsInput = document.getElementById("details-input");
+        const detailsPageNextButton = document.getElementById("details-page-next-button");
+        writingFocusedInput.value = "";
         detailsInput.value = "";
+        writingFocusedQuestion.addEventListener("input", () => {
+            writingFocused = writingFocusedInput.value;
+            verifyDetailsPage();
+        });
+        function isDetailsPageFilled() {
+            return assumeWritingFocusedSubjects.includes(selectedSubject) || writingFocusedInput.value != "";
+        }
+        function verifyDetailsPage() {
+            detailsPageNextButton.disabled = !isDetailsPageFilled();
+        }
+        function updateDetailsPage() {
+            if (assumeWritingFocusedSubjects.includes(selectedSubject)) {
+                writingFocusedQuestion.classList.add("hidden");
+                writingFocused = "yes";
+            } else {
+                writingFocusedQuestion.classList.remove("hidden");
+                writingFocused = null;
+                writingFocusedInput.value = "";
+            }
+            verifyDetailsPage();
+        }
         // #endregion
 
         // #region Session Time and Place Logic
@@ -676,7 +745,6 @@
                 option.setAttribute("value", index);
                 timeInput.appendChild(option);
             });
-            timePageNextButton.disabled = true;
         }
         function setSelectedTime(time) {
             if (time == null) { // null = no time selected
@@ -755,6 +823,32 @@
         }
         // #endregion
 
+        // #region Review Page Logic
+        const reviewClass = document.getElementById("review-class");
+        const reviewDetails = document.getElementById("review-details");
+        const reviewDate = document.getElementById("review-date");
+        const reviewStart = document.getElementById("review-start");
+        const reviewEnd = document.getElementById("review-end");
+        const reviewTutorPref = document.getElementById("review-tutorPref");
+        function updateReviewPage() {
+            reviewClass.textContent = selectedSubject == "Other (Not Listed)" ? "Other" : selectedClass.name;
+            reviewDetails.textContent = detailsInput.value || "No additional details provided.";
+            if (timeInput.value == -1) { // Custom time
+                reviewDate.textContent = new Date(selectedTime.date).toDateString();
+                reviewStart.textContent = formatTime(new Date(selectedTime.timeStart));
+                reviewEnd.textContent = formatTime(new Date(selectedTime.timeEnd));
+            } else { // Prefilled time
+                reviewDate.textContent = selectedTime.name;
+                reviewStart.textContent = formatTime(selectedTime.timeStart);
+                reviewEnd.textContent = formatTime(selectedTime.timeEnd);
+            }
+            if (document.getElementById("ptoci").checked) {
+                reviewTutorPref.textContent = ptd.n;
+                reviewTutorPref.parentElement.style.display = "block";
+            } else reviewTutorPref.parentElement.style.display = "none";
+        }
+        // #endregion
+
         // #region Send Session Request Logic
         const requestSessionTitle = document.getElementById("sessionRequestSendTitle");
         const requestSessionText = document.getElementById("sessionRequestSendText");
@@ -765,6 +859,7 @@
                     subject: selectedSubject == "Other (Not Listed)" ? "Other" : selectedSubject,
                     className: selectedSubject == "Other (Not Listed)" ? "Other" : selectedClass.name,
                     details: detailsInput.value,
+                    writingFocused: writingFocused == "yes",
                     sessionName: selectedTime.name,
                     timeStart: selectedTime.timeStart,
                     timeEnd: selectedTime.timeEnd,
@@ -791,24 +886,31 @@
         updateClassSelectionButtons();
         setSessionTimesOptions([]);
 
-        if (!testing) sendAPIReq({
-            reqType: "getSessionTimes"
-        }, (res) => {
-            setSessionTimesOptions(res.times.map(time => {
-                return {
-                    name: time.name,
-                    timeStart: new Date(time.timeStart),
-                    timeEnd: new Date(time.timeEnd)
-                };
-            }));
-        }, (err) => {
-            if (err.errorCode == 401) {
-                document.getElementById("no-account").classList.add("active");
-                document.body.style.setProperty("overflow", "hidden");
-                return true;
-            }
-            return false;
-        });
+        // #debug
+        sessionTimes = [
+            { name: "Monday, October 14, 3:00 PM - 4:00 PM", date: "2024-10-14", timeStart: "2024-10-14T15:00:00", timeEnd: "2024-10-14T16:00:00" },
+            { name: "Tuesday, October 15, 1:00 PM - 2:30 PM", date: "2024-10-15", timeStart: "2024-10-15T13:00:00", timeEnd: "2024-10-15T14:30:00" },
+            { name: "Wednesday, October 16, 5:00 PM - 6:00 PM", date: "2024-10-16", timeStart: "2024-10-16T17:00:00", timeEnd: "2024-10-16T18:00:00" },
+            { name: "Thursday, October 17, 3:30 PM - 4:30 PM", date: "2024-10-17", timeStart: "2024-10-17T15:30:00", timeEnd: "2024-10-17T16:30:00" },
+            { name: "Friday, October 18, 2:00 PM - 3:00 PM", date: "2024-10-18", timeStart: "2024-10-18T14:00:00", timeEnd: "2024-10-18T15:00:00" }
+        ];
+        // #enddebug
+
+        // #debug
+        /*
+        // #enddebug
+        sessionTimes = <?!= sessionTimes ?>;
+        // #debug
+        */
+        // #enddebug
+
+        setSessionTimesOptions(sessionTimes.map(time => {
+            return {
+                name: time.name,
+                timeStart: new Date(time.timeStart),
+                timeEnd: new Date(time.timeEnd)
+            };
+        }));
 
         // #debug
         /*

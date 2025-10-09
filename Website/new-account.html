@@ -33,28 +33,6 @@
             padding: 32px;
         }
 
-        #already-has-account {
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        #already-has-account.active {
-            pointer-events: auto;
-            opacity: 1;
-        }
-
-        #bad-email {
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        #bad-email.active {
-            pointer-events: auto;
-            opacity: 1;
-        }
-
         .subheading {
             margin-top: 0;
             font-weight: 400;
@@ -64,7 +42,7 @@
         #account-info-input {
             background-color: #ffffff;
             border-radius: 20px;
-            box-shadow: 0px 0px 40px -10px #000000;
+            box-shadow: var(--soft-box-shadow);
         }
 
         #input-grid {
@@ -257,17 +235,11 @@
             </div>
         </div>
     </div>
-    <div class="modal-bg" id="already-has-account">
+    <div class="modal-container" id="bad-email">
         <div class="modal">
-            <h2 style="margin-bottom: 5px; margin-top: -10px;">You already have an account!</h2>
-            <p>It looks like you've already created a RoyalScholar account. Please go back to the home page.</p>
-            <a href="index.html" title="Click here to go to the home page" class="button"
-                style="font-size: 1.5rem; font-weight: 600; text-align: center;">Home</a>
-        </div>
-    </div>
-    <div class="modal-bg" id="bad-email">
-        <div class="modal">
-            <h2 style="margin-bottom: 5px; margin-top: -10px;">School account not detected!</h2>
+            <div class="modal-header">
+                <h2 class="heading">School account not detected!</h2>
+            </div>
             <p style="margin-bottom: 0;">It looks like you aren't logged in to your school-provided Gmail account. Please log in to it and try again later.</p>
         </div>
     </div>
@@ -299,7 +271,7 @@
             sendAPIReq({
                 reqType: "createNewAccount",
                 accountData: {
-                    name: fullNameInput.value,
+                    name: fullNameInput.value.trim(),
                     marketingAllowed: newsletterAgreement.checked
                 }
             }, (res) => {
@@ -315,11 +287,6 @@
                     document.getElementById("bad-email").classList.add("active");
                     return true;
                 }
-                if (err.errorCode == 409) {
-                    document.getElementById("already-has-account").classList.add("active");
-                    document.body.style.setProperty("overflow", "hidden");
-                    return true;
-                }
                 return false;
             });
             document.getElementById("loading-page").classList.add("active");
@@ -329,17 +296,19 @@
         /*
         // #enddebug
         let userEmail = "<?!= userEmail ?>";
-        document.getElementById("user-email").textContent = userEmail;
-        if (!userEmail.endsWith("@student.dodea.edu")) document.getElementById("bad-email").classList.add("active");
         // #debug
         */
         // #enddebug
 
         // #debug
-        let userEmail = "bsma3924@student.dodea.edu";
-        document.getElementById("user-email").textContent = userEmail;
-        if (!userEmail.endsWith("@student.dodea.edu")) document.getElementById("bad-email").classList.add("active");
+        let userEmail = "bsma3924@not-school.com";
         // #enddebug
+
+        document.getElementById("user-email").textContent = userEmail;
+        if (!userEmail.endsWith("@student.dodea.edu")) {
+            document.getElementById("bad-email").classList.add("active");
+            document.body.classList.add("no-scroll");
+        }
     </script>
 </body>
 
