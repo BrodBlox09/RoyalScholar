@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Service Report</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #content {
+            background-color: var(--accent-soft);
+            flex-grow: 1;
+            display: grid;
+            place-items: center;
+        }
+
+        #box {
+            width: 75%;
+            min-width: 600px;
+            box-sizing: border-box;
+            position: relative;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 32px;
+            border-radius: 20px;
+            background-color: #ffffff;
+            box-shadow: var(--soft-box-shadow);
+
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media screen and (max-width: 600px) {
+            #box {
+                width: 100%;
+                min-width: 0;
+                border-radius: 0;
+            }
+        }
+
+        .report-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .report-details label { font-weight: bold; display: inline-block; width: 180px; }
+    </style>
+</head>
+<body>
+    <div id="topnav"></div>
+    <div id="content">
+        <div id="box">
+            <h1 class="heading center-text">Service Report Details</h1>
+            <div class="report-details">
+                <div>
+                    <label>Service Report ID:</label>
+                    <span id="reportId">SRID-1234</span>
+                </div>
+                <div>
+                    <label>Time of Generation:</label>
+                    <span id="dateOfGeneration">Sunday, 6 July 2025 2:20 PM</span>
+                </div>
+                <div>
+                    <label>Date Range:</label>
+                    <span id="dateRange">Monday, 19 August 2024 - Thursday, 16 January 2025 (SY 24-25 S1)</span>
+                </div>
+                <div>
+                    <label>Student:</label>
+                    <span id="tutor">Jane Smith &lt;jane.smith@gmail.com&gt;</span>
+                </div>
+                <div>
+                    <label>Session Count:</label>
+                    <span id="sessionCount">40</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+    <script>
+
+    </script>
+</body>
+</html>
