@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Session Reflection Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        table, body {
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        p, h1, h2, h3, h4, h5, h6, div, li, u, strong, em, b, i, u {
+            font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
+            color: #333;
+        }
+
+        p, span {
+            font-size: 1rem;
+            line-height: 1.6;
+            
+        }
+
+        a {
+            color: #3F51B5 !important;
+        }
+
+        a:hover {
+            color: #222E72 !important;
+        }
+    
+        .email-container {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 10px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+    
+        .hero {
+            background: #004AAC;
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+    
+        .hero img {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            padding: 1rem;
+            width: 70%;
+            max-width: 350px;
+        }
+    
+        .content {
+            padding: 20px;
+            text-align: left;
+        }
+    
+        .content p.intro {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 0;
+            text-align: center;
+        }
+    
+        .message-preview {
+            padding: 15px;
+        }
+
+        .message-bubble {
+            background-color: #DDDDDD;
+            border-radius: 20px;
+            border-bottom-left-radius: 0;
+            padding: 10px 15px;
+            display: inline-block;
+            max-width: 80%;
+        }
+    
+        .message-preview p {
+            margin: 0;
+        }
+    
+        .message-header {
+            padding-left: 20px;
+            font-size: 0.8rem;
+            color: #555;
+            font-weight: 300;
+        }
+
+        .message-header b {
+            font-weight: 700;
+            color: #333333;
+        }
+
+        .message-content {
+            margin: 0;
+            font-size: 1rem;
+        }
+    
+        .cta-button {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 20px 0;
+            background-color: #3F51B5;
+            color: #ffffff !important;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .cta-button:hover {
+            background-color: #222e72;
+            color: #e0e0e0 !important;
+        }
+
+        .closing * {
+            margin: 0;
+        }
+    
+        .footer {
+            background-color: #f4f4f4;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!--[if mso]>
+    <div style="display:none;font-size:1px; line-height:1px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;">
+        Submission reminder
+        &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+        &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+    </div>
+    <![endif]-->
+    <!--[if !mso]><!-- -->
+    <div style="display:none;font-size:1px; line-height:1px;max-width:0px;opacity:0;overflow:hidden;">
+        Submission reminder
+        &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+        &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj; &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+    </div>
+    <!--<![endif]-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+        <td bgcolor="#f4f4f4">&zwnj;</td>
+        <td align="center" width="600" bgcolor="#f4f4f4">
+            <div class="email-container">
+                <div class="hero">
+                    <a href="https://sites.google.com/student.dodea.edu/royalscholar" target="_blank">
+                        <!-- <img src="https://lh3.googleusercontent.com/d/1KuTIdcyJ0aUbuNoKSQA3VwDx1hH1zwdt" alt="RoyalScholar Logo"> -->
+                        <img src="../Graphics/Logos/blueGradientPrimary.png" alt="RoyalScholar Logo">
+                    </a>
+                </div>
+                <div class="content">
+                    <p class="intro">Submission reminder</p>
+                    <p>
+                        Tutor Session Reflection Forms must be submitted within 48 hours of the end of your tutoring session, rounded up to the following midnight.
+                        If the form is not submitted by the deadline, you will not be able to earn credit for the session.
+                    </p>
+                    <p>The form can be found on your <a href="https://sites.google.com/student.dodea.edu/royalscholar/account-dashboard" target="_blank">Account Dashboard</a> in the Recently Completed Sessions section.</p>
+
+                    <div class="closing">
+                        <p><b>Sincerely,</b></p>
+                        <p>The RoyalScholar Team</p>
+                    </div>
+                </div>
+                <div class="footer">
+                    <p>You are receiving this notification because you completed a RoyalScholar tutoring session with a client but have yet to submit a Tutor Session Reflection Form for it.</p>
+                </div>
+            </div>
+        </td>
+        <td bgcolor="#f4f4f4">&zwnj;</td>
+    </tr>
+</table>
+
+</body>
+
+</html>
