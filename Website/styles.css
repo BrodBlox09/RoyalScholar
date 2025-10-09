@@ -654,7 +654,8 @@ textarea:focus {
     background-color: #ffffff;
     border-radius: 20px;
     padding: 2rem;
-    min-width: 40%;
+    min-width: 60%;
+    box-sizing: border-box;
     max-height: 80dvh;
     overflow: auto;
 }
@@ -666,6 +667,14 @@ textarea:focus {
     border-bottom: 1px solid #ccc;
     padding-bottom: 8px;
     margin-bottom: 12px;
+}
+
+@media (max-width: 600px) {
+    .modal {
+        width: 90%;
+        min-width: unset;
+        padding: 2rem;
+    }
 }
 /* #endregion */
 
