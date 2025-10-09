@@ -76,10 +76,7 @@
         }
 
         #profile-icon-wrapper {
-            display: grid;
-            place-items: center;
             padding-block: 10px;
-            grid-area: profile-icon;
         }
 
         #profile-icon {
@@ -89,12 +86,12 @@
             background: var(--accent-soft);
             color: var(--accent);
             height: 100px;
-            aspect-ratio: 1 / 1;
+            width: 100px;
         }
 
         #profile-icon svg {
             height: 70%;
-            width: fit-content;
+            width: 100%;
         }
 
         #profile-name-role {
@@ -190,24 +187,6 @@
         }
         /* #endregion */
 
-        @media (max-width: 1050px) {
-            #dashboard-content {
-                grid-template-columns: 1fr;
-            }
-
-            #profile-summary-panel {
-                grid-column: span 1;
-            }
-        }
-
-        @media (max-width: 600px) {
-            #profile-summary-panel {
-                grid-template-areas:
-                    'profile-icon name-role'
-                    'descriptors descriptors';
-            }
-        }
-
         .no-sessions-message {
             display: none;
         }
@@ -285,6 +264,35 @@
             background: #e7d6fd; color: #4b2995; border: 1px solid #d3bdfd;
         }
         /* #endregion */
+        
+        @media (max-width: 1050px) {
+            #dashboard-content {
+                grid-template-columns: 1fr;
+            }
+
+            #profile-summary-panel {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            #profile-summary-panel {
+                grid-template-areas:
+                    'profile-icon name-role'
+                    'descriptors descriptors';
+            }
+            #profile-icon-wrapper {
+                padding: 0;
+            }
+
+            .session-card-heading-row {
+                flex-direction: column;
+                align-items: start;
+            }
+            .session-card-tags {
+                justify-content: start;
+            }
+        }
     </style>
 </head>
 
