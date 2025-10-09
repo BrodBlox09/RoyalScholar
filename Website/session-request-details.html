@@ -280,8 +280,12 @@
                 grid-template-columns: 1fr;
             }
 
-            #chat-message-list-wrapper {
-                height: max(fit-content, 500px);
+            #chat {
+                height: 40vh;
+            }
+
+            body {
+                display: block;
             }
         }
     </style>
@@ -455,7 +459,8 @@
             }
 
             if (assignedTutor != null) {
-                assignedTutorText.textContent = `${assignedTutor.name} has been assigned to this session.`;
+                if (assignedTutor.email != userEmail) assignedTutorText.textContent = `${assignedTutor.name} has been assigned to this session.`;
+                else assignedTutorText.textContent = "You have been assigned to this session.";
             } else {
                 assignedTutorText.textContent = "No one has been assigned to this session.";
             }
