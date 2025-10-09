@@ -27,10 +27,6 @@
             align-items: center;
         }
 
-        #content {
-            padding-inline: 20px;
-        }
-
         #dashboard-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -52,13 +48,14 @@
 
         .content-page {
             display: none;
+            padding-inline: 20px;
             justify-content: center;
         }
 
         .content-page > div {
             max-width: var(--max-content-width);
             flex-grow: 1;
-            padding: 20px;
+            padding-block: 20px;
         }
 
         .content-page.active {
