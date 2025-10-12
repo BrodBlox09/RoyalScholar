@@ -29,7 +29,7 @@
             margin-bottom: 20px;
         }
 
-        #box > div {
+        #box > * {
             padding: 32px;
         }
 
@@ -39,7 +39,7 @@
         }
 
         /* #region Account Info Input */
-        #account-info-input {
+        #new-account-form {
             background-color: #ffffff;
             border-radius: 20px;
             box-shadow: var(--soft-box-shadow);
@@ -179,7 +179,7 @@
                 min-height: 75%;
             }
 
-            #loading-page, #account-info-input {
+            #loading-page, #new-account-form {
                 border-radius: 0;
             }
         }
@@ -190,7 +190,7 @@
     <div id="topnav"></div>
     <div id="content">
         <div id="box">
-            <div id="account-info-input">
+            <form id="new-account-form">
                 <h1 style="margin: 0;">Create Your RoyalScholar Account</h1>
                 <h2 class="subheading">Start your journey with personalized tutoring and learning opportunities.</h2>
                 <div id="input-grid">
@@ -215,10 +215,10 @@
                         <span class="checkmark"></span>
                     </label>
                 </div>
-                <button disabled onclick="createNewAccount()" id="newAccountButton">
+                <button disabled onclick="createNewAccount()" id="newAccountButton" type="submit">
                     Create&nbsp;my&nbsp;Account!
                 </button>
-            </div>
+            </form>
             <div id="loading-page">
                 <svg style="width: 30px;" class="spin" fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330" xml:space="preserve">
                     <g id="XMLID_2_">
@@ -301,7 +301,7 @@
         // #enddebug
 
         // #debug
-        let userEmail = "bsma3924@not-school.com";
+        let userEmail = "bsma3924@student.dodea.edu";
         // #enddebug
 
         document.getElementById("user-email").textContent = userEmail;
