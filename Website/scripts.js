@@ -1,14 +1,21 @@
 const testing = false; // Set to true to enable debug mode
 
 // #debug
+let userAccess = 0;
+// #enddebug
+
+// #debug
 /*
 // #enddebug
 let userAccess = <?!= userAccess ?>;
-if (userAccess < 100) Array.from(document.getElementsByClassName("tutor-vis-only")).forEach(x => x.remove());
-if (userAccess < 999) Array.from(document.getElementsByClassName("admin-vis-only")).forEach(x => x.remove());
 // #debug
 */
 // #enddebug
+
+if (userAccess > 0) Array.from(document.getElementsByClassName("no-user-vis-only")).forEach(x => x.remove()); // Only for non-users, NO ONE ELSE
+if (userAccess < 1) Array.from(document.getElementsByClassName("user-vis-only")).forEach(x => x.remove()); // For users and up
+if (userAccess < 100) Array.from(document.getElementsByClassName("tutor-vis-only")).forEach(x => x.remove()); // For tutors and up
+if (userAccess < 999) Array.from(document.getElementsByClassName("admin-vis-only")).forEach(x => x.remove()); // For admin and up
 
 let dropdownHamburger = document.getElementById("topnav-hamburger");
 let dropdown = document.getElementById("topnav-dropdown");

@@ -51,8 +51,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             </div>
             <div id="topnav-right">
-                <a href="account-dashboard.html">
+                <a class="user-vis-only" href="account-dashboard.html">
                     <p>Dashboard</p>
+                </a>
+                <a class="no-user-vis-only" href="new-account.html">
+                    <p>Sign Up</p>
                 </a>
             </div>
             <div class="mobile-only">
@@ -98,7 +101,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <a href="view-logs.html">View Logs</a>
                         </div>
                     </div>
-                    <a href="account-dashboard.html">Dashboard</a>
+                    <a class="user-vis-only" href="account-dashboard.html">Dashboard</a>
+                    <a class="no-user-vis-only" href="new-account.html">Sign Up</a>
                 </div>
             </div>
         </div>
