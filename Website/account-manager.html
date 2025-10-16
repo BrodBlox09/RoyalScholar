@@ -358,6 +358,11 @@
             200: "--data-analyst",
             999: "--admin"
         };
+        const permissionsToRole = Object.keys(permissionsToVariable).map(permissionLevel => { // Converts above to human-readable title case text
+            let text = permissionsToVariable[permissionLevel];
+            text = text.slice(2).split("-").join(" ").replace(/(^|\s)\S/g, (t) => t.toUpperCase());
+            return {text: text, permissionLevel: permissionLevel};
+        }).reduce((x, y) => {x[y.permissionLevel] = y.text; return x;}, {});
 
         // #region Account Management Actions
         function selectVisibleAccounts() {
@@ -413,12 +418,13 @@
 
         function exportSelectedAccounts() {
             let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "Email,Full Name,Permissions,Marketing Allowed\n";
+            csvContent += "Email,Full Name,Permissions,Role,Marketing Allowed\n";
             csvContent += selectedAccounts.map(account => {
                 let row = [
                     `"${account.email}"`,
                     `"${account.name}"`,
                     `"${account.data.permissions}"`,
+                    `"${permissionsToRole[account.data.permissions]}"`,
                     `"${account.data.marketingAllowed}"`
                 ];
                 return row.join(",");
