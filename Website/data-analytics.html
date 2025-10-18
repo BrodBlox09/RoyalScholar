@@ -13,6 +13,124 @@
             margin-top: 1em;
             padding-inline: 1rem;
         }
+
+        .activatable {
+            display: none;
+        }
+
+        .activatable.active {
+            display: var(--display, block);
+        }
+
+        #session-reflection-form-responses-viewer {
+            display: grid;
+        }
+
+        #session-reflection-form-responses-split-view {
+            border: 1px solid var(--soft-border-color);
+            border-radius: 10px;
+            background-color: #FFFFFF;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 10px;
+            gap: 30px;
+        }
+
+        #session-list {
+            border: 1px solid var(--soft-border-color);
+            border-radius: 10px;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            background-color: var(--soft-border-color);
+        }
+
+        /* #region Session Card */
+        .session-card {
+            padding: 10px;
+            user-select: none;
+            background: #ffffff;
+            border-left: 0px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .session-card div.icon-bullet {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark-gray);
+        }
+
+        .session-card div.icon-bullet>svg {
+            height: 1rem;
+            width: 1rem;
+            stroke: currentColor;
+        }
+
+        .session-card div.icon-bullet>p {
+            font-size: 1rem;
+            margin: 0;
+            color: var(--dark-gray);
+        }
+
+        .session-card div.icon-bullet:not(:last-child) {
+            margin-bottom: 5px;
+        }
+
+        .session-card:hover {
+            background-color: var(--light-gray);
+        }
+
+        .session-card.selected {
+            border-left: 5px solid var(--primary);
+            background-color: var(--primary-soft);
+        }
+
+        .session-card.selected:hover {
+            border-left: 5px solid var(--primary-dark);
+            background-color: var(--primary-soft-dark);
+        }
+
+        .session-card-reflection-status-tag {
+            --complete: none;
+            --incomplete: none;
+            --pending: none;
+        }
+
+        .session-card-reflection-status-tag span {
+            padding: 2px 5px;
+            border-radius: 12px;
+            border-width: 1px;
+            border-style: solid;
+            font-size: 0.875rem;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .session-card-reflection-status-tag span svg {
+            width: 0.875rem;
+            height: 0.875rem;
+        }
+
+        .reflection-complete-tag {
+            display: var(--complete);
+            background-color: #e6f4ea;
+            color: #1e7e34;
+        }
+
+        .reflection-incomplete-tag {
+            display: var(--incomplete);
+            background-color: #fde7e9;
+            color: #dc3545;
+        }
+
+        .reflection-pending-tag {
+            display: var(--pending);
+            background-color: #fcf2d0;
+            color: #a88008;
+        }
+        /* #endregion */
     </style>
 </head>
 
@@ -20,10 +138,151 @@
     <div id="topnav"></div>
     <div id="content">
         <h1>Data Analytics</h1>
+        <div id="session-reflection-form-responses-viewer">
+            <div>
+                <!-- Search, filter, and sort functions -->
+
+            </div>
+            <div id="session-reflection-form-responses-split-view">
+                <div id="session-list">
+                    <!-- Sessions list -->
+                </div>
+                <div>
+                    <!-- Session reflection form responses of selected session -->
+                     <div id="no-session-selected-page" class="activatable">
+                        <!-- No session selected -->
+                         <p>Select a session to view reflection form responses.</p>
+                     </div>
+                     <div>
+                        <!-- Session selected -->
+                         <div id="session-selected-page" class="activatable">
+                            <h3 class="heading session-card-class">Class</h3>
+                            <p class="subheading session-card-subject" style="margin-bottom: 0;">Subject</p>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <template id="session-card-template">
+        <div class="session-card">
+            <div>
+                <h3 class="heading session-card-class">Class</h3>
+                <p class="subheading session-card-subject" style="margin-bottom: 0;">Subject</p>
+            </div>
+            <div class="icon-bullet">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <p class="session-card-student-name">Student Name</p>
+                <div class="session-card-reflection-status-tag session-card-student-reflection-status-tag">
+                    <span class="reflection-complete-tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-icon lucide-circle-check"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                        Complete
+                    </span>
+                    <span class="reflection-incomplete-tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                        Incomplete
+                    </span>
+                    <span class="reflection-pending-tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon lucide-clock"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+                        Pending
+                    </span>
+                </div>
+            </div>
+            <div>
+                <div class="icon-bullet">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap-icon lucide-graduation-cap"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+                <p class="session-card-tutor-name">Tutor Name</p>
+                <div class="session-card-reflection-status-tag session-card-tutor-reflection-status-tag">
+                    <span class="reflection-complete-tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-icon lucide-circle-check"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                        Complete
+                    </span>
+                    <span class="reflection-incomplete-tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                        Incomplete
+                    </span>
+                    <span class="reflection-pending-tag">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon lucide-clock"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+                        Pending
+                    </span>
+                </div>
+            </div>
+        </div>
+    </template>
     <script src="scripts.js"></script>
     <script>
+        let sessionCardTemplate = document.getElementById("session-card-template");
+        let sessionList = document.getElementById("session-list");
+        let selectedSessionDetails = document.getElementById("session-selected-page");
+        let noSelectedSessionNotification = document.getElementById("no-session-selected-page");
+        let selectedSession = null;
+
+        function clickSessionCard(card) {
+            let cardSelected = card.classList.contains("selected");
+            Array.from(sessionList.children).forEach(x => x.classList.remove("selected"));
+            if (cardSelected) {
+                // Deselect card
+                selectedSession = null;
+                card.classList.remove("selected");
+                updateSelectedSessionDetailsDisplay();
+                return;
+            }
+            // Select card
+            card.classList.add("selected");
+            selectedSession = sessionData[card.dataset.sessionIndex];
+            updateSelectedSessionDetailsDisplay();
+        }
+
+        function fillInSessionData() {
+            // Fill in sessions list with sessions
+            sessionData.forEach((session, i) => {
+                let card = sessionCardTemplate.content.cloneNode(true).firstElementChild;
+
+                card.querySelector(".session-card-class").textContent = session.classData.name;
+                card.querySelector(".session-card-subject").textContent = session.classData.subject;
+                card.querySelector(".session-card-student-name").textContent = session.studentName;
+                card.querySelector(".session-card-tutor-name").textContent = session.tutorName ?? "Not assigned";
+
+                let incompleteTag = "--pending"; // --incomplete or --pending
+                console.log(session);
+
+                card.querySelector(".session-card-student-reflection-status-tag")
+                    .style.setProperty(session.reflectionData.clientReflection ? "--complete" : incompleteTag, "flex");
+                card.querySelector(".session-card-tutor-reflection-status-tag")
+                    .style.setProperty(session.reflectionData.tutorReflection ? "--complete" : incompleteTag, "flex");
+
+                card.dataset.sessionIndex = i;
+
+                card.addEventListener("click", clickSessionCard.bind(null, card));
+
+                sessionList.appendChild(card);
+            });
+            updateSelectedSessionDetailsDisplay();
+        }
+
+        function updateSelectedSessionDetailsDisplay() {
+            if (selectedSession == null) {
+                selectedSessionDetails.classList.remove("active");
+                noSelectedSessionNotification.classList.add("active");
+                return;
+            }
+            selectedSessionDetails.classList.add("active");
+            noSelectedSessionNotification.classList.remove("active");
+        }
+
+        // #debug
+        let sessionData = [{"row":2,"sid":70864,"dataRange":["Tue Oct 14 2025","2025-10-14T11:45:00.000Z","2025-10-14T12:20:00.000Z","October 14, Seminar Session 1",{"subject":"Math","name":"Algebra II"},"amah5205@student.dodea.edu",{"notificationStates":{"amah5205@student.dodea.edu":{"lastNotified":1760439480664,"state":"following"},"bcla2462@student.dodea.edu":{"lastNotified":1760439480664,"state":"following"},"rachel.harris@student.dodea.edu":{"lastNotified":1760439480664,"state":"following"}},"chat":[{"authorName":"Aneya Mahmoud","authorEmail":"amah5205@student.dodea.edu","body":"review with me for my REtest. ","time":1760430398022},{"authorName":"Rachel Harris","authorEmail":"rachel.harris@student.dodea.edu","body":"Aneya, I was able to schedule you, but please make sure you request sooner than the day of the tutoring session. ","time":1760439479770}]},{"sid":70864,"signedUpTutors":[{"email":"bcla2462@student.dodea.edu","name":"Bianca Clayton"}],"writingFocused":false},"bcla2462@student.dodea.edu",{"tutorReflection":{"tutorEmail":"bcla2462@student.dodea.edu","workedOn":"We worked on vector points, concavity, and imaginary numbers.","concerns":"The student struggled with negative numbers and \"signs\". However, the student shows a willingness to learn.  I recommend that she reviews signs, particularly negatives, with her teacher.","time":1760446044284}}],"date":"Tue Oct 14 2025","start":"2025-10-14T11:45:00.000Z","end":"2025-10-14T12:20:00.000Z","name":"October 14, Seminar Session 1","classData":{"subject":"Math","name":"Algebra II"},"studentEmail":"amah5205@student.dodea.edu","chat":{"notificationStates":{"amah5205@student.dodea.edu":{"lastNotified":1760439480664,"state":"following"},"bcla2462@student.dodea.edu":{"lastNotified":1760439480664,"state":"following"},"rachel.harris@student.dodea.edu":{"lastNotified":1760439480664,"state":"following"}},"chat":[{"authorName":"Aneya Mahmoud","authorEmail":"amah5205@student.dodea.edu","body":"review with me for my REtest. ","time":1760430398022},{"authorName":"Rachel Harris","authorEmail":"rachel.harris@student.dodea.edu","body":"Aneya, I was able to schedule you, but please make sure you request sooner than the day of the tutoring session. ","time":1760439479770}]},"metadata":{"sid":70864,"signedUpTutors":[{"email":"bcla2462@student.dodea.edu","name":"Bianca Clayton"}],"writingFocused":false},"tutorEmail":"bcla2462@student.dodea.edu","reflectionData":{"tutorReflection":{"tutorEmail":"bcla2462@student.dodea.edu","workedOn":"We worked on vector points, concavity, and imaginary numbers.","concerns":"The student struggled with negative numbers and \"signs\". However, the student shows a willingness to learn.  I recommend that she reviews signs, particularly negatives, with her teacher.","time":1760446044284}},"studentName":"Aneya Mahmoud","tutorName":"Bianca Clayton"},{"row":3,"sid":97822,"dataRange":["Tue Oct 14 2025","2025-10-14T11:45:00.000Z","2025-10-14T12:20:00.000Z","October 14, Seminar Session 1",{"subject":"Math","name":"Algebra II"},"jwil4050@student.dodea.edu",{"notificationStates":{"jwil4050@student.dodea.edu":{"lastNotified":1760014301839,"state":"following"},"clar0082@student.dodea.edu":{"lastNotified":1760367603321,"state":"following"},"sway2770@student.dodea.edu":{"lastNotified":1760387390176,"state":"following"}},"chat":[{"authorName":"Jovia Wilder","authorEmail":"jwil4050@student.dodea.edu","body":"solving quadratic equations and completing the square, need to study for test retake","time":1760014301840}]},{"sid":97822,"signedUpTutors":[{"email":"clar0082@student.dodea.edu","name":"Claire Larsen"}],"writingFocused":false},"clar0082@student.dodea.edu",{"tutorReflection":{"tutorEmail":"clar0082@student.dodea.edu","workedOn":"We worked on reviewing for her retest over quadratics and completing the square.","concerns":"She knows her stuff but she second guesses herself. She also goes too fast sometimes which causes her to make little mistakes. She just needs to slow down and double check her answers and math.","time":1760445315123}}],"date":"Tue Oct 14 2025","start":"2025-10-14T11:45:00.000Z","end":"2025-10-14T12:20:00.000Z","name":"October 14, Seminar Session 1","classData":{"subject":"Math","name":"Algebra II"},"studentEmail":"jwil4050@student.dodea.edu","chat":{"notificationStates":{"jwil4050@student.dodea.edu":{"lastNotified":1760014301839,"state":"following"},"clar0082@student.dodea.edu":{"lastNotified":1760367603321,"state":"following"},"sway2770@student.dodea.edu":{"lastNotified":1760387390176,"state":"following"}},"chat":[{"authorName":"Jovia Wilder","authorEmail":"jwil4050@student.dodea.edu","body":"solving quadratic equations and completing the square, need to study for test retake","time":1760014301840}]},"metadata":{"sid":97822,"signedUpTutors":[{"email":"clar0082@student.dodea.edu","name":"Claire Larsen"}],"writingFocused":false},"tutorEmail":"clar0082@student.dodea.edu","reflectionData":{"tutorReflection":{"tutorEmail":"clar0082@student.dodea.edu","workedOn":"We worked on reviewing for her retest over quadratics and completing the square.","concerns":"She knows her stuff but she second guesses herself. She also goes too fast sometimes which causes her to make little mistakes. She just needs to slow down and double check her answers and math.","time":1760445315123}},"studentName":"Jovia Wilder","tutorName":"Claire Larsen"},{"row":4,"sid":61301,"dataRange":["Tue Oct 14 2025","2025-10-14T11:45:00.000Z","2025-10-14T12:55:00.000Z","October 14, Entire Seminar",{"subject":"Math","name":"Algebra II"},"emcc2117@student.dodea.edu",{"notificationStates":{"emcc2117@student.dodea.edu":{"lastNotified":1760000465588,"state":"following"},"mmcc1639@student.dodea.edu":{"lastNotified":1760014206746,"state":"following"}},"chat":[{"authorName":"Ella McCain","authorEmail":"emcc2117@student.dodea.edu","body":"Domain and Range, cubic functions, and imaginary numbers. I am having trouble with the way my teacher is teaching and I need someone to explain it to me better.","time":1760000465590}]},{"sid":61301,"signedUpTutors":[{"email":"mmcc1639@student.dodea.edu","name":"Maggie McCain"}],"writingFocused":false},"mmcc1639@student.dodea.edu",{"tutorReflection":{"tutorEmail":"mmcc1639@student.dodea.edu","workedOn":"Cubic functions and Imaginary numbers","concerns":"No concerns","time":1760602693000}}],"date":"Tue Oct 14 2025","start":"2025-10-14T11:45:00.000Z","end":"2025-10-14T12:55:00.000Z","name":"October 14, Entire Seminar","classData":{"subject":"Math","name":"Algebra II"},"studentEmail":"emcc2117@student.dodea.edu","chat":{"notificationStates":{"emcc2117@student.dodea.edu":{"lastNotified":1760000465588,"state":"following"},"mmcc1639@student.dodea.edu":{"lastNotified":1760014206746,"state":"following"}},"chat":[{"authorName":"Ella McCain","authorEmail":"emcc2117@student.dodea.edu","body":"Domain and Range, cubic functions, and imaginary numbers. I am having trouble with the way my teacher is teaching and I need someone to explain it to me better.","time":1760000465590}]},"metadata":{"sid":61301,"signedUpTutors":[{"email":"mmcc1639@student.dodea.edu","name":"Maggie McCain"}],"writingFocused":false},"tutorEmail":"mmcc1639@student.dodea.edu","reflectionData":{"tutorReflection":{"tutorEmail":"mmcc1639@student.dodea.edu","workedOn":"Cubic functions and Imaginary numbers","concerns":"No concerns","time":1760602693000}},"studentName":"Ella McCain","tutorName":"Maggie McCain"}];
+        // #enddebug
         
+        // #debug
+        /*
+        // #enddebug
+        let sessionData = <?!= sessionData ?>;
+        // #debug
+        */
+        // #enddebug
+
+        fillInSessionData();
     </script>
 </body>
 
