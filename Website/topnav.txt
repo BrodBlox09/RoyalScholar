@@ -30,22 +30,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <a class="tutor-vis-only" href="tutor-a-session.html">
                     <p>Tutor a Session</p>
                 </a>
-                <div class="admin-vis-only topnav-dropdown">
+                <div class="data-analyst-vis-only topnav-dropdown">
                     <p class="no-user-select">Admin Tools</p>
                     <span><svg class="caret" viewBox="7 8.5 10 7" width="3em" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 14L12 10L16 14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg></span>
                     <div>
                         <div>
-                            <a href="session-manager.html">
-                                Session Manager
+                            <a href="data-analytics.html">
+                                Data Analytics
                             </a>
-                            <a href="account-manager.html">
-                                Account Manager
-                            </a>
-                            <a href="view-logs.html">
-                                View Logs
-                            </a>
+                            <div class="admin-vis-only">
+                                <a href="session-manager.html">
+                                    Session Manager
+                                </a>
+                                <a href="account-manager.html">
+                                    Account Manager
+                                </a>
+                                <a href="view-logs.html">
+                                    View Logs
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,16 +94,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div id="topnav-dropdown">
                     <a href="request-a-session.html">Request a Session</a>
                     <a class="tutor-vis-only" href="tutor-a-session.html">Tutor a Session</a>
-                    <div class="admin-vis-only">
+                    <div class="data-analyst-vis-only">
                         <p>Admin Tools</p>
                         <div>
-                            <a href="session-manager.html">Session Manager</a>
+                            <a href="data-analytics.html">Data Analytics</a>
                         </div>
-                        <div>
-                            <a href="account-manager.html">Account Manager</a>
-                        </div>
-                        <div>
-                            <a href="view-logs.html">View Logs</a>
+                        <div class="admin-vis-only">
+                            <div>
+                                <a href="session-manager.html">Session Manager</a>
+                            </div>
+                            <div>
+                                <a href="account-manager.html">Account Manager</a>
+                            </div>
+                            <div>
+                                <a href="view-logs.html">View Logs</a>
+                            </div>
                         </div>
                     </div>
                     <a class="user-vis-only" href="account-dashboard.html">Dashboard</a>

@@ -1,7 +1,7 @@
 const testing = false; // Set to true to enable debug mode
 
 // #debug
-let userAccess = 0;
+let userAccess = 200;
 // #enddebug
 
 // #debug
@@ -15,6 +15,7 @@ let userAccess = <?!= userAccess ?>;
 if (userAccess > 0) Array.from(document.getElementsByClassName("no-user-vis-only")).forEach(x => x.remove()); // Only for non-users, NO ONE ELSE
 if (userAccess < 1) Array.from(document.getElementsByClassName("user-vis-only")).forEach(x => x.remove()); // For users and up
 if (userAccess < 100) Array.from(document.getElementsByClassName("tutor-vis-only")).forEach(x => x.remove()); // For tutors and up
+if (userAccess < 200) Array.from(document.getElementsByClassName("data-analyst-vis-only")).forEach(x => x.remove()); // For data analysts and up
 if (userAccess < 999) Array.from(document.getElementsByClassName("admin-vis-only")).forEach(x => x.remove()); // For admin and up
 
 let dropdownHamburger = document.getElementById("topnav-hamburger");
@@ -57,6 +58,10 @@ function deleteChildren(element) {
 }
 
 let timeFormatter = new Intl.DateTimeFormat('en-US', {timeStyle:"short"});
+
+function formatDateTime(time, formatShort) {
+    return `${formatDate(time, formatShort)} ${formatTime(time)}`;
+}
 
 function formatDate(time, formatShort) {
     let options = { dateStyle: "full" };
