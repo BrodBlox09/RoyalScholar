@@ -2,118 +2,116 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WPJKG59Z"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<div id="topnav-wrapper">
-        <div id="topnav">
-            <div id="topnav-left">
-                <a href="index.html">
-                    <svg width="70px" viewBox="0 0 140 101" xmlns:xlink="http://www.w3.org/2000/svg"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <g transform="matrix(1.5555555820465088,0,0,1.5555555820465088,-7.5,-27.22353956434462)"
-                            fill="#0050B8">
-                            <g xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M32.333,65.361c8.958,1.709,15.884,6.871,15.884,6.871V24.876c0,0-6.965-5.167-15.939-6.884   c-9.089-1.738-20.957,1.695-20.957,1.695v47.36C11.32,67.047,23.226,63.617,32.333,65.361z">
-                                </path>
-                                <path
-                                    d="M87.912,67.219V19.863c0,0-9.15-2.892-17.676-2.029v32.216l-6.393-6.502l-6.396,6.502V21.774   c-3.475,1.7-5.664,3.271-5.664,3.271V72.4c0,0,7.148-5.156,16.105-6.869C76.996,63.792,87.912,67.219,87.912,67.219z">
-                                </path>
-                                <path
-                                    d="M91.412,23.99v48.136c0,0-13.762-3.849-23.992-1.893c-9.158,1.748-15.896,6.694-17.032,7.567v0.145   c0,0-0.033-0.023-0.097-0.072c-0.06,0.049-0.094,0.072-0.094,0.072v-0.145c-1.136-0.873-7.874-5.815-17.032-7.567   c-10.225-1.96-25.336,1.893-25.336,1.893V23.847C6.947,23.979,6.008,24.118,5,24.27v51.857c0,0,16.468-4.217,27.666-2.076   c11.02,2.107,17.671,8.449,17.671,8.449s6.654-6.342,17.671-8.449C79.211,71.907,95,76.127,95,76.127V24.496   C95,24.496,93.625,24.263,91.412,23.99z">
-                                </path>
-                            </g>
-                        </g>
-                    </svg>
-                </a>
-                <a href="request-a-session.html">
-                    <p>Request a Session</p>
-                </a>
-                <a class="tutor-vis-only" href="tutor-a-session.html">
-                    <p>Tutor a Session</p>
-                </a>
-                <div class="data-analyst-vis-only topnav-dropdown">
-                    <p class="no-user-select">Admin Tools</p>
-                    <span><svg class="caret" viewBox="7 8.5 10 7" width="3em" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 14L12 10L16 14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg></span>
-                    <div>
-                        <div>
-                            <a href="data-analytics.html">
-                                Data Analytics
-                            </a>
-                            <div class="admin-vis-only">
-                                <a href="session-manager.html">
-                                    Session Manager
-                                </a>
-                                <a href="account-manager.html">
-                                    Account Manager
-                                </a>
-                                <a href="view-logs.html">
-                                    View Logs
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="topnav-right">
-                <a class="user-vis-only" href="account-dashboard.html">
-                    <p>Dashboard</p>
-                </a>
-                <a class="no-user-vis-only" href="new-account.html">
-                    <p>Sign Up</p>
-                </a>
-            </div>
-            <div class="mobile-only">
-                <a href="index.html">
-                    <svg width="70px" viewBox="0 0 140 101" xmlns:xlink="http://www.w3.org/2000/svg"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <g transform="matrix(1.5555555820465088,0,0,1.5555555820465088,-7.5,-27.22353956434462)"
-                            fill="#0050B8">
-                            <g xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M32.333,65.361c8.958,1.709,15.884,6.871,15.884,6.871V24.876c0,0-6.965-5.167-15.939-6.884   c-9.089-1.738-20.957,1.695-20.957,1.695v47.36C11.32,67.047,23.226,63.617,32.333,65.361z">
-                                </path>
-                                <path
-                                    d="M87.912,67.219V19.863c0,0-9.15-2.892-17.676-2.029v32.216l-6.393-6.502l-6.396,6.502V21.774   c-3.475,1.7-5.664,3.271-5.664,3.271V72.4c0,0,7.148-5.156,16.105-6.869C76.996,63.792,87.912,67.219,87.912,67.219z">
-                                </path>
-                                <path
-                                    d="M91.412,23.99v48.136c0,0-13.762-3.849-23.992-1.893c-9.158,1.748-15.896,6.694-17.032,7.567v0.145   c0,0-0.033-0.023-0.097-0.072c-0.06,0.049-0.094,0.072-0.094,0.072v-0.145c-1.136-0.873-7.874-5.815-17.032-7.567   c-10.225-1.96-25.336,1.893-25.336,1.893V23.847C6.947,23.979,6.008,24.118,5,24.27v51.857c0,0,16.468-4.217,27.666-2.076   c11.02,2.107,17.671,8.449,17.671,8.449s6.654-6.342,17.671-8.449C79.211,71.907,95,76.127,95,76.127V24.496   C95,24.496,93.625,24.263,91.412,23.99z">
-                                </path>
-                            </g>
-                        </g>
-                    </svg>
-                </a>
-                <div onclick="toggleTopnavDropdown()" id="topnav-hamburger">
-                    <svg width="32px" height="32px" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100"
-                        height="100" viewBox="0 0 50 50">
-                        <path fill="var(--fill-color)"
-                            d="M 0 7.5 L 0 12.5 L 50 12.5 L 50 7.5 Z M 0 22.5 L 0 27.5 L 50 27.5 L 50 22.5 Z M 0 37.5 L 0 42.5 L 50 42.5 L 50 37.5 Z">
+<div id="topnav">
+    <div id="topnav-left">
+        <a href="index.html">
+            <svg width="70px" viewBox="0 0 140 101" xmlns:xlink="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg">
+                <g transform="matrix(1.5555555820465088,0,0,1.5555555820465088,-7.5,-27.22353956434462)"
+                    fill="#0050B8">
+                    <g xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M32.333,65.361c8.958,1.709,15.884,6.871,15.884,6.871V24.876c0,0-6.965-5.167-15.939-6.884   c-9.089-1.738-20.957,1.695-20.957,1.695v47.36C11.32,67.047,23.226,63.617,32.333,65.361z">
                         </path>
-                    </svg>
-                </div>
-                <div id="topnav-dropdown">
-                    <a href="request-a-session.html">Request a Session</a>
-                    <a class="tutor-vis-only" href="tutor-a-session.html">Tutor a Session</a>
-                    <div class="data-analyst-vis-only">
-                        <p>Admin Tools</p>
-                        <div>
-                            <a href="data-analytics.html">Data Analytics</a>
-                        </div>
-                        <div class="admin-vis-only">
-                            <div>
-                                <a href="session-manager.html">Session Manager</a>
-                            </div>
-                            <div>
-                                <a href="account-manager.html">Account Manager</a>
-                            </div>
-                            <div>
-                                <a href="view-logs.html">View Logs</a>
-                            </div>
-                        </div>
+                        <path
+                            d="M87.912,67.219V19.863c0,0-9.15-2.892-17.676-2.029v32.216l-6.393-6.502l-6.396,6.502V21.774   c-3.475,1.7-5.664,3.271-5.664,3.271V72.4c0,0,7.148-5.156,16.105-6.869C76.996,63.792,87.912,67.219,87.912,67.219z">
+                        </path>
+                        <path
+                            d="M91.412,23.99v48.136c0,0-13.762-3.849-23.992-1.893c-9.158,1.748-15.896,6.694-17.032,7.567v0.145   c0,0-0.033-0.023-0.097-0.072c-0.06,0.049-0.094,0.072-0.094,0.072v-0.145c-1.136-0.873-7.874-5.815-17.032-7.567   c-10.225-1.96-25.336,1.893-25.336,1.893V23.847C6.947,23.979,6.008,24.118,5,24.27v51.857c0,0,16.468-4.217,27.666-2.076   c11.02,2.107,17.671,8.449,17.671,8.449s6.654-6.342,17.671-8.449C79.211,71.907,95,76.127,95,76.127V24.496   C95,24.496,93.625,24.263,91.412,23.99z">
+                        </path>
+                    </g>
+                </g>
+            </svg>
+        </a>
+        <a href="request-a-session.html">
+            <p>Request a Session</p>
+        </a>
+        <a class="tutor-vis-only" href="tutor-a-session.html">
+            <p>Tutor a Session</p>
+        </a>
+        <div class="data-analyst-vis-only topnav-dropdown">
+            <p class="no-user-select">Admin Tools</p>
+            <span><svg class="caret" viewBox="7 8.5 10 7" width="3em" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 14L12 10L16 14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg></span>
+            <div>
+                <div>
+                    <a href="data-analytics.html">
+                        Data Analytics
+                    </a>
+                    <div class="admin-vis-only">
+                        <a href="session-manager.html">
+                            Session Manager
+                        </a>
+                        <a href="account-manager.html">
+                            Account Manager
+                        </a>
+                        <a href="view-logs.html">
+                            View Logs
+                        </a>
                     </div>
-                    <a class="user-vis-only" href="account-dashboard.html">Dashboard</a>
-                    <a class="no-user-vis-only" href="new-account.html">Sign Up</a>
                 </div>
             </div>
         </div>
     </div>
+    <div id="topnav-right">
+        <a class="user-vis-only" href="account-dashboard.html">
+            <p>Dashboard</p>
+        </a>
+        <a class="no-user-vis-only" href="new-account.html">
+            <p>Sign Up</p>
+        </a>
+    </div>
+    <div class="mobile-only">
+        <a href="index.html">
+            <svg width="70px" viewBox="0 0 140 101" xmlns:xlink="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg">
+                <g transform="matrix(1.5555555820465088,0,0,1.5555555820465088,-7.5,-27.22353956434462)"
+                    fill="#0050B8">
+                    <g xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M32.333,65.361c8.958,1.709,15.884,6.871,15.884,6.871V24.876c0,0-6.965-5.167-15.939-6.884   c-9.089-1.738-20.957,1.695-20.957,1.695v47.36C11.32,67.047,23.226,63.617,32.333,65.361z">
+                        </path>
+                        <path
+                            d="M87.912,67.219V19.863c0,0-9.15-2.892-17.676-2.029v32.216l-6.393-6.502l-6.396,6.502V21.774   c-3.475,1.7-5.664,3.271-5.664,3.271V72.4c0,0,7.148-5.156,16.105-6.869C76.996,63.792,87.912,67.219,87.912,67.219z">
+                        </path>
+                        <path
+                            d="M91.412,23.99v48.136c0,0-13.762-3.849-23.992-1.893c-9.158,1.748-15.896,6.694-17.032,7.567v0.145   c0,0-0.033-0.023-0.097-0.072c-0.06,0.049-0.094,0.072-0.094,0.072v-0.145c-1.136-0.873-7.874-5.815-17.032-7.567   c-10.225-1.96-25.336,1.893-25.336,1.893V23.847C6.947,23.979,6.008,24.118,5,24.27v51.857c0,0,16.468-4.217,27.666-2.076   c11.02,2.107,17.671,8.449,17.671,8.449s6.654-6.342,17.671-8.449C79.211,71.907,95,76.127,95,76.127V24.496   C95,24.496,93.625,24.263,91.412,23.99z">
+                        </path>
+                    </g>
+                </g>
+            </svg>
+        </a>
+        <div onclick="toggleTopnavDropdown()" id="topnav-hamburger">
+            <svg width="32px" height="32px" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100"
+                height="100" viewBox="0 0 50 50">
+                <path fill="var(--fill-color)"
+                    d="M 0 7.5 L 0 12.5 L 50 12.5 L 50 7.5 Z M 0 22.5 L 0 27.5 L 50 27.5 L 50 22.5 Z M 0 37.5 L 0 42.5 L 50 42.5 L 50 37.5 Z">
+                </path>
+            </svg>
+        </div>
+        <div id="topnav-dropdown">
+            <a href="request-a-session.html">Request a Session</a>
+            <a class="tutor-vis-only" href="tutor-a-session.html">Tutor a Session</a>
+            <div class="data-analyst-vis-only">
+                <p>Admin Tools</p>
+                <div>
+                    <a href="data-analytics.html">Data Analytics</a>
+                </div>
+                <div class="admin-vis-only">
+                    <div>
+                        <a href="session-manager.html">Session Manager</a>
+                    </div>
+                    <div>
+                        <a href="account-manager.html">Account Manager</a>
+                    </div>
+                    <div>
+                        <a href="view-logs.html">View Logs</a>
+                    </div>
+                </div>
+            </div>
+            <a class="user-vis-only" href="account-dashboard.html">Dashboard</a>
+            <a class="no-user-vis-only" href="new-account.html">Sign Up</a>
+        </div>
+    </div>
+</div>
