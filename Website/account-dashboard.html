@@ -562,8 +562,7 @@
                 noUpcomingSessionsMessage.classList.add("active");
                 return;
             }
-            // Sort by start time, then by end time (newest first)
-            sessions.sort((a, b) => new Date(a.start) - new Date(b.start) || new Date(b.end) - new Date(a.end));
+            sortSessions(sessions);
             sessions.forEach(session => {
                 /** @type {HTMLElement} */
                 let card = sessionCardTemplate.content.cloneNode(true);
@@ -605,8 +604,7 @@
                 noPastSessionsMessage.classList.add("active");
                 return;
             }
-            // Sort by start time, then by end time (most recent first)
-            sessions.sort((a, b) => new Date(b.start) - new Date(a.start) || new Date(b.end) - new Date(a.end));
+            sortSessions(sessions);
             sessions.forEach(session => {
                 /** @type {HTMLElement} */
                 let card = pastSessionCardTemplate.content.cloneNode(true);
