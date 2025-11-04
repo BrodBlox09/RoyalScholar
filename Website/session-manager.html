@@ -401,8 +401,7 @@
                 noSessionsMessage.textContent = "There are no non-archived past sessions. Note that sessions are automatically archived 2 days after their end date.";
                 pastSessionListContainer.appendChild(noSessionsMessage);
             }
-            // Sort sessions by start time (soonest starting first), then by end time (latest ending first)
-            sessions = sessions.sort((a, b) => new Date(a.start) - new Date(b.start) || new Date(b.end) - new Date(a.end));
+            sortSessions(sessions);
             // Send assigned sessions to the bottom
             sessions = sessions.sort((a, b) => {
                 if (a.tutorEmail && !b.tutorEmail) return 1;

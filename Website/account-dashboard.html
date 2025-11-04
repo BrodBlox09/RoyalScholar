@@ -493,7 +493,7 @@
         let pastSessionCardTemplate = document.getElementById("past-session-card-template");
         let noPastSessionsMessage = document.getElementById("past-sessions-no-sessions");
         let noUpcomingSessionsMessage;
-        const classes = [{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"AP Environmental Science","subject":"Science"},{"name":"Environmental Science","subject":"Science"},{"name":"Marine Biology","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"AP Physics C","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA 2","subject":"English"},{"name":"Language Arts 9","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Literature and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"AP Research","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP Government","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"},{"name":"AP Spanish Language and Culture","subject":"Spanish"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"},{"name":"French III","subject":"French"},{"name":"French IV","subject":"French"}];
+        const classes = [{"name":"Algebra I","subject":"Math"},{"name":"Algebra II","subject":"Math"},{"name":"Geometry","subject":"Math"},{"name":"Precalculus","subject":"Math"},{"name":"AP Precalculus","subject":"Math"},{"name":"AP Calculus AB","subject":"Math"},{"name":"AP Calculus BC","subject":"Math"},{"name":"AP Statistics","subject":"Math"},{"name":"Financial Algebra","subject":"Math"},{"name":"AP Environmental Science","subject":"Science"},{"name":"Environmental Science","subject":"Science"},{"name":"Marine Biology","subject":"Science"},{"name":"Biology","subject":"Science"},{"name":"AP Biology","subject":"Science"},{"name":"Chemistry","subject":"Science"},{"name":"AP Chemistry","subject":"Science"},{"name":"Physics","subject":"Science"},{"name":"AP Physics 1","subject":"Science"},{"name":"AP Physics C","subject":"Science"},{"name":"Human Anotomy & Phys","subject":"Science"},{"name":"Pre-AP ELA","subject":"English"},{"name":"Language Arts 10","subject":"English"},{"name":"Language Arts 11","subject":"English"},{"name":"Language Arts 12","subject":"English"},{"name":"AP Language and Composition","subject":"English"},{"name":"AP Literature and Composition","subject":"English"},{"name":"AP Seminar","subject":"English"},{"name":"AP Research","subject":"English"},{"name":"AP World History","subject":"Social Studies"},{"name":"AP Comparative Government","subject":"Social Studies"},{"name":"AP US Government","subject":"Social Studies"},{"name":"AP US History","subject":"Social Studies"},{"name":"US History","subject":"Social Studies"},{"name":"Global Studies","subject":"Social Studies"},{"name":"AP Human Geography","subject":"Social Studies"},{"name":"Spanish I","subject":"Spanish"},{"name":"Spanish II","subject":"Spanish"},{"name":"Spanish III","subject":"Spanish"},{"name":"Spanish IV","subject":"Spanish"},{"name":"AP Spanish Language and Culture","subject":"Spanish"},{"name":"German I","subject":"German"},{"name":"German II","subject":"German"},{"name":"German III","subject":"German"},{"name":"German IV","subject":"German"},{"name":"AP German Language and Culture","subject":"German"},{"name":"French I","subject":"French"},{"name":"French II","subject":"French"},{"name":"French III","subject":"French"},{"name":"French IV","subject":"French"}];
         
         // #region Settings Setup
         let userSettings = null;
@@ -562,8 +562,7 @@
                 noUpcomingSessionsMessage.classList.add("active");
                 return;
             }
-            // Sort by start time, then by end time (newest first)
-            sessions.sort((a, b) => new Date(a.start) - new Date(b.start) || new Date(b.end) - new Date(a.end));
+            sortSessions(sessions);
             sessions.forEach(session => {
                 /** @type {HTMLElement} */
                 let card = sessionCardTemplate.content.cloneNode(true);
@@ -605,8 +604,7 @@
                 noPastSessionsMessage.classList.add("active");
                 return;
             }
-            // Sort by start time, then by end time (most recent first)
-            sessions.sort((a, b) => new Date(b.start) - new Date(a.start) || new Date(b.end) - new Date(a.end));
+            sortSessions(sessions);
             sessions.forEach(session => {
                 /** @type {HTMLElement} */
                 let card = pastSessionCardTemplate.content.cloneNode(true);

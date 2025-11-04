@@ -205,10 +205,6 @@ a:not(.button).text-link:hover::after {
 /* #endregion */
 
 /* #region topnav */
-#topnav-wrapper {
-    z-index: 999; /* Ensure stacking context is ALWAYS above all other things on the page except modals */
-}
-
 #topnav {
     background: #FFFFFF;
     /* Gives the appearance of a flatter page. Consider using this if we want to move towards a more modern look */
@@ -220,6 +216,7 @@ a:not(.button).text-link:hover::after {
     top: 0;
     position: -webkit-sticky;
     position: sticky;
+    z-index: 999;
     width: 100%;
     /* box-shadow: 0 0 20px 1px #000000; */
     box-shadow: var(--soft-box-shadow);
