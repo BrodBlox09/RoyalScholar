@@ -192,7 +192,9 @@
                         <!-- Session selected -->
                         <div id="session-selected-page" class="activatable">
                             <div id="session-selected-data">
-
+                                <p><strong>Time: </strong> <span id="session-selected-time">TIME</span></p>
+                                <p><strong>Student: </strong> <span id="session-selected-student">TIME</span></p>
+                                <p><strong>Tutor: </strong> <span id="session-selected-tutor">TIME</span></p>
                             </div>
                             <div id="session-selected-reflections">
                                 <div>
@@ -304,6 +306,9 @@
         let sessionList = document.getElementById("session-list");
         let selectedSessionDetails = document.getElementById("session-selected-page");
         let noSelectedSessionNotification = document.getElementById("no-session-selected-page");
+        let selectedSessionTimeDisplay = document.getElementById("session-selected-time");
+        let selectedSessionStudentDisplay = document.getElementById("session-selected-student");
+        let selectedSessionTutorDisplay = document.getElementById("session-selected-tutor");
         let tutorSessionReflectionResponseDisplay = document.getElementById("tutor-reflection");
         let clientSessionReflectionResponseDisplay = document.getElementById("client-reflection");
         let selectedSession = null;
@@ -316,6 +321,10 @@
             }
             selectedSessionDetails.classList.add("active");
             noSelectedSessionNotification.classList.remove("active");
+
+            selectedSessionTimeDisplay.textContent = `${selectedSession.name} (${formatDateTime(selectedSession.start, true)} - ${formatTime(selectedSession.end)})`;
+            selectedSessionStudentDisplay.textContent = `${selectedSession.studentName} <${selectedSession.studentEmail}>`;
+            selectedSessionTutorDisplay.textContent = `${selectedSession.tutorName} <${selectedSession.tutorEmail}>`;
 
             // Reset tutor session reflection styles
             tutorSessionReflectionResponseDisplay.style.setProperty("--pending", "none");
