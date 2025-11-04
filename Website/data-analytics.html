@@ -358,6 +358,8 @@
         }
 
         function fillInSessionData() {
+            sortSessions(sessionData);
+
             // Fill in sessions list with sessions
             sessionData.forEach((session, i) => {
                 let card = sessionCardTemplate.content.cloneNode(true).firstElementChild;

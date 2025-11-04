@@ -71,6 +71,18 @@ function formatDate(time, formatShort) {
 }
 function formatTime(time) { return timeFormatter.format(new Date(time)); }
 
+/**
+ * Sort an array of sessions. Note that the session array is sorted in place (modified directly).
+ * @param {Object[]} sessions Array of sessions to sort.
+ * @returns Sorted sessions.
+ */
+function sortSessions(sessions) {
+    return sessions.sort((a, b) =>
+        new Date(a.start) - new Date(b.start) ||
+        new Date(b.end) - new Date(a.end)
+    );
+}
+
 function sendAPIReq(data, thenLambda = () => {}, errorLambda = () => {}, finallyLambda = () => {}) {
   google.script.run.withSuccessHandler(apiReqResponseHandler.bind(null, thenLambda, errorLambda, finallyLambda)).handleWebAppRequest(JSON.stringify(data));
 }
