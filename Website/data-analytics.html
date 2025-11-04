@@ -132,6 +132,12 @@
             color: #a88008;
         }
         /* #endregion */
+
+        #session-selected-reflections {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:1rem;
+        }
     
         #session-selected-reflections .reflection-display {
             overflow: auto;
@@ -185,7 +191,10 @@
                      <div>
                         <!-- Session selected -->
                         <div id="session-selected-page" class="activatable">
-                            <div id="session-selected-reflections" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                            <div id="session-selected-data">
+
+                            </div>
+                            <div id="session-selected-reflections">
                                 <div>
                                     <h5 style="margin:.25rem 0">Client Reflection</h5>
                                     <div id="client-reflection" class="reflection-display" style="background:#fff;border:1px solid var(--soft-border-color);border-radius:8px">
@@ -365,8 +374,8 @@
             sessionData.forEach((session, i) => {
                 let card = sessionCardTemplate.content.cloneNode(true).firstElementChild;
 
-                card.querySelector(".session-card-class").textContent = session.classData.name;
-                card.querySelector(".session-card-subject").textContent = session.classData.subject;
+                card.querySelector(".session-card-class").textContent = `${session.classData.name} (${session.classData.subject})`;
+                card.querySelector(".session-card-subject").textContent = `${session.name}`;
                 card.querySelector(".session-card-student-name").textContent = session.studentName;
                 card.querySelector(".session-card-tutor-name").textContent = session.tutorName ?? "Not assigned";
 
