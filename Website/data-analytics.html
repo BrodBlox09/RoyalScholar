@@ -335,7 +335,7 @@
 
             selectedSessionTimeDisplay.textContent = `${selectedSession.name} (${formatDateTime(selectedSession.start, true)} - ${formatTime(selectedSession.end)})`;
             selectedSessionStudentDisplay.textContent = `${selectedSession.studentName} <${selectedSession.studentEmail}>`;
-            selectedSessionTutorDisplay.textContent = `${selectedSession.tutorName} <${selectedSession.tutorEmail}>`;
+            selectedSessionTutorDisplay.textContent = selectedSession.tutorEmail ? `${selectedSession.tutorName} <${selectedSession.tutorEmail}>` : "Not assigned";
 
             // Reset tutor session reflection styles
             tutorSessionReflectionResponseDisplay.style.setProperty("--pending", "none");
@@ -349,7 +349,7 @@
                 tutorSessionReflectionResponseDisplay.querySelector("#tutor-reflection-concerns").textContent = tutorSessionReflection.concerns;
                 tutorSessionReflectionResponseDisplay.querySelector("#tutor-reflection-time").textContent = formatDateTime(tutorSessionReflection.time, true);
             } else {
-                if (selectedSession.archived) tutorSessionReflectionResponseDisplay.style.setProperty("--no-response", "block");
+                if (selectedSession.archived || !selectedSession.tutorEmail) tutorSessionReflectionResponseDisplay.style.setProperty("--no-response", "block");
                 else tutorSessionReflectionResponseDisplay.style.setProperty("--pending", "block");
             }
 
@@ -397,15 +397,15 @@
                 card.querySelector(".session-card-class").textContent = `${session.classData.name} (${session.classData.subject})`;
                 card.querySelector(".session-card-subject").textContent = `${session.name}`;
                 card.querySelector(".session-card-student-name").textContent = session.studentName;
-                card.querySelector(".session-card-tutor-name").textContent = session.tutorName ?? "Not assigned";
+                card.querySelector(".session-card-tutor-name").textContent = session.tutorName || "Not assigned";
 
                 let incompleteTag = session.archived ? "--no-response" : "--pending";
-                console.log(session);
+                let tutorIncompleteTag = (session.archived || !session.tutorEmail) ? "--no-response" : "--pending";
 
                 card.querySelector(".session-card-student-reflection-status-tag")
                     .style.setProperty(session.reflectionData.clientReflection ? "--complete" : incompleteTag, "flex");
                 card.querySelector(".session-card-tutor-reflection-status-tag")
-                    .style.setProperty(session.reflectionData.tutorReflection ? "--complete" : incompleteTag, "flex");
+                    .style.setProperty(session.reflectionData.tutorReflection ? "--complete" : tutorIncompleteTag, "flex");
 
                 card.dataset.sessionIndex = i;
 
